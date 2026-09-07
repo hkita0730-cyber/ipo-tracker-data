@@ -15,7 +15,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:31:53.896343Z"
+    "dataRetrievedAt": "2026-09-07T12:45:11.280383Z"
   },
   {
     "code": "406A0",
@@ -33,7 +33,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:32:21.209423Z"
+    "dataRetrievedAt": "2026-09-07T12:45:38.782964Z"
   },
   {
     "code": "407A0",
@@ -797,7 +797,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:32:48.607032Z"
+    "dataRetrievedAt": "2026-09-07T12:46:06.307692Z"
   },
   {
     "code": "408A0",
@@ -1543,7 +1543,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:33:15.993407Z"
+    "dataRetrievedAt": "2026-09-07T12:46:33.930508Z"
   },
   {
     "code": "409A0",
@@ -2311,7 +2311,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:33:43.407811Z"
+    "dataRetrievedAt": "2026-09-07T12:47:01.610564Z"
   },
   {
     "code": "410A0",
@@ -3117,7 +3117,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:34:10.766567Z"
+    "dataRetrievedAt": "2026-09-07T12:47:29.190762Z"
   },
   {
     "code": "411A0",
@@ -3135,7 +3135,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:34:38.156579Z"
+    "dataRetrievedAt": "2026-09-07T12:47:56.674985Z"
   },
   {
     "code": "412A0",
@@ -3861,7 +3861,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:35:05.486384Z"
+    "dataRetrievedAt": "2026-09-07T12:48:24.185228Z"
   },
   {
     "code": "413A0",
@@ -4599,7 +4599,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:35:32.802573Z"
+    "dataRetrievedAt": "2026-09-07T12:48:51.789578Z"
   },
   {
     "code": "414A0",
@@ -5343,7 +5343,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:36:00.353318Z"
+    "dataRetrievedAt": "2026-09-07T12:49:19.345890Z"
   },
   {
     "code": "415A0",
@@ -6091,7 +6091,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:36:27.682629Z"
+    "dataRetrievedAt": "2026-09-07T12:49:46.760224Z"
   },
   {
     "code": "416A0",
@@ -6843,7 +6843,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:36:55.080786Z"
+    "dataRetrievedAt": "2026-09-07T12:50:14.240456Z"
   },
   {
     "code": "417A0",
@@ -7576,7 +7576,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:37:22.502865Z"
+    "dataRetrievedAt": "2026-09-07T12:50:41.808394Z"
   },
   {
     "code": "419A0",
@@ -7594,7 +7594,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:37:49.831549Z"
+    "dataRetrievedAt": "2026-09-07T12:51:09.362057Z"
   },
   {
     "code": "421A0",
@@ -8334,7 +8334,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:38:17.116993Z"
+    "dataRetrievedAt": "2026-09-07T12:51:36.931716Z"
   },
   {
     "code": "422A0",
@@ -8352,7 +8352,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:38:44.380500Z"
+    "dataRetrievedAt": "2026-09-07T12:52:04.412123Z"
   },
   {
     "code": "423A0",
@@ -9068,7 +9068,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:39:11.742809Z"
+    "dataRetrievedAt": "2026-09-07T12:52:32.080687Z"
   },
   {
     "code": "424A0",
@@ -9774,7 +9774,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:39:38.973963Z"
+    "dataRetrievedAt": "2026-09-07T12:52:59.572509Z"
   },
   {
     "code": "425A0",
@@ -10480,7 +10480,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:40:06.276629Z"
+    "dataRetrievedAt": "2026-09-07T12:53:27.034332Z"
   },
   {
     "code": "426A0",
@@ -11174,7 +11174,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:40:33.600733Z"
+    "dataRetrievedAt": "2026-09-07T12:53:54.533060Z"
   },
   {
     "code": "428A0",
@@ -11906,7 +11906,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:41:00.860192Z"
+    "dataRetrievedAt": "2026-09-07T12:54:21.977181Z"
   },
   {
     "code": "429A0",
@@ -12637,7 +12637,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:41:28.262349Z"
+    "dataRetrievedAt": "2026-09-07T12:54:49.460998Z"
   },
   {
     "code": "430A0",
@@ -12655,7 +12655,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:41:55.567350Z"
+    "dataRetrievedAt": "2026-09-07T12:55:17.026442Z"
   },
   {
     "code": "431A0",
@@ -13363,7 +13363,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:42:22.964588Z"
+    "dataRetrievedAt": "2026-09-07T12:55:44.536452Z"
   },
   {
     "code": "432A0",
@@ -13381,7 +13381,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:42:50.260570Z"
+    "dataRetrievedAt": "2026-09-07T12:56:12.196904Z"
   },
   {
     "code": "433A0",
@@ -13399,7 +13399,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:43:17.490371Z"
+    "dataRetrievedAt": "2026-09-07T12:56:39.633417Z"
   },
   {
     "code": "434A0",
@@ -13417,7 +13417,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:43:44.756161Z"
+    "dataRetrievedAt": "2026-09-07T12:57:07.141745Z"
   },
   {
     "code": "435A0",
@@ -14095,7 +14095,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:44:12.022366Z"
+    "dataRetrievedAt": "2026-09-07T12:57:34.556598Z"
   },
   {
     "code": "436A0",
@@ -14806,7 +14806,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:44:39.397880Z"
+    "dataRetrievedAt": "2026-09-07T12:58:01.966194Z"
   },
   {
     "code": "437A0",
@@ -14824,7 +14824,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:45:06.714670Z"
+    "dataRetrievedAt": "2026-09-07T12:58:29.300859Z"
   },
   {
     "code": "438A0",
@@ -15550,7 +15550,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:45:34.056804Z"
+    "dataRetrievedAt": "2026-09-07T12:58:56.723630Z"
   },
   {
     "code": "439A0",
@@ -15568,7 +15568,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:46:01.398665Z"
+    "dataRetrievedAt": "2026-09-07T12:59:24.135563Z"
   },
   {
     "code": "441A0",
@@ -16232,7 +16232,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:46:28.701322Z"
+    "dataRetrievedAt": "2026-09-07T12:59:51.550141Z"
   },
   {
     "code": "442A0",
@@ -16892,7 +16892,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:46:55.943889Z"
+    "dataRetrievedAt": "2026-09-07T13:00:19.058005Z"
   },
   {
     "code": "443A0",
@@ -17498,7 +17498,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:47:23.225368Z"
+    "dataRetrievedAt": "2026-09-07T13:00:46.651316Z"
   },
   {
     "code": "444A0",
@@ -17516,7 +17516,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:47:50.418259Z"
+    "dataRetrievedAt": "2026-09-07T13:01:14.110432Z"
   },
   {
     "code": "445A0",
@@ -17534,7 +17534,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:48:17.752606Z"
+    "dataRetrievedAt": "2026-09-07T13:01:41.527416Z"
   },
   {
     "code": "446A0",
@@ -18165,7 +18165,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:48:44.993566Z"
+    "dataRetrievedAt": "2026-09-07T13:02:08.906781Z"
   },
   {
     "code": "447A0",
@@ -18727,7 +18727,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:49:12.313939Z"
+    "dataRetrievedAt": "2026-09-07T13:02:36.235432Z"
   },
   {
     "code": "448A0",
@@ -19289,7 +19289,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:49:39.554401Z"
+    "dataRetrievedAt": "2026-09-07T13:03:03.610567Z"
   },
   {
     "code": "449A0",
@@ -19851,7 +19851,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:50:06.711332Z"
+    "dataRetrievedAt": "2026-09-07T13:03:31.164733Z"
   },
   {
     "code": "450A0",
@@ -20405,7 +20405,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:50:34.001498Z"
+    "dataRetrievedAt": "2026-09-07T13:03:58.644255Z"
   },
   {
     "code": "451A0",
@@ -20967,7 +20967,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:51:01.170559Z"
+    "dataRetrievedAt": "2026-09-07T13:04:26.052240Z"
   },
   {
     "code": "452A0",
@@ -21549,7 +21549,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:51:28.440666Z"
+    "dataRetrievedAt": "2026-09-07T13:04:53.395301Z"
   },
   {
     "code": "453A0",
@@ -22131,7 +22131,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:51:55.722661Z"
+    "dataRetrievedAt": "2026-09-07T13:05:20.843388Z"
   },
   {
     "code": "455A0",
@@ -22149,7 +22149,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:52:22.887494Z"
+    "dataRetrievedAt": "2026-09-07T13:05:48.186440Z"
   },
   {
     "code": "456A0",
@@ -22749,7 +22749,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:52:50.203314Z"
+    "dataRetrievedAt": "2026-09-07T13:06:15.736991Z"
   },
   {
     "code": "457A0",
@@ -22767,7 +22767,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:53:17.457129Z"
+    "dataRetrievedAt": "2026-09-07T13:06:43.229530Z"
   },
   {
     "code": "458A0",
@@ -22785,7 +22785,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:53:44.683353Z"
+    "dataRetrievedAt": "2026-09-07T13:07:10.557835Z"
   },
   {
     "code": "459A0",
@@ -23367,7 +23367,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:54:12.060224Z"
+    "dataRetrievedAt": "2026-09-07T13:07:38.000698Z"
   },
   {
     "code": "460A0",
@@ -23959,7 +23959,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:54:39.312342Z"
+    "dataRetrievedAt": "2026-09-07T13:08:05.428890Z"
   },
   {
     "code": "461A0",
@@ -24537,7 +24537,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:55:06.529180Z"
+    "dataRetrievedAt": "2026-09-07T13:08:32.754677Z"
   },
   {
     "code": "462A0",
@@ -25113,7 +25113,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:55:33.717946Z"
+    "dataRetrievedAt": "2026-09-07T13:09:00.136430Z"
   },
   {
     "code": "463A0",
@@ -25705,7 +25705,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:56:01.124935Z"
+    "dataRetrievedAt": "2026-09-07T13:09:27.509473Z"
   },
   {
     "code": "464A0",
@@ -26259,7 +26259,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:56:28.321524Z"
+    "dataRetrievedAt": "2026-09-07T13:09:54.889421Z"
   },
   {
     "code": "465A0",
@@ -26805,7 +26805,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:56:55.490362Z"
+    "dataRetrievedAt": "2026-09-07T13:10:22.305042Z"
   },
   {
     "code": "466A0",
@@ -27351,7 +27351,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:57:22.815237Z"
+    "dataRetrievedAt": "2026-09-07T13:10:49.710920Z"
   },
   {
     "code": "467A0",
@@ -27869,7 +27869,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:57:50.166942Z"
+    "dataRetrievedAt": "2026-09-07T13:11:17.143389Z"
   },
   {
     "code": "468A0",
@@ -28411,7 +28411,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:58:17.361916Z"
+    "dataRetrievedAt": "2026-09-07T13:11:44.564527Z"
   },
   {
     "code": "469A0",
@@ -28948,7 +28948,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:58:44.638493Z"
+    "dataRetrievedAt": "2026-09-07T13:12:12.064105Z"
   },
   {
     "code": "470A0",
@@ -28970,7 +28970,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:59:11.996223Z"
+    "dataRetrievedAt": "2026-09-07T13:12:39.500448Z"
   },
   {
     "code": "471A0",
@@ -29499,7 +29499,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T08:59:39.174686Z"
+    "dataRetrievedAt": "2026-09-07T13:13:06.926145Z"
   },
   {
     "code": "472A0",
@@ -30039,7 +30039,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:00:06.495625Z"
+    "dataRetrievedAt": "2026-09-07T13:13:34.394105Z"
   },
   {
     "code": "473A0",
@@ -30557,7 +30557,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:00:33.679638Z"
+    "dataRetrievedAt": "2026-09-07T13:14:01.880285Z"
   },
   {
     "code": "475A0",
@@ -31074,7 +31074,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:01:00.932692Z"
+    "dataRetrievedAt": "2026-09-07T13:14:29.359782Z"
   },
   {
     "code": "476A0",
@@ -31591,7 +31591,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:01:28.146885Z"
+    "dataRetrievedAt": "2026-09-07T13:14:56.760634Z"
   },
   {
     "code": "477A0",
@@ -32123,7 +32123,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:01:55.414920Z"
+    "dataRetrievedAt": "2026-09-07T13:15:24.154319Z"
   },
   {
     "code": "478A0",
@@ -32628,7 +32628,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:02:22.780331Z"
+    "dataRetrievedAt": "2026-09-07T13:15:51.604964Z"
   },
   {
     "code": "479A0",
@@ -33133,7 +33133,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:02:50.029906Z"
+    "dataRetrievedAt": "2026-09-07T13:16:19.088490Z"
   },
   {
     "code": "480A0",
@@ -33634,7 +33634,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:03:17.275729Z"
+    "dataRetrievedAt": "2026-09-07T13:16:46.454524Z"
   },
   {
     "code": "481A0",
@@ -33652,7 +33652,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:03:44.506713Z"
+    "dataRetrievedAt": "2026-09-07T13:17:13.958863Z"
   },
   {
     "code": "483A0",
@@ -34161,7 +34161,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:04:11.842920Z"
+    "dataRetrievedAt": "2026-09-07T13:17:41.358691Z"
   },
   {
     "code": "484A0",
@@ -34179,7 +34179,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:04:39.161914Z"
+    "dataRetrievedAt": "2026-09-07T13:18:08.725248Z"
   },
   {
     "code": "485A0",
@@ -34696,7 +34696,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:05:06.373759Z"
+    "dataRetrievedAt": "2026-09-07T13:18:36.085881Z"
   },
   {
     "code": "486A0",
@@ -35182,7 +35182,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:05:33.712739Z"
+    "dataRetrievedAt": "2026-09-07T13:19:03.447659Z"
   },
   {
     "code": "487A0",
@@ -35668,7 +35668,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:06:00.977940Z"
+    "dataRetrievedAt": "2026-09-07T13:19:30.761760Z"
   },
   {
     "code": "488A0",
@@ -36154,7 +36154,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:06:28.202975Z"
+    "dataRetrievedAt": "2026-09-07T13:19:58.235577Z"
   },
   {
     "code": "489A0",
@@ -36628,7 +36628,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:06:55.513237Z"
+    "dataRetrievedAt": "2026-09-07T13:20:25.651064Z"
   },
   {
     "code": "490A0",
@@ -36670,7 +36670,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:07:22.693551Z"
+    "dataRetrievedAt": "2026-09-07T13:20:53.092149Z"
   },
   {
     "code": "491A0",
@@ -37012,7 +37012,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:07:49.893679Z"
+    "dataRetrievedAt": "2026-09-07T13:21:20.459422Z"
   },
   {
     "code": "492A0",
@@ -37382,7 +37382,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:08:17.018729Z"
+    "dataRetrievedAt": "2026-09-07T13:21:47.783557Z"
   },
   {
     "code": "493A0",
@@ -37652,7 +37652,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:08:44.313896Z"
+    "dataRetrievedAt": "2026-09-07T13:22:15.249677Z"
   },
   {
     "code": "494A0",
@@ -37830,7 +37830,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:09:11.676827Z"
+    "dataRetrievedAt": "2026-09-07T13:22:42.537280Z"
   },
   {
     "code": "495A0",
@@ -38096,7 +38096,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:09:38.926731Z"
+    "dataRetrievedAt": "2026-09-07T13:23:09.851514Z"
   },
   {
     "code": "496A0",
@@ -38502,7 +38502,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:10:06.173696Z"
+    "dataRetrievedAt": "2026-09-07T13:23:37.245667Z"
   },
   {
     "code": "497A0",
@@ -38860,7 +38860,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:10:33.364483Z"
+    "dataRetrievedAt": "2026-09-07T13:24:04.662698Z"
   },
   {
     "code": "498A0",
@@ -39250,7 +39250,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:11:00.682794Z"
+    "dataRetrievedAt": "2026-09-07T13:24:32.098704Z"
   },
   {
     "code": "499A0",
@@ -39624,7 +39624,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:11:27.917890Z"
+    "dataRetrievedAt": "2026-09-07T13:24:59.529873Z"
   },
   {
     "code": "500A0",
@@ -40001,7 +40001,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:11:55.050827Z"
+    "dataRetrievedAt": "2026-09-07T13:25:26.826640Z"
   },
   {
     "code": "501A0",
@@ -40019,7 +40019,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:12:22.303340Z"
+    "dataRetrievedAt": "2026-09-07T13:25:54.164387Z"
   },
   {
     "code": "502A0",
@@ -40397,7 +40397,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:12:49.516113Z"
+    "dataRetrievedAt": "2026-09-07T13:26:21.583855Z"
   },
   {
     "code": "503A0",
@@ -40415,7 +40415,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:13:16.826310Z"
+    "dataRetrievedAt": "2026-09-07T13:26:48.957265Z"
   },
   {
     "code": "504A0",
@@ -40749,7 +40749,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:13:44.085271Z"
+    "dataRetrievedAt": "2026-09-07T13:27:16.305201Z"
   },
   {
     "code": "505A0",
@@ -41071,7 +41071,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:14:11.292732Z"
+    "dataRetrievedAt": "2026-09-07T13:27:43.653636Z"
   },
   {
     "code": "506A0",
@@ -41089,7 +41089,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:14:38.515748Z"
+    "dataRetrievedAt": "2026-09-07T13:28:11.065567Z"
   },
   {
     "code": "507A0",
@@ -41107,7 +41107,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:15:05.775758Z"
+    "dataRetrievedAt": "2026-09-07T13:28:38.413773Z"
   },
   {
     "code": "509A0",
@@ -41381,7 +41381,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:15:33.018194Z"
+    "dataRetrievedAt": "2026-09-07T13:29:05.913545Z"
   },
   {
     "code": "510A0",
@@ -41399,7 +41399,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:16:00.419579Z"
+    "dataRetrievedAt": "2026-09-07T13:29:33.314324Z"
   },
   {
     "code": "511A0",
@@ -41417,7 +41417,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:16:27.642274Z"
+    "dataRetrievedAt": "2026-09-07T13:30:00.627617Z"
   },
   {
     "code": "512A0",
@@ -41723,7 +41723,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:16:54.945853Z"
+    "dataRetrievedAt": "2026-09-07T13:30:27.998095Z"
   },
   {
     "code": "513A0",
@@ -42029,7 +42029,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:17:22.166636Z"
+    "dataRetrievedAt": "2026-09-07T13:30:55.331927Z"
   },
   {
     "code": "514A0",
@@ -42047,7 +42047,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:17:49.497935Z"
+    "dataRetrievedAt": "2026-09-07T13:31:22.737532Z"
   },
   {
     "code": "515A0",
@@ -42309,7 +42309,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:18:16.895738Z"
+    "dataRetrievedAt": "2026-09-07T13:31:50.057682Z"
   },
   {
     "code": "516A0",
@@ -42503,7 +42503,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:18:44.097629Z"
+    "dataRetrievedAt": "2026-09-07T13:32:17.406928Z"
   },
   {
     "code": "517A0",
@@ -42709,7 +42709,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:19:11.263567Z"
+    "dataRetrievedAt": "2026-09-07T13:32:44.758960Z"
   },
   {
     "code": "518A0",
@@ -43003,7 +43003,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:19:38.440176Z"
+    "dataRetrievedAt": "2026-09-07T13:33:12.169651Z"
   },
   {
     "code": "519A0",
@@ -43257,7 +43257,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:20:05.558330Z"
+    "dataRetrievedAt": "2026-09-07T13:33:39.484392Z"
   },
   {
     "code": "520A0",
@@ -43511,7 +43511,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:20:32.704597Z"
+    "dataRetrievedAt": "2026-09-07T13:34:06.879791Z"
   },
   {
     "code": "521A0",
@@ -43781,7 +43781,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:20:59.960715Z"
+    "dataRetrievedAt": "2026-09-07T13:34:34.276020Z"
   },
   {
     "code": "522A0",
@@ -43799,7 +43799,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:21:27.043346Z"
+    "dataRetrievedAt": "2026-09-07T13:35:01.659397Z"
   },
   {
     "code": "523A0",
@@ -44045,7 +44045,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:21:54.214921Z"
+    "dataRetrievedAt": "2026-09-07T13:35:28.945520Z"
   },
   {
     "code": "524A0",
@@ -44063,7 +44063,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:22:21.561381Z"
+    "dataRetrievedAt": "2026-09-07T13:35:56.118885Z"
   },
   {
     "code": "525A0",
@@ -44081,7 +44081,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:22:48.702660Z"
+    "dataRetrievedAt": "2026-09-07T13:36:23.387476Z"
   },
   {
     "code": "526A0",
@@ -44351,7 +44351,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:23:15.966281Z"
+    "dataRetrievedAt": "2026-09-07T13:36:50.686926Z"
   },
   {
     "code": "527A0",
@@ -44369,7 +44369,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:23:43.110215Z"
+    "dataRetrievedAt": "2026-09-07T13:37:18.122648Z"
   },
   {
     "code": "528A0",
@@ -44387,7 +44387,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:24:10.269535Z"
+    "dataRetrievedAt": "2026-09-07T13:37:45.421287Z"
   },
   {
     "code": "530A0",
@@ -44633,7 +44633,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:24:37.477172Z"
+    "dataRetrievedAt": "2026-09-07T13:38:12.748972Z"
   },
   {
     "code": "531A0",
@@ -44879,7 +44879,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:25:04.619928Z"
+    "dataRetrievedAt": "2026-09-07T13:38:40.026271Z"
   },
   {
     "code": "532A0",
@@ -45125,7 +45125,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:25:31.851658Z"
+    "dataRetrievedAt": "2026-09-07T13:39:07.352869Z"
   },
   {
     "code": "533A0",
@@ -45363,7 +45363,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:25:59.014837Z"
+    "dataRetrievedAt": "2026-09-07T13:39:34.636340Z"
   },
   {
     "code": "534A0",
@@ -45609,7 +45609,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:26:26.176883Z"
+    "dataRetrievedAt": "2026-09-07T13:40:02.048132Z"
   },
   {
     "code": "535A0",
@@ -45815,7 +45815,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:26:53.332906Z"
+    "dataRetrievedAt": "2026-09-07T13:40:29.435137Z"
   },
   {
     "code": "536A0",
@@ -46057,7 +46057,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:27:20.515374Z"
+    "dataRetrievedAt": "2026-09-07T13:40:56.719701Z"
   },
   {
     "code": "537A0",
@@ -46303,7 +46303,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:27:47.732282Z"
+    "dataRetrievedAt": "2026-09-07T13:41:24.066750Z"
   },
   {
     "code": "538A0",
@@ -46509,7 +46509,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:28:14.901471Z"
+    "dataRetrievedAt": "2026-09-07T13:41:51.523496Z"
   },
   {
     "code": "539A0",
@@ -46743,7 +46743,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:28:42.025266Z"
+    "dataRetrievedAt": "2026-09-07T13:42:18.889940Z"
   },
   {
     "code": "540A0",
@@ -46993,7 +46993,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:29:09.210535Z"
+    "dataRetrievedAt": "2026-09-07T13:42:46.211967Z"
   },
   {
     "code": "541A0",
@@ -47231,7 +47231,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:29:36.298832Z"
+    "dataRetrievedAt": "2026-09-07T13:43:13.600406Z"
   },
   {
     "code": "542A0",
@@ -47461,7 +47461,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:30:03.430993Z"
+    "dataRetrievedAt": "2026-09-07T13:43:40.846207Z"
   },
   {
     "code": "543A0",
@@ -47695,7 +47695,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:30:30.602228Z"
+    "dataRetrievedAt": "2026-09-07T13:44:08.208408Z"
   },
   {
     "code": "544A0",
@@ -47909,7 +47909,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:30:57.715103Z"
+    "dataRetrievedAt": "2026-09-07T13:44:35.404255Z"
   },
   {
     "code": "545A0",
@@ -48143,7 +48143,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:31:24.821223Z"
+    "dataRetrievedAt": "2026-09-07T13:45:02.769493Z"
   },
   {
     "code": "546A0",
@@ -48377,7 +48377,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:31:51.909436Z"
+    "dataRetrievedAt": "2026-09-07T13:45:30.191156Z"
   },
   {
     "code": "547A0",
@@ -48611,7 +48611,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:32:19.097754Z"
+    "dataRetrievedAt": "2026-09-07T13:45:57.457610Z"
   },
   {
     "code": "548A0",
@@ -48833,7 +48833,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:32:46.197082Z"
+    "dataRetrievedAt": "2026-09-07T13:46:24.865618Z"
   },
   {
     "code": "549A0",
@@ -49051,7 +49051,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:33:13.287857Z"
+    "dataRetrievedAt": "2026-09-07T13:46:52.132008Z"
   },
   {
     "code": "550A0",
@@ -49280,7 +49280,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:33:40.359387Z"
+    "dataRetrievedAt": "2026-09-07T13:47:19.345114Z"
   },
   {
     "code": "551A0",
@@ -49298,7 +49298,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:34:07.437226Z"
+    "dataRetrievedAt": "2026-09-07T13:47:46.635476Z"
   },
   {
     "code": "552A0",
@@ -49516,7 +49516,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:34:34.532495Z"
+    "dataRetrievedAt": "2026-09-07T13:48:13.894379Z"
   },
   {
     "code": "554A0",
@@ -49690,7 +49690,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:35:01.644510Z"
+    "dataRetrievedAt": "2026-09-07T13:48:41.106144Z"
   },
   {
     "code": "555A0",
@@ -49708,7 +49708,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:35:28.687872Z"
+    "dataRetrievedAt": "2026-09-07T13:49:08.226453Z"
   },
   {
     "code": "556A0",
@@ -49878,7 +49878,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:35:55.699269Z"
+    "dataRetrievedAt": "2026-09-07T13:49:35.400038Z"
   },
   {
     "code": "557A0",
@@ -49896,7 +49896,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:36:22.676847Z"
+    "dataRetrievedAt": "2026-09-07T13:50:02.516400Z"
   },
   {
     "code": "558A0",
@@ -50070,7 +50070,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:36:49.745978Z"
+    "dataRetrievedAt": "2026-09-07T13:50:29.764176Z"
   },
   {
     "code": "559A0",
@@ -50236,7 +50236,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:37:16.831845Z"
+    "dataRetrievedAt": "2026-09-07T13:50:56.916624Z"
   },
   {
     "code": "560A0",
@@ -50254,7 +50254,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:37:43.840971Z"
+    "dataRetrievedAt": "2026-09-07T13:51:24.044099Z"
   },
   {
     "code": "561A0",
@@ -50272,7 +50272,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:38:10.969289Z"
+    "dataRetrievedAt": "2026-09-07T13:51:51.168387Z"
   },
   {
     "code": "562A0",
@@ -50290,7 +50290,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:38:38.101583Z"
+    "dataRetrievedAt": "2026-09-07T13:52:18.404314Z"
   },
   {
     "code": "563A0",
@@ -50440,7 +50440,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:39:05.228144Z"
+    "dataRetrievedAt": "2026-09-07T13:52:45.705315Z"
   },
   {
     "code": "564A0",
@@ -50590,7 +50590,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:39:32.539622Z"
+    "dataRetrievedAt": "2026-09-07T13:53:12.942940Z"
   },
   {
     "code": "565A0",
@@ -50608,7 +50608,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:39:59.585930Z"
+    "dataRetrievedAt": "2026-09-07T13:53:40.142297Z"
   },
   {
     "code": "566A0",
@@ -50734,7 +50734,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:40:26.817144Z"
+    "dataRetrievedAt": "2026-09-07T13:54:07.303885Z"
   },
   {
     "code": "567A0",
@@ -50752,7 +50752,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:40:53.960564Z"
+    "dataRetrievedAt": "2026-09-07T13:54:34.517886Z"
   },
   {
     "code": "568A0",
@@ -50842,7 +50842,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:41:20.983230Z"
+    "dataRetrievedAt": "2026-09-07T13:55:01.698082Z"
   },
   {
     "code": "569A0",
@@ -50932,7 +50932,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:41:48.045299Z"
+    "dataRetrievedAt": "2026-09-07T13:55:28.825964Z"
   },
   {
     "code": "570A0",
@@ -51002,7 +51002,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:42:15.245111Z"
+    "dataRetrievedAt": "2026-09-07T13:55:55.951325Z"
   },
   {
     "code": "571A0",
@@ -51060,7 +51060,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:42:42.332227Z"
+    "dataRetrievedAt": "2026-09-07T13:56:23.100734Z"
   },
   {
     "code": "572A0",
@@ -51110,7 +51110,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:43:09.411015Z"
+    "dataRetrievedAt": "2026-09-07T13:56:50.421865Z"
   },
   {
     "code": "573A0",
@@ -51180,7 +51180,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:43:36.384144Z"
+    "dataRetrievedAt": "2026-09-07T13:57:17.674785Z"
   },
   {
     "code": "574A0",
@@ -51198,7 +51198,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:44:03.511719Z"
+    "dataRetrievedAt": "2026-09-07T13:57:44.863173Z"
   },
   {
     "code": "575A0",
@@ -51256,7 +51256,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:44:30.483981Z"
+    "dataRetrievedAt": "2026-09-07T13:58:12.165093Z"
   },
   {
     "code": "576A0",
@@ -51322,7 +51322,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:44:57.560392Z"
+    "dataRetrievedAt": "2026-09-07T13:58:39.322259Z"
   },
   {
     "code": "577A0",
@@ -51388,7 +51388,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:45:24.673506Z"
+    "dataRetrievedAt": "2026-09-07T13:59:06.438286Z"
   },
   {
     "code": "578A0",
@@ -51454,7 +51454,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:45:51.892496Z"
+    "dataRetrievedAt": "2026-09-07T13:59:33.647664Z"
   },
   {
     "code": "579A0",
@@ -51520,7 +51520,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:46:18.917828Z"
+    "dataRetrievedAt": "2026-09-07T14:00:00.815423Z"
   },
   {
     "code": "580A0",
@@ -51586,7 +51586,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:46:46.108471Z"
+    "dataRetrievedAt": "2026-09-07T14:00:27.981250Z"
   },
   {
     "code": "585A0",
@@ -51620,7 +51620,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:47:13.204687Z"
+    "dataRetrievedAt": "2026-09-07T14:00:55.198572Z"
   },
   {
     "code": "586A0",
@@ -51654,7 +51654,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:47:40.204071Z"
+    "dataRetrievedAt": "2026-09-07T14:01:22.382982Z"
   },
   {
     "code": "587A0",
@@ -51688,7 +51688,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:48:07.168616Z"
+    "dataRetrievedAt": "2026-09-07T14:01:49.506430Z"
   },
   {
     "code": "75505",
@@ -52326,7 +52326,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:48:34.536262Z"
+    "dataRetrievedAt": "2026-09-07T14:02:16.999623Z"
   },
   {
     "code": "83030",
@@ -52889,7 +52889,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:49:01.813102Z"
+    "dataRetrievedAt": "2026-09-07T14:02:44.509262Z"
   },
   {
     "code": "87290",
@@ -53649,7 +53649,7 @@
       }
     ],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:49:29.243929Z"
+    "dataRetrievedAt": "2026-09-07T14:03:12.080611Z"
   },
   {
     "code": "92015",
@@ -53695,7 +53695,7 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:49:56.320347Z"
+    "dataRetrievedAt": "2026-09-07T14:03:39.262115Z"
   },
   {
     "code": "92025",
@@ -54189,6 +54189,6 @@
     ],
     "financials": [],
     "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
-    "dataRetrievedAt": "2026-09-07T09:50:23.685531Z"
+    "dataRetrievedAt": "2026-09-07T14:04:06.571965Z"
   }
 ]
