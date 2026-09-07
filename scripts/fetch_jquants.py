@@ -1,28 +1,29 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-J-Quants API（無料プラン）から、直近365日以内に上場した銘柄の
-・上場銘柄情報
-・過去株価（無料プランのため直近12週間は取得不可＝データ基準日が過去になる）
-・財務情報（四半期累計値）
+J-Quants API（無料プラン・V2）から、直近365日以内に新規上場したとみられる銘柄の
+・過去株価（AdjC＝分割等調整済み終値を採用）
+・財務情報（決算短信サマリー）
 を取得し、IPOモニターアプリが読み込めるJSON形式で書き出します。
 
-【重要な注意】
-- J-Quants APIの正式な仕様（エンドポイント名・パラメータ名・レスポンスの
-  フィールド名）は変更される場合があります。本スクリプトは執筆時点で
-  確認できた情報をもとにした「たたき台」です。実行してエラーになる場合は
-  必ず公式ドキュメント（https://jpx-jquants.com/ja/spec）で最新のエンド
-  ポイント仕様をご確認のうえ、該当箇所を書き換えてください。
-- 無料プランのレートリミットは 5 リクエスト/分 です。銘柄数が多い場合は
-  time.sleep で間隔を空けています。
-- 取得できなかった値は None のままにし、推測値で埋めることはしません。
-- 本スクリプトはJ-Quants APIの利用規約に従い、取得データを「閲覧可能な形で
-  第三者に再配布」しない前提（＝あなた個人のiPadアプリでのみ使用）で
-  設計されています。GitHubリポジトリを公開にする場合、このJSON出力を
-  公開ディレクトリに置くこと自体は「あなた個人が加工した派生データを
-  自分のアプリで使う」目的の範囲内かご自身でも規約をご確認ください。
-  不安な場合はリポジトリをPrivateにし、GitHub Pro（月4ドル程度）で
-  Private リポジトリのGitHub Pagesを使う運用にしてください。
+【上場日の特定方法について（重要）】
+J-Quants API「上場銘柄一覧」(/v2/equities/master) には上場日という項目が
+存在しません（公式仕様として提供されていません）。そのため本スクリプトでは、
+「約365日前時点の銘柄一覧」と「現在（無料プランのため実際は最大12週間前）の
+銘柄一覧」を比較し、新しく出現した銘柄コード＝直近で新規上場した銘柄、と
+みなす方式を採用しています。まれに市場区分変更・銘柄コード変更等でも
+新規出現として検出される場合がありますが、アプリ側で銘柄名を見て手動で
+削除できます。
+
+【注意】
+- V2 APIの仕様（エンドポイント・フィールド名）は変更される可能性があります。
+  最新は https://jpx-jquants.com/ja/spec をご確認ください。
+- 無料プランのレートリミットは 5 リクエスト/分。
+- 取得できなかった値は None のままにし、推測値で埋めません。
+- 成長率(YoY)・進捗率・上方/下方修正は、開示された複数期のデータから
+  このスクリプトが計算した推定値です。決算短信の記載と完全には一致しない
+  場合があるため、精度を重視する場合はアプリの「決算PDFから読み取り」機能を
+  ご利用ください。
 """
 
 import os
@@ -31,117 +32,192 @@ import time
 import json
 import datetime
 import urllib.request
+import urllib.parse
 import urllib.error
 
 API_BASE = "https://api.jquants.com/v2"
 API_KEY = os.environ.get("JQUANTS_API_KEY", "")
 LOOKBACK_DAYS = int(os.environ.get("IPO_LOOKBACK_DAYS", "365"))
 OUTPUT_PATH = os.environ.get("OUTPUT_PATH", "docs/latest.json")
-REQUEST_INTERVAL_SEC = 13  # 5リクエスト/分 の制限に余裕を持って対応
+REQUEST_INTERVAL_SEC = 13  # 5リクエスト/分 に余裕を持って対応
 
 
-def api_get(path, params=None):
+def api_get_all(path, params=None):
+    """pagination_key を辿って全件取得する。'data' 配列を結合して返す。"""
     if not API_KEY:
         print("環境変数 JQUANTS_API_KEY が設定されていません。", file=sys.stderr)
         sys.exit(1)
-    url = API_BASE + path
-    if params:
+    params = dict(params or {})
+    results = []
+    while True:
         qs = urllib.parse.urlencode(params)
-        url = url + "?" + qs
-    req = urllib.request.Request(url, headers={"x-api-key": API_KEY})
-    try:
-        with urllib.request.urlopen(req, timeout=30) as res:
-            return json.loads(res.read().decode("utf-8"))
-    except urllib.error.HTTPError as e:
-        print(f"APIエラー {e.code} : {url}", file=sys.stderr)
-        print(e.read().decode("utf-8", "ignore"), file=sys.stderr)
-        return None
+        url = API_BASE + path + ("?" + qs if qs else "")
+        req = urllib.request.Request(url, headers={"x-api-key": API_KEY})
+        try:
+            with urllib.request.urlopen(req, timeout=30) as res:
+                body = json.loads(res.read().decode("utf-8"))
+        except urllib.error.HTTPError as e:
+            print(f"APIエラー {e.code} : {url}", file=sys.stderr)
+            print(e.read().decode("utf-8", "ignore"), file=sys.stderr)
+            break
+        except Exception as e:
+            print(f"通信エラー: {url} : {e}", file=sys.stderr)
+            break
+        chunk = body.get("data", [])
+        results.extend(chunk)
+        pk = body.get("pagination_key")
+        if not pk:
+            break
+        params["pagination_key"] = pk
+        time.sleep(REQUEST_INTERVAL_SEC)
+    return results
 
 
-def fetch_listed_master():
-    """上場銘柄一覧を取得。フィールド名は要確認（例: Code, CompanyName, MarketCode, ListingDate 等）。"""
-    data = api_get("/equities/master")
-    if not data:
-        return []
-    # レスポンスの実際のキー名に合わせて調整してください
-    return data.get("info", data.get("equities", []))
-
-
-def within_lookback(listing_date_str, lookback_days):
-    if not listing_date_str:
-        return False
-    try:
-        d = datetime.datetime.strptime(listing_date_str[:10], "%Y-%m-%d").date()
-    except ValueError:
-        return False
-    return (datetime.date.today() - d).days <= lookback_days
+def fetch_master(date_str=None):
+    """上場銘柄一覧。date_str未指定なら実行可能な最新日（無料プランは遅延あり）。"""
+    params = {}
+    if date_str:
+        params["date"] = date_str
+    return api_get_all("/equities/master", params)
 
 
 def fetch_price_history(code):
-    data = api_get("/equities/bars/daily", {"code": code})
-    if not data:
-        return [], None
-    bars = data.get("daily_quotes", data.get("bars", []))
+    """指定銘柄の全期間の株価（無料プランの提供範囲内）。"""
+    rows = api_get_all("/equities/bars/daily", {"code": code})
     history = []
     as_of = None
-    for b in bars:
-        date = b.get("Date") or b.get("date")
-        close = b.get("Close") or b.get("close")
-        if date and close is not None:
-            history.append({"date": date[:10], "price": close})
+    latest_market_cap = None
+    for r in rows:
+        date = r.get("Date")
+        adj_close = r.get("AdjC")
+        close = r.get("C")
+        price = adj_close if adj_close is not None else close
+        if date and price is not None:
+            history.append({"date": date[:10], "price": price})
             as_of = date[:10]
-    return history, as_of
+            if r.get("MktCap") is not None:
+                latest_market_cap = r.get("MktCap") * 1_000_000  # 百万円→円
+    history.sort(key=lambda x: x["date"])
+    return history, as_of, latest_market_cap
+
+
+def num(v):
+    if v is None or v == "":
+        return None
+    try:
+        return float(v)
+    except (TypeError, ValueError):
+        return None
 
 
 def fetch_financials(code):
-    data = api_get("/fins/summary", {"code": code})
-    if not data:
-        return []
-    records = data.get("statements", data.get("summary", []))
+    """指定銘柄の全期間の決算短信サマリーから、成長率・進捗率・修正状況を推定して整形する。"""
+    rows = api_get_all("/fins/summary", {"code": code})
+    rows = [r for r in rows if r.get("DiscDate")]
+    rows.sort(key=lambda r: r["DiscDate"])
+
+    by_type = {}
+    for r in rows:
+        by_type.setdefault(r.get("CurPerType"), []).append(r)
+
+    growth_map = {}
+    for per_type, recs in by_type.items():
+        recs_sorted = sorted(recs, key=lambda r: r.get("CurPerSt") or "")
+        for i, r in enumerate(recs_sorted):
+            prev = recs_sorted[i - 1] if i > 0 else None
+            sales = num(r.get("Sales"))
+            op = num(r.get("OP"))
+            prev_sales = num(prev.get("Sales")) if prev else None
+            prev_op = num(prev.get("OP")) if prev else None
+            rev_g = ((sales - prev_sales) / prev_sales * 100) if (sales is not None and prev_sales) else None
+            op_g = ((op - prev_op) / prev_op * 100) if (op is not None and prev_op) else None
+            growth_map[id(r)] = (rev_g, op_g)
+
+    by_fy = {}
+    for r in rows:
+        by_fy.setdefault(r.get("CurFYEn"), []).append(r)
+    revision_map = {}
+    for fy, recs in by_fy.items():
+        recs_sorted = sorted(recs, key=lambda r: r["DiscDate"])
+        for i, r in enumerate(recs_sorted):
+            if i == 0:
+                revision_map[id(r)] = (False, False)
+                continue
+            prev_fnp = num(recs_sorted[i - 1].get("FNP"))
+            cur_fnp = num(r.get("FNP"))
+            up = down = False
+            if prev_fnp is not None and cur_fnp is not None:
+                if cur_fnp > prev_fnp:
+                    up = True
+                elif cur_fnp < prev_fnp:
+                    down = True
+            revision_map[id(r)] = (up, down)
+
     financials = []
-    for r in records:
+    for r in rows:
+        sales = num(r.get("Sales"))
+        op = num(r.get("OP"))
+        np_ = num(r.get("NP"))
+        fnp = num(r.get("FNP"))
+        rev_g, op_g = growth_map.get(id(r), (None, None))
+        up, down = revision_map.get(id(r), (False, False))
+        eq_ar = num(r.get("EqAR"))
+        roe = num(r.get("ROE"))
+        progress = (np_ / fnp * 100) if (np_ is not None and fnp) else None
+        op_margin = (op / sales * 100) if (op is not None and sales) else None
         financials.append({
-            "reportDate": (r.get("DisclosedDate") or r.get("disclosed_date") or "")[:10],
-            "revenue": r.get("NetSales") or r.get("Sales"),
-            "opProfit": r.get("OperatingProfit") or r.get("OP"),
-            "ordinaryProfit": r.get("OrdinaryProfit") or r.get("OdP"),
-            "netProfit": r.get("Profit") or r.get("NP"),
-            "eps": r.get("EarningsPerShare") or r.get("EPS"),
-            # 成長率(YoY)は前年同期のレコードとの比較が必要。
-            # J-Quants側にYoYフィールドが無い場合はここで自前計算してください。
-            "revenueGrowth": None,
-            "opProfitGrowth": None,
-            "opMargin": None,
-            "roe": None,
-            "equityRatio": r.get("EquityToAssetRatio"),
-            "opCF": r.get("CashFlowsFromOperatingActivities"),
+            "reportDate": r.get("DiscDate"),
+            "revenue": sales,
+            "revenueGrowth": round(rev_g, 1) if rev_g is not None else None,
+            "opProfit": op,
+            "opProfitGrowth": round(op_g, 1) if op_g is not None else None,
+            "ordinaryProfit": num(r.get("OdP")),
+            "netProfit": np_,
+            "eps": num(r.get("EPS")),
+            "opMargin": round(op_margin, 1) if op_margin is not None else None,
+            "roe": round(roe * 100, 1) if roe is not None else None,
+            "equityRatio": round(eq_ar * 100, 1) if eq_ar is not None else None,
+            "opCF": num(r.get("CFO")),
             "freeCF": None,
-            "guidance": None,
-            "revisionUp": None,
-            "revisionDown": None,
-            "progressRate": None,
+            "guidance": (f"売上高予想 {r.get('FSales')} / 純利益予想 {r.get('FNP')}"
+                         if r.get("FSales") or r.get("FNP") else None),
+            "revisionUp": up,
+            "revisionDown": down,
+            "progressRate": round(progress, 1) if progress is not None else None,
         })
     return financials
 
 
 def main():
-    master = fetch_listed_master()
-    targets = [m for m in master if within_lookback(
-        m.get("ListingDate") or m.get("listing_date"), LOOKBACK_DAYS)]
+    today = datetime.date.today()
+    lookback_date = (today - datetime.timedelta(days=LOOKBACK_DAYS)).strftime("%Y-%m-%d")
 
-    print(f"直近{LOOKBACK_DAYS}日以内の上場銘柄: {len(targets)}件")
+    print("現在の銘柄一覧を取得中…")
+    current_master = fetch_master()
+    if not current_master:
+        print("銘柄一覧が空でした。APIキーやプラン設定をご確認ください。", file=sys.stderr)
+    current_date = current_master[0].get("Date") if current_master else None
+    print(f"現在の銘柄一覧: {len(current_master)}件（データ基準日: {current_date}）")
+
+    time.sleep(REQUEST_INTERVAL_SEC)
+    print(f"{lookback_date} 時点の銘柄一覧を取得中…")
+    old_master = fetch_master(lookback_date)
+    print(f"{lookback_date}時点の銘柄一覧: {len(old_master)}件")
+
+    old_codes = {m.get("Code") for m in old_master}
+    new_listings = [m for m in current_master if m.get("Code") not in old_codes]
+    print(f"新規出現とみなした銘柄: {len(new_listings)}件")
 
     output = []
-    for m in targets:
-        code = m.get("Code") or m.get("code")
+    for m in new_listings:
+        code = m.get("Code")
         if not code:
             continue
-        name = m.get("CompanyName") or m.get("company_name")
-        market = m.get("MarketCodeName") or m.get("market")
-        listed_date = (m.get("ListingDate") or m.get("listing_date") or "")[:10]
+        name = m.get("CoName")
+        market = m.get("MktNm")
 
         time.sleep(REQUEST_INTERVAL_SEC)
-        price_history, as_of = fetch_price_history(code)
+        price_history, as_of, market_cap = fetch_price_history(code)
         time.sleep(REQUEST_INTERVAL_SEC)
         financials = fetch_financials(code)
 
@@ -151,21 +227,21 @@ def main():
             "code": code,
             "name": name,
             "market": market,
-            "listedDate": listed_date,
+            "listedDate": None,
             "currentPrice": current_price,
             "priceAsOfDate": as_of,
+            "marketCap": market_cap,
             "priceHistory": price_history,
             "financials": financials,
             "dataSource": "J-Quants API（無料プラン・約12週間遅延）",
             "dataRetrievedAt": datetime.datetime.utcnow().isoformat() + "Z",
         })
 
-    os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
+    os.makedirs(os.path.dirname(OUTPUT_PATH) or ".", exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
     print(f"書き出し完了: {OUTPUT_PATH}（{len(output)}銘柄）")
 
 
 if __name__ == "__main__":
-    import urllib.parse
     main()
