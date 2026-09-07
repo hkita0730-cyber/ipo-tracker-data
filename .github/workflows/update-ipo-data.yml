@@ -1,0 +1,35 @@
+name: Update IPO data (J-Quants)
+
+on:
+  schedule:
+    # 毎日 21:30 JST ≒ 12:30 UTC に実行（J-Quantsのデータ更新後を想定。必要に応じて調整してください）
+    - cron: "30 12 * * *"
+  workflow_dispatch: {}   # 手動実行したいときはGitHubの「Actions」タブから「Run workflow」を押すだけ
+
+permissions:
+  contents: write
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Fetch J-Quants data
+        env:
+          JQUANTS_API_KEY: ${{ secrets.JQUANTS_API_KEY }}
+          IPO_LOOKBACK_DAYS: "365"
+          OUTPUT_PATH: "docs/latest.json"
+        run: python scripts/fetch_jquants.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "ipo-data-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add docs/latest.json
+          git diff --quiet --cached || git commit -m "chore: update IPO data $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git push
