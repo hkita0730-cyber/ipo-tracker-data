@@ -24,6 +24,7 @@ jobs:
           JQUANTS_API_KEY: ${{ secrets.JQUANTS_API_KEY }}
           IPO_LOOKBACK_DAYS: "365"
           OUTPUT_PATH: "docs/latest.json"
+          PYTHONUNBUFFERED: "1"
         run: python scripts/fetch_jquants.py
 
       - name: Commit and push if changed
