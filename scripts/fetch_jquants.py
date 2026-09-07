@@ -20,10 +20,6 @@ J-Quants API「上場銘柄一覧」(/v2/equities/master) には上場日とい�
   最新は https://jpx-jquants.com/ja/spec をご確認ください。
 - 無料プランのレートリミットは 5 リクエスト/分。
 - 取得できなかった値は None のままにし、推測値で埋めません。
-- 成長率(YoY)・進捗率・上方/下方修正は、開示された複数期のデータから
-  このスクリプトが計算した推定値です。決算短信の記載と完全には一致しない
-  場合があるため、精度を重視する場合はアプリの「決算PDFから読み取り」機能を
-  ご利用ください。
 """
 
 import os
@@ -74,7 +70,6 @@ def api_get_all(path, params=None):
 
 
 def fetch_master(date_str=None):
-    """上場銘柄一覧。date_str未指定なら実行可能な最新日（無料プランは遅延あり）。"""
     params = {}
     if date_str:
         params["date"] = date_str
@@ -82,7 +77,6 @@ def fetch_master(date_str=None):
 
 
 def fetch_price_history(code):
-    """指定銘柄の全期間の株価（無料プランの提供範囲内）。"""
     rows = api_get_all("/equities/bars/daily", {"code": code})
     history = []
     as_of = None
@@ -96,7 +90,7 @@ def fetch_price_history(code):
             history.append({"date": date[:10], "price": price})
             as_of = date[:10]
             if r.get("MktCap") is not None:
-                latest_market_cap = r.get("MktCap") * 1_000_000  # 百万円→円
+                latest_market_cap = r.get("MktCap") * 1_000_000
     history.sort(key=lambda x: x["date"])
     return history, as_of, latest_market_cap
 
@@ -111,7 +105,6 @@ def num(v):
 
 
 def fetch_financials(code):
-    """指定銘柄の全期間の決算短信サマリーから、成長率・進捗率・修正状況を推定して整形する。"""
     rows = api_get_all("/fins/summary", {"code": code})
     rows = [r for r in rows if r.get("DiscDate")]
     rows.sort(key=lambda r: r["DiscDate"])
@@ -198,15 +191,27 @@ def main():
         print("銘柄一覧が空でした。APIキーやプラン設定をご確認ください。", file=sys.stderr)
     current_date = current_master[0].get("Date") if current_master else None
     print(f"現在の銘柄一覧: {len(current_master)}件（データ基準日: {current_date}）")
+    print("現在の銘柄一覧サンプル（先頭5件のコード）:",
+          [m.get("Code") for m in current_master[:5]])
 
     time.sleep(REQUEST_INTERVAL_SEC)
     print(f"{lookback_date} 時点の銘柄一覧を取得中…")
     old_master = fetch_master(lookback_date)
     print(f"{lookback_date}時点の銘柄一覧: {len(old_master)}件")
+    print(f"{lookback_date}時点の銘柄一覧サンプル（先頭5件のコード）:",
+          [m.get("Code") for m in old_master[:5]])
 
-    old_codes = {m.get("Code") for m in old_master}
-    new_listings = [m for m in current_master if m.get("Code") not in old_codes]
+    old_codes = {str(m.get("Code")).strip() for m in old_master if m.get("Code")}
+    new_listings = [m for m in current_master if str(m.get("Code")).strip() not in old_codes]
     print(f"新規出現とみなした銘柄: {len(new_listings)}件")
+
+    SAFETY_LIMIT = int(os.environ.get("SAFETY_LIMIT", "300"))
+    if len(new_listings) > SAFETY_LIMIT:
+        print(f"新規出現件数が{SAFETY_LIMIT}件を超えました。"
+              f"365日前データの取得に失敗している可能性が高いため、処理を中断します。"
+              f"（old_master件数={len(old_master)} / 上のサンプルコードを見比べてください）",
+              file=sys.stderr)
+        sys.exit(1)
 
     output = []
     for m in new_listings:
