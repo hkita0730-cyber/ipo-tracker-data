@@ -1506,7 +1506,7 @@ function scoreBar(score){
       h("div",{class:"mono", style:"text-align:right;"}, val+"/"+max)
     ]));
   });
-  wrap.appendChild(h("div",{class:"score-total"},[h("span",{class:"num"}, score.total), h("span",{},"/ 100")]));
+  wrap.appendChild(h("div",{class:"score-total"},[h("span",{class:"num"}, String(score.total)), h("span",{},"/ 100")]));
   return wrap;
 }
 function financialHistoryTable(s){
