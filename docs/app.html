@@ -320,6 +320,7 @@ const state = {
     priceFeedUrl:"",
     lastAutoSync:null,
     lastPriceSync:null,
+    retentionDays: 730,
     thresholds:{
       minDaysListed:90,
       minRevenueGrowth:15,
@@ -331,8 +332,8 @@ const state = {
   },
   view: "dashboard",     // dashboard | list | watchlist | gems | ranking | analysis | settings | detail | addstock
   detailCode: null,
-  listSort: {key:"code", dir:1},
-  listFilter: {text:"", onlyUpcoming:false},
+  listSort: {key:"listedDate", dir:-1},
+  listFilter: {text:"", onlyUpcoming:false, showExpired:false},
   rankKind: "total"
 };
 
@@ -398,6 +399,17 @@ function sampleStocks(){
 
 /* ---------------------------- Calculations ---------------------------- */
 function daysBetween(a,b){ return Math.floor((new Date(b) - new Date(a)) / 86400000); }
+
+/* 上場から設定日数(既定730日=2年)を超えた銘柄は「監視対象」からは外すが、
+   バックアップデータからは削除しない。Watchlist登録済み・上場予定・上場日未入力の
+   銘柄は対象から除外しない（誤って隠さないため）。 */
+function withinRetention(s){
+  if(s.upcoming) return true;
+  if(s.watchlisted) return true;
+  if(!s.listedDate) return true;
+  const days = daysBetween(s.listedDate, new Date());
+  return days <= state.settings.retentionDays;
+}
 function pct(now, base){ if(now==null||base==null||base===0) return null; return ((now-base)/base)*100; }
 function fmtPct(v){ if(v==null||isNaN(v)) return "—"; const s=v>=0?"+":""; return s+v.toFixed(1)+"%"; }
 function fmtNum(v, digits=0){ if(v==null||isNaN(v)) return "—"; return Number(v).toLocaleString("ja-JP",{maximumFractionDigits:digits}); }
@@ -636,7 +648,7 @@ async function mergeFeedData(items){
       bookValuePerShare:item.bookValuePerShare ?? base.bookValuePerShare,
       financials: mergeByKey(base.financials, item.financials, "reportDate"),
       priceHistory: mergeByKey(base.priceHistory, item.priceHistory, "date"),
-      priceSource: item.currentPrice!=null ? "j-quants" : base.priceSource,
+      priceSource: item.priceSourceOverride || (item.currentPrice!=null ? "j-quants" : base.priceSource),
       priceAsOfDate: item.priceAsOfDate || base.priceAsOfDate,
       dataSource: item.dataSource || base.dataSource || "J-Quants API（無料プラン・約12週間遅延）",
       dataRetrievedAt: item.dataRetrievedAt || new Date().toISOString()
@@ -815,7 +827,18 @@ function render(){
   $app.innerHTML = "";
   $app.appendChild(renderHeader());
   const main = h("main", {id:"main-content"});
-  main.appendChild(renderView());
+  try{
+    main.appendChild(renderView());
+  }catch(err){
+    console.error(err);
+    main.appendChild(h("div",{class:"card", style:"margin:16px 0; border-color:var(--up);"},[
+      h("div",{style:"font-weight:700; color:var(--up); margin-bottom:8px;"},"表示中にエラーが発生しました"),
+      h("div",{style:"font-size:12px; white-space:pre-wrap; font-family:var(--font-num);"}, String((err && err.stack) || err)),
+    ]));
+    const backBtn = h("button",{class:"btn secondary", style:"margin-top:10px;"},"ダッシュボードに戻る");
+    backBtn.addEventListener("click", ()=>{ state.view="dashboard"; state.detailCode=null; render(); });
+    main.appendChild(backBtn);
+  }
   $app.appendChild(main);
   document.documentElement.setAttribute("data-theme", state.settings.darkMode ? "dark":"light");
 }
@@ -865,6 +888,7 @@ function renderView(){
     case "analysis": return renderAnalysis();
     case "settings": return renderSettings();
     case "detail": return renderDetail(state.detailCode);
+    case "editstock": return renderDetail(state.detailCode);
     case "addstock": return renderStockForm(null);
     default: return h("div",{},"—");
   }
@@ -873,7 +897,7 @@ function renderView(){
 /* ---------------------------- Dashboard ---------------------------- */
 function renderDashboard(){
   const wrap = h("div",{});
-  const active = state.stocks.filter(s=>!s.upcoming);
+  const active = state.stocks.filter(s=>!s.upcoming && withinRetention(s));
   const upcoming = state.stocks.filter(s=>s.upcoming);
   const gems = active.filter(s=>isBargain(s, state.settings.thresholds));
   const watch = state.stocks.filter(s=>s.watchlisted);
@@ -1008,7 +1032,7 @@ function renderList(){
   addBtn.addEventListener("click", ()=>{ state.view="addstock"; render(); });
   top.appendChild(addBtn);
   wrap.appendChild(top);
-  wrap.appendChild(h("div",{class:"section-desc"},"自動取得は行いません。銘柄情報・株価・決算・庶民のIPO評価は手入力または貼り付けで登録してください。"));
+  wrap.appendChild(h("div",{class:"section-desc"},"自動取得は行いません。銘柄情報・株価・決算・庶民のIPO評価は手入力または貼り付けで登録してください。表形式の列見出しをタップすると並び順（昇順・降順）を切り替えられます（初期表示は上場日の新しい順）。"));
 
   const filterBar = h("div",{class:"filter-bar"});
   const textInput = h("input",{type:"text", placeholder:"銘柄名・コードで検索"});
@@ -1021,6 +1045,12 @@ function renderList(){
   upcomingChk.addEventListener("change",(e)=>{ state.listFilter.onlyUpcoming = e.target.checked; renderListBody(); });
   upcomingLabel.appendChild(upcomingChk); upcomingLabel.appendChild(document.createTextNode("上場予定のみ"));
   filterBar.appendChild(upcomingLabel);
+  const expiredLabel = h("label",{style:"display:flex; align-items:center; gap:6px; font-size:12.5px;"});
+  const expiredChk = h("input",{type:"checkbox"});
+  expiredChk.checked = state.listFilter.showExpired;
+  expiredChk.addEventListener("change",(e)=>{ state.listFilter.showExpired = e.target.checked; renderListBody(); });
+  expiredLabel.appendChild(expiredChk); expiredLabel.appendChild(document.createTextNode("保持期間(2年)超も表示"));
+  filterBar.appendChild(expiredLabel);
   wrap.appendChild(filterBar);
 
   const viewToggle = h("div",{class:"view-toggle"});
@@ -1040,6 +1070,7 @@ function renderList(){
 function getFilteredStocks(){
   const f = state.listFilter;
   return state.stocks.filter(s=>{
+    if(!f.showExpired && !withinRetention(s)) return false;
     if(f.onlyUpcoming && !s.upcoming) return false;
     if(f.text){
       const q = f.text.toLowerCase();
@@ -1157,7 +1188,7 @@ function renderGems(){
   const wrap = h("div",{});
   wrap.appendChild(h("div",{class:"section-title"},"💎 IPO掘り出し物"));
   wrap.appendChild(h("div",{class:"section-desc"},"抽出条件（「設定」タブから変更できます）：上場後"+state.settings.thresholds.minDaysListed+"日以上／売上成長率"+state.settings.thresholds.minRevenueGrowth+"%以上／営業利益成長率"+state.settings.thresholds.minOpProfitGrowth+"%以上／営業CF黒字／初値から"+state.settings.thresholds.minDropFromFirstDay+"%以上下落／業績予想が悪化していない"));
-  const gems = state.stocks.filter(s=>!s.upcoming && isBargain(s, state.settings.thresholds));
+  const gems = state.stocks.filter(s=>!s.upcoming && withinRetention(s) && isBargain(s, state.settings.thresholds));
   if(gems.length===0){ wrap.appendChild(emptyState("条件に合致する銘柄はありません","設定タブで条件を緩めるか、決算・株価データを追加してください。")); return wrap; }
   wrap.appendChild(cardGrid(gems, true));
   return wrap;
@@ -1194,7 +1225,7 @@ function renderRanking(){
   });
   wrap.appendChild(toggle);
   const fn = rankScoreFn(state.rankKind);
-  const ranked = state.stocks.filter(s=>!s.upcoming).map(s=>({s, v:fn(s)})).filter(r=>r.v>-Infinity).sort((a,b)=>b.v-a.v);
+  const ranked = state.stocks.filter(s=>!s.upcoming && withinRetention(s)).map(s=>({s, v:fn(s)})).filter(r=>r.v>-Infinity).sort((a,b)=>b.v-a.v);
   if(ranked.length===0){ wrap.appendChild(emptyState("ランキング対象のデータがありません","決算・株価データを登録してください。")); return wrap; }
   const list = h("div",{class:"grid-cards"});
   ranked.forEach((r,i)=>{
@@ -1298,9 +1329,15 @@ function renderDetail(code){
   pdfBtn.addEventListener("click", ()=>openPdfImportModal(s));
   const popBtn = h("button",{class:"btn secondary"},"庶民のIPOを編集");
   popBtn.addEventListener("click", ()=>openPopularModal(s));
+  const matsuiBtn = h("button",{class:"btn secondary"},"証券コードをコピー→松井証券を開く");
+  matsuiBtn.addEventListener("click", async ()=>{
+    try{ await navigator.clipboard.writeText(s.code); }catch(e){}
+    window.open("https://www.matsui.co.jp/", "_blank");
+    showToast("証券コード「"+s.code+"」をコピーしました。松井証券サイトで検索してください");
+  });
   const delBtn = h("button",{class:"btn danger"},"削除");
   delBtn.addEventListener("click", ()=>confirmDeleteStock(s));
-  btnRow.appendChild(editBtn); btnRow.appendChild(priceBtn); btnRow.appendChild(finBtn); btnRow.appendChild(pdfBtn); btnRow.appendChild(popBtn); btnRow.appendChild(delBtn);
+  btnRow.appendChild(editBtn); btnRow.appendChild(priceBtn); btnRow.appendChild(finBtn); btnRow.appendChild(pdfBtn); btnRow.appendChild(popBtn); btnRow.appendChild(matsuiBtn); btnRow.appendChild(delBtn);
   wrap.appendChild(btnRow);
 
   if(state.view==="editstock"){ return renderStockForm(s); }
@@ -1321,12 +1358,16 @@ function renderDetail(code){
   ]));
 
   // 2. 株価
-  const srcLabel = s.priceSource==="google_finance" ? "Google Finance経由（目安・数十分遅延）"
+  const srcLabel = s.priceSource==="stooq" ? "stooq.com経由（前日終値ベース・自動取得）"
+                  : s.priceSource==="google_finance" ? "Google Finance経由（目安・数十分遅延）"
                   : s.priceSource==="j-quants" ? "J-Quants API（無料プラン・約12週間遅延の確定値）"
                   : (s.dataSource || "手入力");
   wrap.appendChild(sectionTitle("株価", srcLabel + "／" + (s.currentPriceUpdatedAt? "最終更新："+fmtDateTime(s.currentPriceUpdatedAt) : "未更新")));
   if(s.priceSource==="j-quants" && s.priceAsOfDate){
     wrap.appendChild(h("div",{class:"note-disclaimer"},"この株価・財務データの基準日は "+fmtDate(s.priceAsOfDate.slice?s.priceAsOfDate.slice(0,10):s.priceAsOfDate)+" です（無料プランの制約により最新ではありません）。"));
+  }
+  if(s.priceSource==="stooq" && s.priceAsOfDate){
+    wrap.appendChild(h("div",{class:"note-disclaimer"},"stooq.comの公開ダウンロード機能から自動取得した株価です（基準日："+fmtDate(s.priceAsOfDate.slice?s.priceAsOfDate.slice(0,10):s.priceAsOfDate)+"）。通常は前営業日の終値ベースです。"));
   }
   wrap.appendChild(kvGrid([
     ["現在株価", fmtYen(s.currentPrice)], ["前日比", fmtPct(pct(s.currentPrice,s.prevClose))],
@@ -1337,7 +1378,7 @@ function renderDetail(code){
 
   // 3. チャート
   if(s.priceHistory && s.priceHistory.length>1){
-    wrap.appendChild(sectionTitle("IPO後の株価推移"));
+    wrap.appendChild(sectionTitle("IPO後の株価推移", "記録した株価から自動生成した簡易チャートです。詳細な値動きは上部の「松井証券を開く」から確認してください（外部サイトの埋め込みはログインが必要なため技術的に組み込めません）。"));
     wrap.appendChild(priceChart(s));
   }
 
@@ -1827,6 +1868,17 @@ function renderSettings(){
       "・決算の即時反映（TDnet適時開示アドオン）は別料金のため、Lightだけでは決算発表直後の反映速度は変わりません（引き続きPDFアップロードが有効）。".replace(/\n/g,"")
     )
   ]));
+
+  wrap.appendChild(sectionTitle("監視対象の保持期間", "上場から指定日数を超えた銘柄は一覧・掘り出し物・ランキングの対象から外れます（Watchlist登録済みの銘柄は対象外）。バックアップからは削除されません。"));
+  const retentionForm = h("div",{class:"form-grid"});
+  const retentionF = fieldInput("保持期間（日数、既定730日=2年）", state.settings.retentionDays, "number");
+  retentionForm.appendChild(retentionF.wrap);
+  const saveRetentionBtn = h("button",{class:"btn secondary", style:"margin-top:10px;"},"保持期間を保存");
+  saveRetentionBtn.addEventListener("click", async ()=>{
+    state.settings.retentionDays = Number(retentionF.input.value)||730;
+    await saveSettings(); showToast("保存しました");
+  });
+  wrap.appendChild(h("div",{class:"card"},[retentionForm, saveRetentionBtn]));
 
   wrap.appendChild(sectionTitle("💎「掘り出し物」抽出条件", "固定値ではなく、ここで自由に変更できます"));
   const th = state.settings.thresholds;
