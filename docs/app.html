@@ -1329,15 +1329,17 @@ function renderDetail(code){
   pdfBtn.addEventListener("click", ()=>openPdfImportModal(s));
   const popBtn = h("button",{class:"btn secondary"},"庶民のIPOを編集");
   popBtn.addEventListener("click", ()=>openPopularModal(s));
-  const matsuiBtn = h("button",{class:"btn secondary"},"証券コードをコピー→松井証券を開く");
-  matsuiBtn.addEventListener("click", async ()=>{
-    try{ await navigator.clipboard.writeText(s.code); }catch(e){}
-    window.open("https://www.matsui.co.jp/", "_blank");
-    showToast("証券コード「"+s.code+"」をコピーしました。松井証券サイトで検索してください");
+  const ticker4 = s.code && s.code.length===5 ? s.code.slice(0,4) : s.code;
+  const yahooLink = h("a",{class:"btn secondary", href:`https://finance.yahoo.co.jp/quote/${ticker4}.T`, target:"_blank", rel:"noopener", style:"text-decoration:none; display:inline-block;"},"Yahoo!ファイナンスで見る");
+  const kabutanLink = h("a",{class:"btn secondary", href:`https://kabutan.jp/stock/?code=${ticker4}`, target:"_blank", rel:"noopener", style:"text-decoration:none; display:inline-block;"},"株探で見る");
+  const copyBtn = h("button",{class:"btn secondary"},"証券コードをコピー");
+  copyBtn.addEventListener("click", async ()=>{
+    try{ await navigator.clipboard.writeText(s.code); showToast("証券コード「"+s.code+"」をコピーしました"); }
+    catch(e){ showToast("コピーに失敗しました"); }
   });
   const delBtn = h("button",{class:"btn danger"},"削除");
   delBtn.addEventListener("click", ()=>confirmDeleteStock(s));
-  btnRow.appendChild(editBtn); btnRow.appendChild(priceBtn); btnRow.appendChild(finBtn); btnRow.appendChild(pdfBtn); btnRow.appendChild(popBtn); btnRow.appendChild(matsuiBtn); btnRow.appendChild(delBtn);
+  btnRow.appendChild(editBtn); btnRow.appendChild(priceBtn); btnRow.appendChild(finBtn); btnRow.appendChild(pdfBtn); btnRow.appendChild(popBtn); btnRow.appendChild(yahooLink); btnRow.appendChild(kabutanLink); btnRow.appendChild(copyBtn); btnRow.appendChild(delBtn);
   wrap.appendChild(btnRow);
 
   if(state.view==="editstock"){ return renderStockForm(s); }
@@ -1378,7 +1380,7 @@ function renderDetail(code){
 
   // 3. チャート
   if(s.priceHistory && s.priceHistory.length>1){
-    wrap.appendChild(sectionTitle("IPO後の株価推移", "記録した株価から自動生成した簡易チャートです。詳細な値動きは上部の「松井証券を開く」から確認してください（外部サイトの埋め込みはログインが必要なため技術的に組み込めません）。"));
+    wrap.appendChild(sectionTitle("IPO後の株価推移", "記録した株価から自動生成した簡易チャートです。赤の点線は上場時価格（初値、無ければ公開価格）。詳細な値動きは上部の「Yahoo!ファイナンスで見る」「株探で見る」から確認してください（外部サイトの埋め込みはセキュリティ上の制約で技術的に組み込めません）。"));
     wrap.appendChild(priceChart(s));
   }
 
@@ -1528,20 +1530,52 @@ function financialHistoryTable(s){
 }
 function priceChart(s){
   const points = [...s.priceHistory].sort((a,b)=>new Date(a.date)-new Date(b.date));
-  const w = Math.max(560, points.length*70), hgt=180, pad=28;
-  const prices = points.map(p=>p.price);
-  const min = Math.min(...prices), max = Math.max(...prices);
-  const xFor = (i)=> pad + i*( (w-2*pad) / Math.max(1,points.length-1) );
-  const yFor = (v)=> hgt-pad - ( (v-min)/(max-min||1) )*(hgt-2*pad);
-  let path = points.map((p,i)=> (i===0?"M":"L")+xFor(i).toFixed(1)+","+yFor(p.price).toFixed(1)).join(" ");
-  const ipoY = (s.ipoPrice!=null)? yFor(s.ipoPrice) : null;
+  if(points.length<2) return h("div",{});
+
+  // 横幅は画面内に収まる固定ロジカル幅（CSSでレスポンシブに縮小表示される）
+  const w = 680, hgt = 200, padL = 46, padR = 16, padT = 16, padB = 30;
+  const startDate = new Date(points[0].date);
+  const endDate = new Date(points[points.length-1].date);
+  const spanMs = Math.max(1, endDate - startDate);
+
+  const prices = points.map(p=>p.price).filter(v=>v!=null);
+  let min = Math.min(...prices), max = Math.max(...prices);
+  // 上場時価格（初値優先、なければ公開価格）も表示範囲に含める
+  const refPrice = s.firstDayPrice!=null ? s.firstDayPrice : s.ipoPrice;
+  if(refPrice!=null){ min = Math.min(min, refPrice); max = Math.max(max, refPrice); }
+  if(min===max){ min -= 1; max += 1; }
+
+  const xFor = (date)=> padL + ( (date-startDate)/spanMs ) * (w-padL-padR);
+  const yFor = (v)=> hgt-padB - ( (v-min)/(max-min) )*(hgt-padT-padB);
+
   const svgParts = [];
-  svgParts.push(`<svg class="price-chart mono" viewBox="0 0 ${w} ${hgt}" width="${w}" height="${hgt}" xmlns="http://www.w3.org/2000/svg">`);
-  if(ipoY!=null) svgParts.push(`<line x1="${pad}" y1="${ipoY}" x2="${w-pad}" y2="${ipoY}" stroke="var(--line-strong)" stroke-dasharray="4 3" />`);
+  svgParts.push(`<svg class="price-chart mono" viewBox="0 0 ${w} ${hgt}" width="100%" height="${hgt}" preserveAspectRatio="xMinYMin meet" xmlns="http://www.w3.org/2000/svg">`);
+
+  // 3ヶ月ごとの縦グリッド線＋日付ラベル
+  const gridDate = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
+  while(gridDate <= endDate){
+    const gx = xFor(gridDate);
+    if(gx >= padL && gx <= w-padR){
+      svgParts.push(`<line x1="${gx.toFixed(1)}" y1="${padT}" x2="${gx.toFixed(1)}" y2="${hgt-padB}" stroke="var(--line)" stroke-width="1" />`);
+      const label = gridDate.getFullYear().toString().slice(2)+"/"+(gridDate.getMonth()+1);
+      svgParts.push(`<text x="${gx.toFixed(1)}" y="${hgt-10}" font-size="9" fill="var(--ink-soft)" text-anchor="middle">${label}</text>`);
+    }
+    gridDate.setMonth(gridDate.getMonth()+3);
+  }
+
+  // 上場時価格から伸びる赤の点線
+  if(refPrice!=null){
+    const ry = yFor(refPrice);
+    svgParts.push(`<line x1="${padL}" y1="${ry.toFixed(1)}" x2="${w-padR}" y2="${ry.toFixed(1)}" stroke="var(--up)" stroke-width="1.5" stroke-dasharray="5 4" />`);
+    svgParts.push(`<text x="${w-padR}" y="${(ry-4).toFixed(1)}" font-size="9" fill="var(--up)" text-anchor="end">上場時 ${refPrice.toLocaleString()}円</text>`);
+  }
+
+  let path = points.map((p,i)=> (i===0?"M":"L")+xFor(new Date(p.date)).toFixed(1)+","+yFor(p.price).toFixed(1)).join(" ");
   svgParts.push(`<path d="${path}" fill="none" stroke="var(--accent)" stroke-width="2.5" />`);
-  points.forEach((p,i)=> svgParts.push(`<circle cx="${xFor(i)}" cy="${yFor(p.price)}" r="3" fill="var(--accent)" />`) );
-  svgParts.push(`<text x="${pad}" y="14" font-size="10" fill="var(--ink-soft)">${max.toLocaleString()}円</text>`);
-  svgParts.push(`<text x="${pad}" y="${hgt-8}" font-size="10" fill="var(--ink-soft)">${min.toLocaleString()}円</text>`);
+  points.forEach((p)=> svgParts.push(`<circle cx="${xFor(new Date(p.date)).toFixed(1)}" cy="${yFor(p.price).toFixed(1)}" r="2.5" fill="var(--accent)" />`) );
+
+  svgParts.push(`<text x="${padL}" y="12" font-size="10" fill="var(--ink-soft)">${Math.round(max).toLocaleString()}円</text>`);
+  svgParts.push(`<text x="${padL}" y="${hgt-padB+2}" font-size="10" fill="var(--ink-soft)">${Math.round(min).toLocaleString()}円</text>`);
   svgParts.push(`</svg>`);
   const wrap = h("div",{class:"chart-wrap", html: svgParts.join("")});
   return wrap;
