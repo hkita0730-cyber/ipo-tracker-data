@@ -2,28 +2,38 @@
 # -*- coding: utf-8 -*-
 
 """
-IPO tracker data builder.
+IPO tracker data builder (complete version).
 
-Sources
-- JPX official new listings pages: listing date, company, code, market, public price
-- 庶民のIPO (ipokabu.net): rating, public price, initial price
-- J-Quants Free: delayed historical prices and financial summaries
-- yfinance: latest ~12 weeks that J-Quants Free cannot provide
+Data sources
+- JPX official new-listing pages: listing date, company, code, market, public price
+- 庶民のIPO (ipokabu.net): rating, public price, initial price, initial return
+- J-Quants Free: up to 2 years of delayed daily prices and financial summaries
+- yfinance: supplements the latest ~12 weeks unavailable from J-Quants Free
 
-Target: TSE Prime / Standard / Growth only.
-Excludes Tokyo PRO Market, technical listings, and preferred/class shares.
-Retention: 2 years from listing date.
+Target
+- TSE Prime / Standard / Growth only
+- Excludes Tokyo PRO Market
+- Excludes JPX technical listings (company name marked with *)
+- Excludes preferred/class shares where identifiable
+
+Retention
+- IPOs listed within the last 730 calendar days
+- Price history: listing date through listing date + 730 days
+
+Important safety behavior
+- If JPX pages are reachable but parsing returns zero IPOs, the workflow FAILS
+  instead of silently overwriting docs/latest.json with an empty dataset.
 """
 
+import datetime as dt
+import json
 import os
+import re
 import sys
 import time
-import json
-import datetime as dt
-import re
-import urllib.request
-import urllib.parse
 import urllib.error
+import urllib.parse
+import urllib.request
 from html import unescape
 
 from bs4 import BeautifulSoup
@@ -41,8 +51,8 @@ LOOKBACK_DAYS = int(os.environ.get("IPO_LOOKBACK_DAYS", "730"))
 RETENTION_DAYS = int(os.environ.get("RETENTION_DAYS", "730"))
 YFINANCE_LOOKBACK_DAYS = int(os.environ.get("YFINANCE_LOOKBACK_DAYS", "84"))
 
-# J-Quants Free: 5 requests/minute. Keep a conservative interval.
-REQUEST_INTERVAL_SEC = 13
+# J-Quants Free has a 5 requests/minute limit.
+REQUEST_INTERVAL_SEC = int(os.environ.get("JQUANTS_REQUEST_INTERVAL_SEC", "13"))
 
 JPX_URLS = [
     "https://www.jpx.co.jp/listing/stocks/new/index.html",
@@ -51,6 +61,7 @@ JPX_URLS = [
     "https://www.jpx.co.jp/listing/stocks/new/00-archives-03.html",
 ]
 
+# Current year + two archive years cover the requested 2-year window.
 IPO_KABU_URLS = {
     2026: "https://ipokabu.net/ipo/",
     2025: "https://ipokabu.net/ipo/list2025",
@@ -58,159 +69,190 @@ IPO_KABU_URLS = {
 }
 
 ALLOWED_MARKETS = ("プライム", "スタンダード", "グロース")
-CODE_RE = re.compile(r"^\d{3,4}[A-Z]?$")
-DATE_RE = re.compile(r"^\d{4}/\d{1,2}/\d{1,2}$")
-PRICE_RE = re.compile(r"^\s*[\d,]+(?:\.\d+)?(?:\s*\(.*\))?\s*$")
+CODE_RE = re.compile(r"^\d{3,4}[A-Z]?$", re.I)
+DATE_RE = re.compile(r"(\d{4})/(\d{1,2})/(\d{1,2})")
+JPX_PRICE_RE = re.compile(r"^\s*[\d,]+(?:\.\d+)?\s*(?:\(.*\))?\s*$")
 
 
-def http_get(url, timeout=40):
-    req = urllib.request.Request(
-        url,
-        headers={
-            "User-Agent": "Mozilla/5.0 IPO-tracker/1.0",
-            "Accept-Language": "ja,en;q=0.8",
-        },
-    )
-    with urllib.request.urlopen(req, timeout=timeout) as res:
-        return res.read()
+def http_get(url, timeout=45, retries=3):
+    last_error = None
+    for attempt in range(1, retries + 1):
+        try:
+            req = urllib.request.Request(
+                url,
+                headers={
+                    "User-Agent": "Mozilla/5.0 IPO-tracker/2.0",
+                    "Accept-Language": "ja,en;q=0.8",
+                    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                },
+            )
+            with urllib.request.urlopen(req, timeout=timeout) as res:
+                return res.read()
+        except Exception as exc:
+            last_error = exc
+            if attempt < retries:
+                time.sleep(2 * attempt)
+    raise last_error
 
 
-def clean_text(s):
-    s = unescape(str(s))
-    s = s.replace("\xa0", " ")
-    return re.sub(r"\s+", " ", s).strip()
+def clean_text(value):
+    text = unescape(str(value or ""))
+    text = text.replace("\xa0", " ")
+    return re.sub(r"\s+", " ", text).strip()
 
 
 def number_from_price(text):
-    if not text:
+    if text is None:
         return None
     s = clean_text(text).replace("円", "").replace(",", "")
     m = re.match(r"^(\d+(?:\.\d+)?)", s)
     return float(m.group(1)) if m else None
 
 
-def code4(code):
-    return str(code).strip()
+def normalize_code(code):
+    return clean_text(code).upper()
 
 
 def jquants_code(code):
-    code = code4(code)
+    code = normalize_code(code)
+    # J-Quants V2 uses 5-character issue codes; ordinary 4-digit/A codes
+    # are represented by adding the final share-class digit 0.
     if len(code) == 4:
         return code + "0"
     return code
 
 
 def is_common_stock_code(code):
-    c = str(code).strip()
-    # J-Quants 5-digit form: final digit 0 = ordinary shares.
-    if len(c) == 5 and c.isdigit():
+    c = normalize_code(code)
+    if len(c) == 5 and c[-1].isdigit():
         return c[-1] == "0"
     return True
 
 
 def allowed_market(market):
-    return market and any(x in market for x in ALLOWED_MARKETS)
+    return bool(market) and any(m in market for m in ALLOWED_MARKETS)
+
+
+def extract_listing_date(text):
+    """JPX date cells contain e.g. '2026/08/04 （2026/06/30）'."""
+    m = DATE_RE.search(clean_text(text))
+    if not m:
+        return None
+    return f"{m.group(1)}-{int(m.group(2)):02d}-{int(m.group(3)):02d}"
 
 
 def parse_jpx_page(url, today):
     print(f"JPX公式を取得中: {url}")
     html = http_get(url).decode("utf-8", "ignore")
     soup = BeautifulSoup(html, "html.parser")
-    tables = soup.find_all("table")
-
     result = []
 
-    for table in tables:
+    for table in soup.find_all("table"):
         rows = table.find_all("tr")
+        if not rows:
+            continue
+
         for i, tr in enumerate(rows):
-            cells = [clean_text(c.get_text(" ", strip=True)) for c in tr.find_all(["th", "td"])]
+            cells = [
+                clean_text(c.get_text(" ", strip=True))
+                for c in tr.find_all(["th", "td"])
+            ]
             if not cells:
                 continue
 
+            # JPX displays the issue code as 1234 or 123A.
             code_idx = None
             code = None
-            for j, c in enumerate(cells):
-                if CODE_RE.fullmatch(c):
+            for j, cell in enumerate(cells):
+                candidate = normalize_code(cell)
+                if CODE_RE.fullmatch(candidate):
                     code_idx = j
-                    code = c
+                    code = candidate
                     break
             if code is None:
                 continue
 
-            # JPX uses a two-row layout: the first row contains date/name/code,
-            # and the following row contains market/public-offer price.
-            combined = cells[:]
+            listing_date = None
+            for cell in cells:
+                listing_date = extract_listing_date(cell)
+                if listing_date:
+                    break
+            if not listing_date:
+                continue
+
+            try:
+                listing_day = dt.date.fromisoformat(listing_date)
+            except ValueError:
+                continue
+
+            if listing_day > today:
+                continue
+
+            # JPX marks technical listings with * after the company name.
+            name = cells[code_idx - 1] if code_idx > 0 else ""
+            technical_listing = "*" in name
+            name = name.replace("*", "").strip()
+
+            # In JPX's current table, the next row contains the market in its
+            # first cell and the public-offer/sale price in its 4th cell.
             next_cells = []
             if i + 1 < len(rows):
                 next_cells = [
                     clean_text(c.get_text(" ", strip=True))
                     for c in rows[i + 1].find_all(["th", "td"])
                 ]
-                combined += next_cells
 
-            listing_date = None
-            for c in cells:
-                if DATE_RE.fullmatch(c):
-                    listing_date = c.replace("/", "-")
-                    break
-            if not listing_date:
-                continue
-
-            try:
-                ld = dt.date.fromisoformat(listing_date)
-            except ValueError:
-                continue
-
-            # Future listings are not IPO results yet.
-            if ld > today:
-                continue
-
-            # Company name is normally immediately before the code.
-            name = cells[code_idx - 1] if code_idx > 0 else ""
-            technical = "*" in name
-            name = name.replace("*", "").strip()
-
-            # Market is normally the first cell of the following row.
+            combined = cells + next_cells
             market = ""
-            for c in next_cells + cells:
-                if c in ALLOWED_MARKETS:
-                    market = c
-                    break
-                if any(m in c for m in ALLOWED_MARKETS):
-                    market = next((m for m in ALLOWED_MARKETS if m in c), "")
-                    if market:
+            for cell in combined:
+                for candidate in ALLOWED_MARKETS:
+                    if cell == candidate or candidate in cell:
+                        market = candidate
                         break
+                if market:
+                    break
 
             if not allowed_market(market):
                 continue
-            if technical:
-                continue
-            if not is_common_stock_code(jquants_code(code)):
+            if technical_listing:
                 continue
 
-            # In JPX's second row, public offering/sale price is the 4th cell
-            # (index 3). Fall back to the first standalone numeric price.
+            jq_code = jquants_code(code)
+            if not is_common_stock_code(jq_code):
+                continue
+
+            # Prefer JPX's explicit public-offer/sale-price column.
             public_price = None
             if len(next_cells) >= 4:
-                public_price = number_from_price(next_cells[3])
+                candidate = clean_text(next_cells[3])
+                if JPX_PRICE_RE.fullmatch(candidate):
+                    public_price = number_from_price(candidate)
 
+            # Fallback: search the second row for a standalone numeric price.
             if public_price is None:
-                for c in next_cells:
-                    p = number_from_price(c)
-                    if p is not None:
-                        public_price = p
-                        break
+                for cell in next_cells:
+                    candidate = clean_text(cell)
+                    if not candidate or "OA" in candidate.upper():
+                        continue
+                    if JPX_PRICE_RE.fullmatch(candidate):
+                        value = number_from_price(candidate)
+                        if value is not None:
+                            public_price = value
+                            break
 
-            result.append({
-                "listedDate": listing_date,
-                "code4": code,
-                "code": jquants_code(code),
-                "name": name,
-                "market": market,
-                "publicPrice": public_price,
-                "technicalListing": False,
-                "source": "JPX",
-            })
+            result.append(
+                {
+                    "listedDate": listing_date,
+                    "code4": code,
+                    "code": jq_code,
+                    "name": name,
+                    "market": market,
+                    "publicPrice": public_price,
+                    "technicalListing": False,
+                    "source": "JPX",
+                    "sourceUrl": url,
+                }
+            )
 
     return result
 
@@ -218,25 +260,38 @@ def parse_jpx_page(url, today):
 def fetch_jpx_ipos(today):
     all_rows = []
     seen = set()
+    page_success = 0
+
     for url in JPX_URLS:
         try:
             rows = parse_jpx_page(url, today)
-            for r in rows:
-                key = (r["listedDate"], r["code4"])
+            page_success += 1
+            for row in rows:
+                key = (row["listedDate"], row["code4"])
                 if key not in seen:
                     seen.add(key)
-                    all_rows.append(r)
-        except Exception as e:
-            print(f"JPX取得失敗: {url}: {e}", file=sys.stderr)
+                    all_rows.append(row)
+        except Exception as exc:
+            print(f"JPX取得失敗: {url}: {exc}", file=sys.stderr)
+
+    if page_success == 0:
+        raise RuntimeError("JPXの全ページ取得に失敗しました。空データは書き出しません。")
 
     cutoff = today - dt.timedelta(days=LOOKBACK_DAYS)
-    all_rows = [
-        r for r in all_rows
-        if cutoff <= dt.date.fromisoformat(r["listedDate"]) <= today
+    filtered = [
+        row
+        for row in all_rows
+        if cutoff <= dt.date.fromisoformat(row["listedDate"]) <= today
     ]
-    all_rows.sort(key=lambda r: (r["listedDate"], r["code4"]), reverse=True)
-    print(f"JPXから取得した対象IPO: {len(all_rows)}件")
-    return all_rows
+    filtered.sort(key=lambda row: (row["listedDate"], row["code4"]), reverse=True)
+
+    print(f"JPXから取得した対象IPO: {len(filtered)}件")
+    if not filtered:
+        raise RuntimeError(
+            "JPXページは取得できましたが対象IPOが0件でした。"
+            "JPXのHTML構造が変わった可能性があるため、空のlatest.jsonは作成しません。"
+        )
+    return filtered
 
 
 def parse_ipokabu_year(year, url):
@@ -256,37 +311,40 @@ def parse_ipokabu_year(year, url):
                 continue
             row_text = " ".join(cells)
 
-            code_match = re.search(r"\b(\d{3,4}[A-Z]?)\b", row_text)
+            code_match = re.search(r"\b(\d{3,4}[A-Z]?)\b", row_text, re.I)
             if not code_match:
                 continue
-            code = code_match.group(1)
+            code = normalize_code(code_match.group(1))
 
-            # Rating is a standalone S/A/B/C/D token.
+            # Rating is a standalone token. The site uses S/A/B/C/D.
             rating = None
-            for c in cells:
-                if c in ("S", "A", "B", "C", "D"):
-                    rating = c
+            for cell in cells:
+                token = clean_text(cell).upper()
+                if token in ("S", "A", "B", "C", "D"):
+                    rating = token
                     break
 
-            # Market
             market = None
-            for c in cells:
-                if c in ALLOWED_MARKETS:
-                    market = c
+            for cell in cells:
+                for candidate in ALLOWED_MARKETS:
+                    if candidate in cell:
+                        market = candidate
+                        break
+                if market:
                     break
 
-            # Dates: year is known from the page.
             md = re.search(r"\b(\d{1,2})/(\d{1,2})\b", row_text)
             if not md:
                 continue
             listed_date = f"{year}-{int(md.group(1)):02d}-{int(md.group(2)):02d}"
 
-            # Prices shown with 円: public price, profit, initial price.
+            # Extract prices from cells. In the IPO result table the relevant
+            # order is public price -> initial-price sale profit -> initial price.
             prices = []
-            for c in cells:
-                for m in re.findall(r"([\d,]+(?:\.\d+)?)円", c):
+            for cell in cells:
+                for match in re.findall(r"([\d,]+(?:\.\d+)?)円", cell):
                     try:
-                        prices.append(float(m.replace(",", "")))
+                        prices.append(float(match.replace(",", "")))
                     except ValueError:
                         pass
 
@@ -296,23 +354,13 @@ def parse_ipokabu_year(year, url):
             public_price = prices[0]
             initial_price = prices[-1]
 
-            # Company name is the cell immediately after the code, stripped of
-            # broker-link text when possible.
-            name = ""
-            code_pos = None
-            for j, c in enumerate(cells):
-                if code == c or code in c.split():
-                    code_pos = j
-                    break
-            if code_pos is not None and code_pos + 1 < len(cells):
-                name = cells[code_pos + 1]
-            if not name:
-                name = code
-
             out[code] = {
                 "listedDate": listed_date,
                 "publicPrice": public_price,
                 "initialPrice": initial_price,
+                "initialReturnPct": round((initial_price / public_price - 1) * 100, 2)
+                if public_price
+                else None,
                 "ipoRating": rating,
                 "ipoSource": "庶民のIPO",
                 "ipoSourceUrl": url,
@@ -323,21 +371,19 @@ def parse_ipokabu_year(year, url):
     return out
 
 
-def fetch_ipokabu_data(today):
+def fetch_ipokabu_data():
     result = {}
     for year, url in IPO_KABU_URLS.items():
         try:
-            data = parse_ipokabu_year(year, url)
-            result.update(data)
-        except Exception as e:
-            print(f"庶民のIPO取得失敗 {year}: {e}", file=sys.stderr)
+            result.update(parse_ipokabu_year(year, url))
+        except Exception as exc:
+            print(f"庶民のIPO取得失敗 {year}: {exc}", file=sys.stderr)
     return result
 
 
 def api_get_all(path, params=None):
     if not API_KEY:
-        print("環境変数 JQUANTS_API_KEY が設定されていません。", file=sys.stderr)
-        sys.exit(1)
+        raise RuntimeError("環境変数 JQUANTS_API_KEY が設定されていません。")
 
     params = dict(params or {})
     results = []
@@ -347,21 +393,19 @@ def api_get_all(path, params=None):
         url = API_BASE + path + ("?" + qs if qs else "")
         req = urllib.request.Request(url, headers={"x-api-key": API_KEY})
         try:
-            with urllib.request.urlopen(req, timeout=40) as res:
+            with urllib.request.urlopen(req, timeout=45) as res:
                 body = json.loads(res.read().decode("utf-8"))
-        except urllib.error.HTTPError as e:
-            print(f"J-Quants APIエラー {e.code}: {url}", file=sys.stderr)
-            print(e.read().decode("utf-8", "ignore"), file=sys.stderr)
-            break
-        except Exception as e:
-            print(f"J-Quants通信エラー: {url}: {e}", file=sys.stderr)
-            break
+        except urllib.error.HTTPError as exc:
+            detail = exc.read().decode("utf-8", "ignore")
+            raise RuntimeError(f"J-Quants API error {exc.code}: {detail}") from exc
+        except Exception as exc:
+            raise RuntimeError(f"J-Quants通信エラー: {exc}") from exc
 
         results.extend(body.get("data", []))
-        pk = body.get("pagination_key")
-        if not pk:
+        pagination_key = body.get("pagination_key")
+        if not pagination_key:
             break
-        params["pagination_key"] = pk
+        params["pagination_key"] = pagination_key
         time.sleep(REQUEST_INTERVAL_SEC)
 
     return results
@@ -370,27 +414,27 @@ def api_get_all(path, params=None):
 def fetch_price_history(code):
     rows = api_get_all("/equities/bars/daily", {"code": code})
     history = []
-    as_of = None
     latest_market_cap = None
 
-    for r in rows:
-        date = r.get("Date")
-        close = r.get("C")
-        adj_close = r.get("AdjC")
-        price = close if close is not None else adj_close
-        if date and price is not None:
-            d = date[:10]
-            history.append({"date": d, "price": price})
-            as_of = d
-            if r.get("MktCap") is not None:
-                latest_market_cap = r.get("MktCap") * 1_000_000
+    for row in rows:
+        date = row.get("Date")
+        close = row.get("C")
+        if date and close is not None:
+            history.append({"date": date[:10], "price": num(close)})
+        if row.get("MktCap") is not None:
+            try:
+                latest_market_cap = float(row["MktCap"]) * 1_000_000
+            except (TypeError, ValueError):
+                pass
 
+    history = [x for x in history if x["price"] is not None]
     history.sort(key=lambda x: x["date"])
+    as_of = history[-1]["date"] if history else None
     return history, as_of, latest_market_cap
 
 
 def to_yfinance_symbol(code):
-    c = str(code).strip()
+    c = normalize_code(code)
     if len(c) == 5 and c[-1] == "0":
         c = c[:4]
     return c + ".T"
@@ -398,7 +442,9 @@ def to_yfinance_symbol(code):
 
 def fetch_yfinance_history(code, start_date, end_date):
     if yf is None:
+        print("yfinanceが利用できません。", file=sys.stderr)
         return []
+
     symbol = to_yfinance_symbol(code)
     try:
         df = yf.download(
@@ -414,157 +460,198 @@ def fetch_yfinance_history(code, start_date, end_date):
         if df is None or df.empty:
             return []
 
-        if hasattr(df.columns, "nlevels") and df.columns.nlevels > 1:
-            close_series = df["Close"].iloc[:, 0]
-        else:
-            close_series = df["Close"]
+        close_series = df["Close"]
+        if hasattr(close_series, "columns"):
+            close_series = close_series.iloc[:, 0]
 
         result = []
-        for idx, value in close_series.items():
+        for index, value in close_series.items():
             try:
                 price = float(value)
             except (TypeError, ValueError):
                 continue
             if price != price:
                 continue
-            result.append({"date": idx.strftime("%Y-%m-%d"), "price": price})
+            result.append({"date": index.strftime("%Y-%m-%d"), "price": price})
         return result
-    except Exception as e:
-        print(f"yfinance取得エラー {code}/{symbol}: {e}", file=sys.stderr)
+    except Exception as exc:
+        print(f"yfinance取得エラー {code}/{symbol}: {exc}", file=sys.stderr)
         return []
 
 
 def merge_price_histories(jq_history, yf_history, listed_date):
-    by_date = {
-        r["date"]: r for r in jq_history
-        if r.get("date") and r.get("price") is not None
-    }
-    for r in yf_history:
-        if r.get("date") and r.get("price") is not None:
-            by_date.setdefault(r["date"], r)
+    # J-Quants wins on overlapping dates; yfinance fills the recent gap.
+    by_date = {row["date"]: row for row in jq_history if row.get("price") is not None}
+    for row in yf_history:
+        if row.get("date") and row.get("price") is not None:
+            by_date.setdefault(row["date"], row)
 
-    cutoff = dt.date.fromisoformat(listed_date)
-    end = cutoff + dt.timedelta(days=RETENTION_DAYS)
-
-    filtered = []
-    for d in sorted(by_date):
-        dd = dt.date.fromisoformat(d)
-        if cutoff <= dd <= end:
-            filtered.append(by_date[d])
-    return filtered
+    start = dt.date.fromisoformat(listed_date)
+    end = start + dt.timedelta(days=RETENTION_DAYS)
+    return [
+        by_date[d]
+        for d in sorted(by_date)
+        if start <= dt.date.fromisoformat(d) <= end
+    ]
 
 
-def num(v):
+def price_on_or_after(history, target_date, max_gap_days=15):
+    if not history:
+        return None
+    target = dt.date.fromisoformat(target_date)
+    for row in history:
+        day = dt.date.fromisoformat(row["date"])
+        if day >= target:
+            if (day - target).days <= max_gap_days:
+                return row
+            return None
+    return None
+
+
+def build_milestones(history, listed_date):
+    base = dt.date.fromisoformat(listed_date)
+    result = {}
+    for days in (30, 90, 180, 365, 730):
+        target = (base + dt.timedelta(days=days)).isoformat()
+        row = price_on_or_after(history, target)
+        result[f"price{days}d"] = row["price"] if row else None
+        result[f"price{days}dDate"] = row["date"] if row else None
+    return result
+
+
+def num(value):
     try:
-        return float(v)
+        return float(value)
     except (TypeError, ValueError):
         return None
 
 
 def fetch_financials(code):
     rows = api_get_all("/fins/summary", {"code": code})
-    rows = [r for r in rows if r.get("DiscDate")]
-    rows.sort(key=lambda r: r["DiscDate"])
+    rows = [row for row in rows if row.get("DiscDate")]
+    rows.sort(key=lambda row: row["DiscDate"])
 
+    # Keep the latest disclosure for each fiscal period, while preserving
+    # revision history for the revision flags.
     by_type = {}
-    for r in rows:
-        by_type.setdefault(r.get("CurPerType"), []).append(r)
+    for row in rows:
+        by_type.setdefault(row.get("CurPerType"), []).append(row)
 
     growth_map = {}
-    for _, recs in by_type.items():
-        recs = sorted(recs, key=lambda r: r.get("CurPerSt") or "")
-        for i, r in enumerate(recs):
-            prev = recs[i - 1] if i else None
-            sales, op = num(r.get("Sales")), num(r.get("OP"))
-            ps, po = (num(prev.get("Sales")), num(prev.get("OP"))) if prev else (None, None)
-            rg = ((sales - ps) / ps * 100) if sales is not None and ps else None
-            og = ((op - po) / po * 100) if op is not None and po else None
-            growth_map[id(r)] = (rg, og)
+    for records in by_type.values():
+        records = sorted(records, key=lambda row: row.get("DiscDate") or "")
+        previous = None
+        for row in records:
+            sales = num(row.get("Sales"))
+            op = num(row.get("OP"))
+            prev_sales = num(previous.get("Sales")) if previous else None
+            prev_op = num(previous.get("OP")) if previous else None
+            revenue_growth = ((sales - prev_sales) / prev_sales * 100) if sales is not None and prev_sales else None
+            op_growth = ((op - prev_op) / prev_op * 100) if op is not None and prev_op else None
+            growth_map[id(row)] = (revenue_growth, op_growth)
+            previous = row
 
     by_fy = {}
-    for r in rows:
-        by_fy.setdefault(r.get("CurFYEn"), []).append(r)
+    for row in rows:
+        by_fy.setdefault(row.get("CurFYEn"), []).append(row)
 
     revision_map = {}
-    for _, recs in by_fy.items():
-        recs = sorted(recs, key=lambda r: r["DiscDate"])
-        for i, r in enumerate(recs):
+    for records in by_fy.values():
+        records = sorted(records, key=lambda row: row["DiscDate"])
+        for i, row in enumerate(records):
             up = down = False
             if i:
-                prev_fnp, cur_fnp = num(recs[i-1].get("FNP")), num(r.get("FNP"))
+                prev_fnp = num(records[i - 1].get("FNP"))
+                cur_fnp = num(row.get("FNP"))
                 if prev_fnp is not None and cur_fnp is not None:
                     up = cur_fnp > prev_fnp
                     down = cur_fnp < prev_fnp
-            revision_map[id(r)] = (up, down)
+            revision_map[id(row)] = (up, down)
 
     financials = []
-    for r in rows:
-        sales, op, np_, fnp = map(num, (r.get("Sales"), r.get("OP"), r.get("NP"), r.get("FNP")))
-        rg, og = growth_map.get(id(r), (None, None))
-        up, down = revision_map.get(id(r), (False, False))
-        eq_ar, roe = num(r.get("EqAR")), num(r.get("ROE"))
-        progress = (np_ / fnp * 100) if np_ is not None and fnp else None
+    for row in rows:
+        sales = num(row.get("Sales"))
+        op = num(row.get("OP"))
+        net_profit = num(row.get("NP"))
+        forecast_np = num(row.get("FNP"))
+        revenue_growth, op_growth = growth_map.get(id(row), (None, None))
+        revision_up, revision_down = revision_map.get(id(row), (False, False))
+
+        roe = num(row.get("ROE"))
+        equity_ratio = num(row.get("EqAR"))
+        progress = (net_profit / forecast_np * 100) if net_profit is not None and forecast_np else None
         margin = (op / sales * 100) if op is not None and sales else None
 
-        financials.append({
-            "reportDate": r.get("DiscDate"),
-            "revenue": sales,
-            "revenueGrowth": round(rg, 1) if rg is not None else None,
-            "opProfit": op,
-            "opProfitGrowth": round(og, 1) if og is not None else None,
-            "ordinaryProfit": num(r.get("OdP")),
-            "netProfit": np_,
-            "eps": num(r.get("EPS")),
-            "opMargin": round(margin, 1) if margin is not None else None,
-            "roe": round(roe * 100, 1) if roe is not None else None,
-            "equityRatio": round(eq_ar * 100, 1) if eq_ar is not None else None,
-            "opCF": num(r.get("CFO")),
-            "freeCF": None,
-            "guidance": (f"売上高予想 {r.get('FSales')} / 純利益予想 {r.get('FNP')}"
-                         if r.get("FSales") or r.get("FNP") else None),
-            "revisionUp": up,
-            "revisionDown": down,
-            "progressRate": round(progress, 1) if progress is not None else None,
-        })
+        financials.append(
+            {
+                "reportDate": row.get("DiscDate"),
+                "revenue": sales,
+                "revenueGrowth": round(revenue_growth, 1) if revenue_growth is not None else None,
+                "opProfit": op,
+                "opProfitGrowth": round(op_growth, 1) if op_growth is not None else None,
+                "ordinaryProfit": num(row.get("OdP")),
+                "netProfit": net_profit,
+                "eps": num(row.get("EPS")),
+                "opMargin": round(margin, 1) if margin is not None else None,
+                "roe": round(roe * 100, 1) if roe is not None and abs(roe) <= 2 else roe,
+                "equityRatio": round(equity_ratio * 100, 1) if equity_ratio is not None and abs(equity_ratio) <= 2 else equity_ratio,
+                "opCF": num(row.get("CFO")),
+                "freeCF": None,
+                "guidance": (
+                    f"売上高予想 {row.get('FSales')} / 純利益予想 {row.get('FNP')}"
+                    if row.get("FSales") or row.get("FNP")
+                    else None
+                ),
+                "revisionUp": revision_up,
+                "revisionDown": revision_down,
+                "progressRate": round(progress, 1) if progress is not None else None,
+            }
+        )
     return financials
+
+
+def latest_annual_financial(financials):
+    if not financials:
+        return None
+    # Most recent disclosed record. This is intentionally simple and
+    # transparent; the UI can use the latest record for valuation/quality.
+    return sorted(financials, key=lambda x: x.get("reportDate") or "")[-1]
 
 
 def main():
     today = dt.date.today()
 
-    # 1) IPO master is JPX, not J-Quants master.
-    # This fixes the old method that could not know listing dates and also
-    # preserves IPOs that were later delisted.
+    # 1. JPX defines the IPO universe.
     jpx_ipos = fetch_jpx_ipos(today)
 
-    # 2) Enrich with 庶民のIPO.
-    ipokabu = fetch_ipokabu_data(today)
+    # 2. 庶民のIPO enriches rating and initial price data.
+    ipokabu = fetch_ipokabu_data()
+    print(f"庶民のIPOから取得した合計: {len(ipokabu)}件")
 
-    # 3) Build output.
     output = []
 
-    for ipo in jpx_ipos:
+    for index, ipo in enumerate(jpx_ipos, start=1):
         code4 = ipo["code4"]
         jq_code = ipo["code"]
-        extra = ipokabu.get(code4) or ipokabu.get(jq_code) or {}
-
+        extra = ipokabu.get(code4, {})
         listed_date = ipo["listedDate"]
 
-        # Prefer JPX for official public price; fall back to 庶民のIPO.
         public_price = ipo.get("publicPrice")
         if public_price is None:
             public_price = extra.get("publicPrice")
 
         initial_price = extra.get("initialPrice")
-        initial_return = None
-        if public_price and initial_price:
+        initial_return = extra.get("initialReturnPct")
+        if initial_return is None and public_price and initial_price:
             initial_return = round((initial_price / public_price - 1) * 100, 2)
 
-        print(f"{code4} {ipo['name']} ({listed_date}) 株価取得中…")
+        print(f"[{index}/{len(jpx_ipos)}] {code4} {ipo['name']} ({listed_date})")
 
+        # J-Quants historical price data.
         time.sleep(REQUEST_INTERVAL_SEC)
         jq_history, jq_as_of, market_cap = fetch_price_history(jq_code)
 
+        # yfinance fills the latest period missing from J-Quants Free.
         yf_end = today + dt.timedelta(days=1)
         yf_start = today - dt.timedelta(days=YFINANCE_LOOKBACK_DAYS)
         supplement_start = yf_start
@@ -572,49 +659,76 @@ def main():
             try:
                 supplement_start = max(
                     yf_start,
-                    dt.date.fromisoformat(jq_as_of) + dt.timedelta(days=1)
+                    dt.date.fromisoformat(jq_as_of) + dt.timedelta(days=1),
                 )
             except ValueError:
                 pass
 
         yf_history = fetch_yfinance_history(
-            jq_code, supplement_start.isoformat(), yf_end.isoformat()
+            jq_code,
+            supplement_start.isoformat(),
+            yf_end.isoformat(),
         )
         price_history = merge_price_histories(jq_history, yf_history, listed_date)
 
-        as_of = price_history[-1]["date"] if price_history else jq_as_of
         current_price = price_history[-1]["price"] if price_history else None
+        price_as_of = price_history[-1]["date"] if price_history else jq_as_of
+        milestones = build_milestones(price_history, listed_date)
 
+        # Financial summary.
         time.sleep(REQUEST_INTERVAL_SEC)
         financials = fetch_financials(jq_code)
+        latest_fin = latest_annual_financial(financials)
 
-        output.append({
-            "code": jq_code,
-            "code4": code4,
-            "name": ipo["name"],
-            "market": ipo["market"],
-            "listedDate": listed_date,
-            "publicPrice": public_price,
-            "initialPrice": initial_price,
-            "initialReturnPct": initial_return,
-            "ipoRating": extra.get("ipoRating"),
-            "ipoRatingSource": extra.get("ipoSource"),
-            "ipoSourceUrl": extra.get("ipoSourceUrl"),
-            "currentPrice": current_price,
-            "priceAsOfDate": as_of,
-            "marketCap": market_cap,
-            "priceHistory": price_history,
-            "financials": financials,
-            "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-            "dataRetrievedAt": dt.datetime.now(dt.timezone.utc).isoformat(),
-        })
+        current_per = None
+        if market_cap and latest_fin and latest_fin.get("netProfit"):
+            np_ = latest_fin["netProfit"]
+            if np_ > 0:
+                current_per = round(market_cap / np_, 2)
+
+        output.append(
+            {
+                "code": jq_code,
+                "code4": code4,
+                "name": ipo["name"],
+                "market": ipo["market"],
+                "listedDate": listed_date,
+                "publicPrice": public_price,
+                "initialPrice": initial_price,
+                "initialReturnPct": initial_return,
+                "ipoRating": extra.get("ipoRating"),
+                "ipoRatingSource": extra.get("ipoSource"),
+                "ipoSourceUrl": extra.get("ipoSourceUrl"),
+                "currentPrice": current_price,
+                "priceAsOfDate": price_as_of,
+                "marketCap": market_cap,
+                "currentPER": current_per,
+                "priceVsPublicPct": round((current_price / public_price - 1) * 100, 2)
+                if current_price is not None and public_price
+                else None,
+                "priceVsInitialPct": round((current_price / initial_price - 1) * 100, 2)
+                if current_price is not None and initial_price
+                else None,
+                **milestones,
+                "priceHistory": price_history,
+                "financials": financials,
+                "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
+                "dataRetrievedAt": dt.datetime.now(dt.timezone.utc).isoformat(),
+            }
+        )
 
     os.makedirs(os.path.dirname(OUTPUT_PATH) or ".", exist_ok=True)
-    with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
-        json.dump(output, f, ensure_ascii=False, indent=2)
+    temp_path = OUTPUT_PATH + ".tmp"
+    with open(temp_path, "w", encoding="utf-8") as file:
+        json.dump(output, file, ensure_ascii=False, indent=2)
+    os.replace(temp_path, OUTPUT_PATH)
 
     print(f"書き出し完了: {OUTPUT_PATH}（{len(output)}銘柄）")
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        sys.exit(1)
