@@ -188,8 +188,21 @@ def parse_jpx_page(url, today):
             if listing_day > today:
                 continue
 
-            # JPX marks technical listings with * after the company name.
-            name = cells[code_idx - 1] if code_idx > 0 else ""
+            # JPX sometimes inserts a separate "代表者インタビュー" link
+            # cell between the company name and the issue code.  Therefore
+            # do not assume the company name is always cells[code_idx - 1].
+            # Pick the nearest preceding cell that is not a navigation/link
+            # label such as 代表者インタビュー.
+            name = ""
+            for prev_cell in reversed(cells[:code_idx]):
+                candidate_name = clean_text(prev_cell)
+                if not candidate_name:
+                    continue
+                if candidate_name in ("代表者インタビュー", "詳細"):
+                    continue
+                name = candidate_name
+                break
+
             technical_listing = "*" in name
             name = name.replace("*", "").strip()
 
