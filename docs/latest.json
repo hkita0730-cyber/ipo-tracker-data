@@ -11,12 +11,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/",
-    "currentPrice": 254.0,
+    "currentPrice": 252.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": null,
     "currentPER": null,
-    "priceVsPublicPct": 10.43,
-    "priceVsInitialPct": -96.03,
+    "priceVsPublicPct": 9.57,
+    "priceVsInitialPct": -96.06,
     "price30d": 237.0,
     "price30dDate": "2026-09-03",
     "price90d": null,
@@ -130,12 +130,12 @@
       },
       {
         "date": "2026-09-09",
-        "price": 254.0
+        "price": 252.0
       }
     ],
     "financials": [],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:12:37.694137+00:00"
+    "dataRetrievedAt": "2026-09-09T06:16:55.959494+00:00"
   },
   {
     "code": "604A0",
@@ -149,12 +149,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/",
-    "currentPrice": 1219.0,
+    "currentPrice": 1216.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": null,
     "currentPER": null,
-    "priceVsPublicPct": 74.14,
-    "priceVsInitialPct": -96.14,
+    "priceVsPublicPct": 73.71,
+    "priceVsInitialPct": -96.15,
     "price30d": 1081.0,
     "price30dDate": "2026-08-28",
     "price90d": null,
@@ -284,12 +284,12 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1219.0
+        "price": 1216.0
       }
     ],
     "financials": [],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:13:05.001835+00:00"
+    "dataRetrievedAt": "2026-09-09T06:17:23.020772+00:00"
   },
   {
     "code": "603A0",
@@ -303,12 +303,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/",
-    "currentPrice": 1078.0,
+    "currentPrice": 1043.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": null,
     "currentPER": null,
-    "priceVsPublicPct": 40.0,
-    "priceVsInitialPct": -94.11,
+    "priceVsPublicPct": 35.45,
+    "priceVsInitialPct": -94.3,
     "price30d": 1038.0,
     "price30dDate": "2026-08-28",
     "price90d": null,
@@ -438,12 +438,12 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1078.0
+        "price": 1043.0
       }
     ],
     "financials": [],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:13:32.388040+00:00"
+    "dataRetrievedAt": "2026-09-09T06:17:50.047159+00:00"
   },
   {
     "code": "593A0",
@@ -457,12 +457,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/",
-    "currentPrice": 2277.0,
+    "currentPrice": 2234.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": null,
     "currentPER": null,
-    "priceVsPublicPct": 109.86,
-    "priceVsInitialPct": -70.04,
+    "priceVsPublicPct": 105.9,
+    "priceVsInitialPct": -70.61,
     "price30d": 1057.0,
     "price30dDate": "2026-08-21",
     "price90d": null,
@@ -612,12 +612,12 @@
       },
       {
         "date": "2026-09-09",
-        "price": 2277.0
+        "price": 2234.0
       }
     ],
     "financials": [],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:13:59.777060+00:00"
+    "dataRetrievedAt": "2026-09-09T06:18:17.142163+00:00"
   },
   {
     "code": "598A0",
@@ -631,12 +631,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/",
-    "currentPrice": 1583.0,
+    "currentPrice": 1568.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": null,
     "currentPER": null,
-    "priceVsPublicPct": 46.57,
-    "priceVsInitialPct": -98.69,
+    "priceVsPublicPct": 45.19,
+    "priceVsInitialPct": -98.7,
     "price30d": 1535.0,
     "price30dDate": "2026-08-14",
     "price90d": null,
@@ -798,12 +798,12 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1583.0
+        "price": 1568.0
       }
     ],
     "financials": [],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:14:27.019459+00:00"
+    "dataRetrievedAt": "2026-09-09T06:18:44.133474+00:00"
   },
   {
     "code": "589A0",
@@ -817,12 +817,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/",
-    "currentPrice": 1332.0,
+    "currentPrice": 1340.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": null,
     "currentPER": null,
-    "priceVsPublicPct": 0.91,
-    "priceVsInitialPct": -91.46,
+    "priceVsPublicPct": 1.52,
+    "priceVsInitialPct": -91.41,
     "price30d": 1140.0,
     "price30dDate": "2026-07-30",
     "price90d": null,
@@ -1032,12 +1032,12 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1332.0
+        "price": 1340.0
       }
     ],
     "financials": [],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:14:54.430009+00:00"
+    "dataRetrievedAt": "2026-09-09T06:19:11.188961+00:00"
   },
   {
     "code": "584A0",
@@ -1051,12 +1051,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/",
-    "currentPrice": 2714.0,
+    "currentPrice": 2708.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": null,
     "currentPER": null,
-    "priceVsPublicPct": 243.54,
-    "priceVsInitialPct": -90.48,
+    "priceVsPublicPct": 242.78,
+    "priceVsInitialPct": -90.5,
     "price30d": 3070.0,
     "price30dDate": "2026-07-23",
     "price90d": null,
@@ -1286,12 +1286,12 @@
       },
       {
         "date": "2026-09-09",
-        "price": 2714.0
+        "price": 2708.0
       }
     ],
     "financials": [],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:15:21.788661+00:00"
+    "dataRetrievedAt": "2026-09-09T06:19:38.233609+00:00"
   },
   {
     "code": "581A0",
@@ -1305,12 +1305,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/",
-    "currentPrice": 3470.0,
+    "currentPrice": 3410.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 208880000000.0,
     "currentPER": null,
-    "priceVsPublicPct": 44.58,
-    "priceVsInitialPct": -93.2,
+    "priceVsPublicPct": 42.08,
+    "priceVsInitialPct": -93.31,
     "price30d": 2831.0,
     "price30dDate": "2026-07-16",
     "price90d": null,
@@ -1560,12 +1560,12 @@
       },
       {
         "date": "2026-09-09",
-        "price": 3470.0
+        "price": 3410.0
       }
     ],
     "financials": [],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:15:49.015895+00:00"
+    "dataRetrievedAt": "2026-09-09T06:20:05.254047+00:00"
   },
   {
     "code": "559A0",
@@ -1579,12 +1579,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/",
-    "currentPrice": 1150.0,
+    "currentPrice": 1143.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 7006000000.0,
     "currentPER": 23.28,
-    "priceVsPublicPct": 91.67,
-    "priceVsInitialPct": -96.17,
+    "priceVsPublicPct": 90.5,
+    "priceVsInitialPct": -96.19,
     "price30d": 975.0,
     "price30dDate": "2026-05-25",
     "price90d": 1192.0,
@@ -1966,7 +1966,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1150.0
+        "price": 1143.0
       }
     ],
     "financials": [
@@ -1991,7 +1991,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:16:16.370545+00:00"
+    "dataRetrievedAt": "2026-09-09T06:20:32.339897+00:00"
   },
   {
     "code": "556A0",
@@ -2005,12 +2005,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/",
-    "currentPrice": 2215.0,
+    "currentPrice": 2242.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 6549000000.0,
     "currentPER": 13.2,
-    "priceVsPublicPct": -25.92,
-    "priceVsInitialPct": -95.66,
+    "priceVsPublicPct": -25.02,
+    "priceVsInitialPct": -95.6,
     "price30d": 3605.0,
     "price30dDate": "2026-05-25",
     "price90d": 2075.0,
@@ -2396,7 +2396,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 2215.0
+        "price": 2242.0
       }
     ],
     "financials": [
@@ -2421,7 +2421,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:16:43.849932+00:00"
+    "dataRetrievedAt": "2026-09-09T06:20:59.356922+00:00"
   },
   {
     "code": "558A0",
@@ -2435,12 +2435,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/",
-    "currentPrice": 5650.0,
+    "currentPrice": 5780.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 13650000000.0,
     "currentPER": 69.64,
-    "priceVsPublicPct": 81.67,
-    "priceVsInitialPct": -59.64,
+    "priceVsPublicPct": 85.85,
+    "priceVsInitialPct": -58.71,
     "price30d": 4340.0,
     "price30dDate": "2026-05-22",
     "price90d": 4550.0,
@@ -2830,7 +2830,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 5650.0
+        "price": 5780.0
       }
     ],
     "financials": [
@@ -2855,7 +2855,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:17:11.096222+00:00"
+    "dataRetrievedAt": "2026-09-09T06:21:26.392680+00:00"
   },
   {
     "code": "554A0",
@@ -2869,12 +2869,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/",
-    "currentPrice": 1474.0,
+    "currentPrice": 1514.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 7555000000.0,
     "currentPER": 28.84,
-    "priceVsPublicPct": 123.33,
-    "priceVsInitialPct": -98.55,
+    "priceVsPublicPct": 129.39,
+    "priceVsInitialPct": -98.51,
     "price30d": 1310.0,
     "price30dDate": "2026-05-21",
     "price90d": 1451.0,
@@ -3264,7 +3264,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1474.0
+        "price": 1514.0
       }
     ],
     "financials": [
@@ -3289,7 +3289,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:17:38.397643+00:00"
+    "dataRetrievedAt": "2026-09-09T06:21:53.312711+00:00"
   },
   {
     "code": "550A0",
@@ -3303,11 +3303,11 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/",
-    "currentPrice": 2220.0,
+    "currentPrice": 2218.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 1815000000.0,
     "currentPER": 8.52,
-    "priceVsPublicPct": 14.43,
+    "priceVsPublicPct": 14.33,
     "priceVsInitialPct": -98.24,
     "price30d": 2476.0,
     "price30dDate": "2026-05-11",
@@ -3734,7 +3734,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 2220.0
+        "price": 2218.0
       }
     ],
     "financials": [
@@ -3778,7 +3778,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:18:05.892613+00:00"
+    "dataRetrievedAt": "2026-09-09T06:22:20.322653+00:00"
   },
   {
     "code": "549A0",
@@ -3792,12 +3792,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/",
-    "currentPrice": 521.0,
+    "currentPrice": 523.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 6874000000.0,
     "currentPER": 10.76,
-    "priceVsPublicPct": 21.16,
-    "priceVsInitialPct": -34.88,
+    "priceVsPublicPct": 21.63,
+    "priceVsInitialPct": -34.62,
     "price30d": 495.0,
     "price30dDate": "2026-05-07",
     "price90d": 467.0,
@@ -4231,7 +4231,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 521.0
+        "price": 523.0
       }
     ],
     "financials": [
@@ -4256,7 +4256,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:18:33.101726+00:00"
+    "dataRetrievedAt": "2026-09-09T06:22:47.390086+00:00"
   },
   {
     "code": "548A0",
@@ -4270,12 +4270,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/",
-    "currentPrice": 933.0,
+    "currentPrice": 939.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 4975000000.0,
     "currentPER": 8.22,
-    "priceVsPublicPct": -1.79,
-    "priceVsInitialPct": -91.59,
+    "priceVsPublicPct": -1.16,
+    "priceVsInitialPct": -91.54,
     "price30d": 944.0,
     "price30dDate": "2026-05-07",
     "price90d": 977.0,
@@ -4713,7 +4713,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 933.0
+        "price": 939.0
       }
     ],
     "financials": [
@@ -4738,7 +4738,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:19:00.558248+00:00"
+    "dataRetrievedAt": "2026-09-09T06:23:14.555131+00:00"
   },
   {
     "code": "542A0",
@@ -4752,12 +4752,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/",
-    "currentPrice": 1036.0,
+    "currentPrice": 1035.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 5415000000.0,
     "currentPER": 7.86,
-    "priceVsPublicPct": -24.38,
-    "priceVsInitialPct": -84.99,
+    "priceVsPublicPct": -24.45,
+    "priceVsInitialPct": -85.0,
     "price30d": 992.0,
     "price30dDate": "2026-05-07",
     "price90d": 954.0,
@@ -5203,7 +5203,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1036.0
+        "price": 1035.0
       }
     ],
     "financials": [
@@ -5228,7 +5228,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:19:27.895359+00:00"
+    "dataRetrievedAt": "2026-09-09T06:23:41.614881+00:00"
   },
   {
     "code": "523A0",
@@ -5242,12 +5242,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/",
-    "currentPrice": 1826.0,
+    "currentPrice": 1805.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 31335000000.0,
     "currentPER": 35.77,
-    "priceVsPublicPct": 46.08,
-    "priceVsInitialPct": -39.13,
+    "priceVsPublicPct": 44.4,
+    "priceVsInitialPct": -39.83,
     "price30d": 1849.0,
     "price30dDate": "2026-04-27",
     "price90d": 1716.0,
@@ -5693,7 +5693,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1826.0
+        "price": 1805.0
       }
     ],
     "financials": [
@@ -5718,7 +5718,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:19:55.469465+00:00"
+    "dataRetrievedAt": "2026-09-09T06:24:08.694940+00:00"
   },
   {
     "code": "520A0",
@@ -5732,12 +5732,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/",
-    "currentPrice": 448.0,
+    "currentPrice": 452.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 6726000000.0,
     "currentPER": null,
-    "priceVsPublicPct": -49.09,
-    "priceVsInitialPct": -93.69,
+    "priceVsPublicPct": -48.64,
+    "priceVsInitialPct": -93.63,
     "price30d": 590.0,
     "price30dDate": "2026-04-24",
     "price90d": 352.0,
@@ -6207,7 +6207,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 448.0
+        "price": 452.0
       }
     ],
     "financials": [
@@ -6232,7 +6232,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:20:22.964840+00:00"
+    "dataRetrievedAt": "2026-09-09T06:24:35.789146+00:00"
   },
   {
     "code": "519A0",
@@ -6746,7 +6746,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:20:50.441589+00:00"
+    "dataRetrievedAt": "2026-09-09T06:25:02.782686+00:00"
   },
   {
     "code": "505A0",
@@ -6760,12 +6760,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/",
-    "currentPrice": 1392.0,
+    "currentPrice": 1380.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 14226000000.0,
     "currentPER": 13.37,
-    "priceVsPublicPct": -26.74,
-    "priceVsInitialPct": -90.27,
+    "priceVsPublicPct": -27.37,
+    "priceVsInitialPct": -90.35,
     "price30d": 1231.0,
     "price30dDate": "2026-03-30",
     "price90d": 1152.0,
@@ -7303,7 +7303,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1392.0
+        "price": 1380.0
       }
     ],
     "financials": [
@@ -7328,7 +7328,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:21:17.883741+00:00"
+    "dataRetrievedAt": "2026-09-09T06:25:29.855514+00:00"
   },
   {
     "code": "504A0",
@@ -7922,7 +7922,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:21:45.407379+00:00"
+    "dataRetrievedAt": "2026-09-09T06:25:56.949349+00:00"
   },
   {
     "code": "500A0",
@@ -8559,7 +8559,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:22:12.927707+00:00"
+    "dataRetrievedAt": "2026-09-09T06:26:24.007557+00:00"
   },
   {
     "code": "480A0",
@@ -8573,12 +8573,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 940.0,
+    "currentPrice": 934.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 6195000000.0,
     "currentPER": 30.82,
-    "priceVsPublicPct": -6.0,
-    "priceVsInitialPct": -97.65,
+    "priceVsPublicPct": -6.6,
+    "priceVsInitialPct": -97.67,
     "price30d": 1138.0,
     "price30dDate": "2026-01-26",
     "price90d": 1207.0,
@@ -9276,7 +9276,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 940.0
+        "price": 934.0
       }
     ],
     "financials": [
@@ -9320,7 +9320,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:22:40.464094+00:00"
+    "dataRetrievedAt": "2026-09-09T06:26:51.139379+00:00"
   },
   {
     "code": "479A0",
@@ -9334,12 +9334,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 1929.0,
+    "currentPrice": 1892.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 5719000000.0,
     "currentPER": 32.31,
-    "priceVsPublicPct": 10.23,
-    "priceVsInitialPct": -84.57,
+    "priceVsPublicPct": 8.11,
+    "priceVsInitialPct": -84.86,
     "price30d": 1879.0,
     "price30dDate": "2026-01-23",
     "price90d": 1391.0,
@@ -10041,7 +10041,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1929.0
+        "price": 1892.0
       }
     ],
     "financials": [
@@ -10085,7 +10085,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:23:07.872231+00:00"
+    "dataRetrievedAt": "2026-09-09T06:27:18.389362+00:00"
   },
   {
     "code": "478A0",
@@ -10099,12 +10099,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 791.0,
+    "currentPrice": 781.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 7555000000.0,
     "currentPER": 184.27,
-    "priceVsPublicPct": -22.45,
-    "priceVsInitialPct": -97.56,
+    "priceVsPublicPct": -23.43,
+    "priceVsInitialPct": -97.59,
     "price30d": 1191.0,
     "price30dDate": "2026-01-23",
     "price90d": 749.0,
@@ -10806,7 +10806,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 791.0
+        "price": 781.0
       }
     ],
     "financials": [
@@ -10850,7 +10850,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:23:35.397582+00:00"
+    "dataRetrievedAt": "2026-09-09T06:27:45.496292+00:00"
   },
   {
     "code": "483A0",
@@ -10864,12 +10864,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 2161.0,
+    "currentPrice": 2181.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 3782000000.0,
     "currentPER": 9.18,
-    "priceVsPublicPct": 3.4,
-    "priceVsInitialPct": -97.35,
+    "priceVsPublicPct": 4.35,
+    "priceVsInitialPct": -97.32,
     "price30d": 2436.0,
     "price30dDate": "2026-01-22",
     "price90d": 2111.0,
@@ -11575,7 +11575,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 2161.0
+        "price": 2181.0
       }
     ],
     "financials": [
@@ -11619,7 +11619,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:24:02.881395+00:00"
+    "dataRetrievedAt": "2026-09-09T06:28:12.736957+00:00"
   },
   {
     "code": "477A0",
@@ -11633,12 +11633,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 842.0,
+    "currentPrice": 803.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 2652000000.0,
     "currentPER": 6.12,
-    "priceVsPublicPct": 75.42,
-    "priceVsInitialPct": -98.15,
+    "priceVsPublicPct": 67.29,
+    "priceVsInitialPct": -98.24,
     "price30d": 783.0,
     "price30dDate": "2026-01-21",
     "price90d": 582.0,
@@ -12348,7 +12348,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 842.0
+        "price": 803.0
       }
     ],
     "financials": [
@@ -12411,7 +12411,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:24:30.398666+00:00"
+    "dataRetrievedAt": "2026-09-09T06:28:39.928030+00:00"
   },
   {
     "code": "485A0",
@@ -12425,12 +12425,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 2100.0,
+    "currentPrice": 2129.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 262138000000.0,
     "currentPER": null,
-    "priceVsPublicPct": 72.13,
-    "priceVsInitialPct": -76.67,
+    "priceVsPublicPct": 74.51,
+    "priceVsInitialPct": -76.34,
     "price30d": 2445.0,
     "price30dDate": "2026-01-19",
     "price90d": 5870.0,
@@ -13144,7 +13144,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 2100.0
+        "price": 2129.0
       }
     ],
     "financials": [
@@ -13188,7 +13188,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:24:57.876401+00:00"
+    "dataRetrievedAt": "2026-09-09T06:29:07.021932+00:00"
   },
   {
     "code": "476A0",
@@ -13965,7 +13965,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:25:25.342308+00:00"
+    "dataRetrievedAt": "2026-09-09T06:29:34.090175+00:00"
   },
   {
     "code": "475A0",
@@ -13979,12 +13979,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 690.0,
+    "currentPrice": 688.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 3434000000.0,
     "currentPER": 11.19,
-    "priceVsPublicPct": -40.0,
-    "priceVsInitialPct": -88.5,
+    "priceVsPublicPct": -40.17,
+    "priceVsInitialPct": -88.53,
     "price30d": 1164.0,
     "price30dDate": "2026-01-19",
     "price90d": 1095.0,
@@ -14698,7 +14698,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 690.0
+        "price": 688.0
       }
     ],
     "financials": [
@@ -14742,7 +14742,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:25:52.803047+00:00"
+    "dataRetrievedAt": "2026-09-09T06:30:01.251956+00:00"
   },
   {
     "code": "472A0",
@@ -14756,12 +14756,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 535.0,
+    "currentPrice": 529.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 6975000000.0,
     "currentPER": 31.28,
-    "priceVsPublicPct": -37.79,
-    "priceVsInitialPct": -95.09,
+    "priceVsPublicPct": -38.49,
+    "priceVsInitialPct": -95.15,
     "price30d": 689.0,
     "price30dDate": "2026-01-19",
     "price90d": 523.0,
@@ -15479,7 +15479,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 535.0
+        "price": 529.0
       }
     ],
     "financials": [
@@ -15542,7 +15542,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:26:20.558647+00:00"
+    "dataRetrievedAt": "2026-09-09T06:30:28.416110+00:00"
   },
   {
     "code": "83030",
@@ -15556,12 +15556,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 1531.0,
+    "currentPrice": 1522.5,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 1293998000000.0,
     "currentPER": 11.41,
-    "priceVsPublicPct": 5.59,
-    "priceVsInitialPct": -88.74,
+    "priceVsPublicPct": 5.0,
+    "priceVsInitialPct": -88.81,
     "price30d": 2125.0,
     "price30dDate": "2026-01-16",
     "price90d": 1675.5,
@@ -16283,7 +16283,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1531.0
+        "price": 1522.5
       }
     ],
     "financials": [
@@ -16365,7 +16365,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:26:48.210285+00:00"
+    "dataRetrievedAt": "2026-09-09T06:30:55.544200+00:00"
   },
   {
     "code": "471A0",
@@ -16379,12 +16379,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 1536.0,
+    "currentPrice": 1537.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 71818000000.0,
     "currentPER": 36.55,
-    "priceVsPublicPct": 3.78,
-    "priceVsInitialPct": -79.24,
+    "priceVsPublicPct": 3.85,
+    "priceVsInitialPct": -79.23,
     "price30d": 1342.0,
     "price30dDate": "2026-01-15",
     "price90d": 1607.0,
@@ -17110,7 +17110,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1536.0
+        "price": 1537.0
       }
     ],
     "financials": [
@@ -17154,7 +17154,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:27:15.688540+00:00"
+    "dataRetrievedAt": "2026-09-09T06:31:22.713228+00:00"
   },
   {
     "code": "55370",
@@ -17168,12 +17168,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 3350.0,
+    "currentPrice": 3325.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 18495000000.0,
     "currentPER": 402.07,
-    "priceVsPublicPct": 157.69,
-    "priceVsInitialPct": -93.91,
+    "priceVsPublicPct": 155.77,
+    "priceVsInitialPct": -93.95,
     "price30d": 2200.0,
     "price30dDate": "2026-01-14",
     "price90d": 3345.0,
@@ -17903,7 +17903,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 3350.0
+        "price": 3325.0
       }
     ],
     "financials": [
@@ -17947,7 +17947,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:27:43.639510+00:00"
+    "dataRetrievedAt": "2026-09-09T06:31:50.344645+00:00"
   },
   {
     "code": "469A0",
@@ -17961,12 +17961,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 1625.0,
+    "currentPrice": 1645.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 1544000000.0,
     "currentPER": 1544.0,
-    "priceVsPublicPct": -26.14,
-    "priceVsInitialPct": -97.97,
+    "priceVsPublicPct": -25.23,
+    "priceVsInitialPct": -97.94,
     "price30d": 2905.0,
     "price30dDate": "2026-01-13",
     "price90d": 2395.0,
@@ -18700,7 +18700,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1625.0
+        "price": 1645.0
       }
     ],
     "financials": [
@@ -18744,7 +18744,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:28:11.068596+00:00"
+    "dataRetrievedAt": "2026-09-09T06:32:17.576052+00:00"
   },
   {
     "code": "462A0",
@@ -18758,12 +18758,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 270.0,
+    "currentPrice": 269.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 6209000000.0,
     "currentPER": null,
-    "priceVsPublicPct": -56.45,
-    "priceVsInitialPct": -98.97,
+    "priceVsPublicPct": -56.61,
+    "priceVsInitialPct": -98.98,
     "price30d": 1158.0,
     "price30dDate": "2026-01-05",
     "price90d": 904.0,
@@ -19517,7 +19517,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 270.0
+        "price": 269.0
       }
     ],
     "financials": [
@@ -19580,7 +19580,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:28:38.550981+00:00"
+    "dataRetrievedAt": "2026-09-09T06:32:44.681799+00:00"
   },
   {
     "code": "460A0",
@@ -19594,11 +19594,11 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 1020.0,
+    "currentPrice": 1018.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 3663000000.0,
     "currentPER": 36.63,
-    "priceVsPublicPct": 4.08,
+    "priceVsPublicPct": 3.88,
     "priceVsInitialPct": -98.49,
     "price30d": 979.0,
     "price30dDate": "2026-01-05",
@@ -20369,7 +20369,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1020.0
+        "price": 1018.0
       }
     ],
     "financials": [
@@ -20432,7 +20432,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:29:06.264466+00:00"
+    "dataRetrievedAt": "2026-09-09T06:33:11.776188+00:00"
   },
   {
     "code": "456A0",
@@ -20446,12 +20446,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 1471.0,
+    "currentPrice": 1464.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 149566000000.0,
     "currentPER": 171.91,
-    "priceVsPublicPct": -53.0,
-    "priceVsInitialPct": -95.25,
+    "priceVsPublicPct": -53.23,
+    "priceVsInitialPct": -95.28,
     "price30d": 4050.0,
     "price30dDate": "2025-12-29",
     "price90d": 3390.0,
@@ -21229,7 +21229,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1471.0
+        "price": 1464.0
       }
     ],
     "financials": [
@@ -21292,7 +21292,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:29:33.813935+00:00"
+    "dataRetrievedAt": "2026-09-09T06:33:38.893117+00:00"
   },
   {
     "code": "446A0",
@@ -21306,12 +21306,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 2031.0,
+    "currentPrice": 2010.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 84801000000.0,
     "currentPER": 63.43,
-    "priceVsPublicPct": 81.34,
-    "priceVsInitialPct": -74.61,
+    "priceVsPublicPct": 79.46,
+    "priceVsInitialPct": -74.88,
     "price30d": 1514.0,
     "price30dDate": "2025-12-22",
     "price90d": 1111.0,
@@ -22101,7 +22101,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 2031.0
+        "price": 2010.0
       }
     ],
     "financials": [
@@ -22183,7 +22183,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:30:01.257301+00:00"
+    "dataRetrievedAt": "2026-09-09T06:34:06.050539+00:00"
   },
   {
     "code": "442A0",
@@ -23103,7 +23103,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:30:28.867455+00:00"
+    "dataRetrievedAt": "2026-09-09T06:34:33.237135+00:00"
   },
   {
     "code": "441A0",
@@ -23117,11 +23117,11 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 276.0,
+    "currentPrice": 263.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 7208000000.0,
     "currentPER": 7.15,
-    "priceVsPublicPct": -63.2,
+    "priceVsPublicPct": -64.93,
     "priceVsInitialPct": null,
     "price30d": 669.0,
     "price30dDate": "2025-12-04",
@@ -23964,7 +23964,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 276.0
+        "price": 263.0
       }
     ],
     "financials": [
@@ -24027,7 +24027,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:30:56.393874+00:00"
+    "dataRetrievedAt": "2026-09-09T06:35:00.478332+00:00"
   },
   {
     "code": "438A0",
@@ -24041,12 +24041,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 994.0,
+    "currentPrice": 997.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 15059000000.0,
     "currentPER": null,
-    "priceVsPublicPct": -40.83,
-    "priceVsInitialPct": -91.72,
+    "priceVsPublicPct": -40.65,
+    "priceVsInitialPct": -91.69,
     "price30d": 1527.0,
     "price30dDate": "2025-11-25",
     "price90d": 1480.0,
@@ -24912,7 +24912,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 994.0
+        "price": 997.0
       }
     ],
     "financials": [
@@ -25013,7 +25013,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:31:23.925342+00:00"
+    "dataRetrievedAt": "2026-09-09T06:35:27.620034+00:00"
   },
   {
     "code": "436A0",
@@ -25027,12 +25027,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 1171.0,
+    "currentPrice": 1174.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 15403000000.0,
     "currentPER": 14.22,
-    "priceVsPublicPct": -15.14,
-    "priceVsInitialPct": -97.81,
+    "priceVsPublicPct": -14.93,
+    "priceVsInitialPct": -97.8,
     "price30d": 1309.0,
     "price30dDate": "2025-11-25",
     "price90d": 1304.0,
@@ -25902,7 +25902,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1171.0
+        "price": 1174.0
       }
     ],
     "financials": [
@@ -25984,7 +25984,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:31:51.717778+00:00"
+    "dataRetrievedAt": "2026-09-09T06:35:54.800399+00:00"
   },
   {
     "code": "431A0",
@@ -25998,12 +25998,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 2621.0,
+    "currentPrice": 2618.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 16184000000.0,
     "currentPER": 47.74,
-    "priceVsPublicPct": 31.05,
-    "priceVsInitialPct": -92.51,
+    "priceVsPublicPct": 30.9,
+    "priceVsInitialPct": -92.52,
     "price30d": 3400.0,
     "price30dDate": "2025-11-17",
     "price90d": 2383.0,
@@ -26889,7 +26889,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 2621.0
+        "price": 2618.0
       }
     ],
     "financials": [
@@ -26952,7 +26952,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:32:19.274924+00:00"
+    "dataRetrievedAt": "2026-09-09T06:36:22.220575+00:00"
   },
   {
     "code": "429A0",
@@ -26966,12 +26966,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 3830.0,
+    "currentPrice": 3820.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 418684000000.0,
     "currentPER": 16.78,
-    "priceVsPublicPct": 27.67,
-    "priceVsInitialPct": -93.28,
+    "priceVsPublicPct": 27.33,
+    "priceVsInitialPct": -93.3,
     "price30d": 3435.0,
     "price30dDate": "2025-11-17",
     "price90d": 3030.0,
@@ -27861,7 +27861,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 3830.0
+        "price": 3820.0
       }
     ],
     "financials": [
@@ -27943,7 +27943,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:32:47.086785+00:00"
+    "dataRetrievedAt": "2026-09-09T06:36:49.394483+00:00"
   },
   {
     "code": "423A0",
@@ -28919,7 +28919,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:33:14.643857+00:00"
+    "dataRetrievedAt": "2026-09-09T06:37:16.648372+00:00"
   },
   {
     "code": "428A0",
@@ -28933,12 +28933,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 1573.0,
+    "currentPrice": 1576.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 14937000000.0,
     "currentPER": 72.86,
-    "priceVsPublicPct": 121.55,
-    "priceVsInitialPct": -55.06,
+    "priceVsPublicPct": 121.97,
+    "priceVsInitialPct": -54.97,
     "price30d": 685.0,
     "price30dDate": "2025-11-07",
     "price90d": 840.0,
@@ -29848,7 +29848,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1573.0
+        "price": 1576.0
       }
     ],
     "financials": [
@@ -29911,7 +29911,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:33:42.261850+00:00"
+    "dataRetrievedAt": "2026-09-09T06:37:44.020758+00:00"
   },
   {
     "code": "421A0",
@@ -29925,12 +29925,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 3720.0,
+    "currentPrice": 3680.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 26677000000.0,
     "currentPER": 61.19,
-    "priceVsPublicPct": 78.85,
-    "priceVsInitialPct": -91.18,
+    "priceVsPublicPct": 76.92,
+    "priceVsInitialPct": -91.28,
     "price30d": 2635.0,
     "price30dDate": "2025-11-05",
     "price90d": 2824.0,
@@ -30848,7 +30848,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 3720.0
+        "price": 3680.0
       }
     ],
     "financials": [
@@ -30911,7 +30911,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:34:09.896115+00:00"
+    "dataRetrievedAt": "2026-09-09T06:38:11.283110+00:00"
   },
   {
     "code": "414A0",
@@ -30925,12 +30925,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 848.0,
+    "currentPrice": 847.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 18301000000.0,
     "currentPER": 23.11,
-    "priceVsPublicPct": -48.61,
-    "priceVsInitialPct": -92.75,
+    "priceVsPublicPct": -48.67,
+    "priceVsInitialPct": -92.76,
     "price30d": 1267.0,
     "price30dDate": "2025-11-04",
     "price90d": 1183.0,
@@ -31852,7 +31852,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 848.0
+        "price": 847.0
       }
     ],
     "financials": [
@@ -31915,7 +31915,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:34:37.443174+00:00"
+    "dataRetrievedAt": "2026-09-09T06:38:38.515486+00:00"
   },
   {
     "code": "87290",
@@ -31929,7 +31929,7 @@
     "ipoRating": null,
     "ipoRatingSource": null,
     "ipoSourceUrl": null,
-    "currentPrice": 159.10000610351562,
+    "currentPrice": 158.8000030517578,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 951912000000.0,
     "currentPER": 17.15,
@@ -32872,7 +32872,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 159.10000610351562
+        "price": 158.8000030517578
       }
     ],
     "financials": [
@@ -32935,7 +32935,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:35:05.164382+00:00"
+    "dataRetrievedAt": "2026-09-09T06:39:05.748102+00:00"
   },
   {
     "code": "407A0",
@@ -32949,12 +32949,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 929.0,
+    "currentPrice": 924.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 8816000000.0,
     "currentPER": 12.24,
-    "priceVsPublicPct": -12.36,
-    "priceVsInitialPct": -97.14,
+    "priceVsPublicPct": -12.83,
+    "priceVsInitialPct": -97.16,
     "price30d": 1148.0,
     "price30dDate": "2025-10-27",
     "price90d": 1139.0,
@@ -33896,7 +33896,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 929.0
+        "price": 924.0
       }
     ],
     "financials": [
@@ -33959,7 +33959,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:35:33.017320+00:00"
+    "dataRetrievedAt": "2026-09-09T06:39:32.955787+00:00"
   },
   {
     "code": "410A0",
@@ -33973,12 +33973,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 1114.0,
+    "currentPrice": 1118.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 6010000000.0,
     "currentPER": null,
-    "priceVsPublicPct": -5.59,
-    "priceVsInitialPct": -98.83,
+    "priceVsPublicPct": -5.25,
+    "priceVsInitialPct": -98.82,
     "price30d": 1476.0,
     "price30dDate": "2025-10-27",
     "price90d": 1350.0,
@@ -34924,7 +34924,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1114.0
+        "price": 1118.0
       }
     ],
     "financials": [
@@ -35025,7 +35025,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:36:00.670771+00:00"
+    "dataRetrievedAt": "2026-09-09T06:40:00.262062+00:00"
   },
   {
     "code": "409A0",
@@ -35039,12 +35039,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 1182.0,
+    "currentPrice": 1179.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 50164000000.0,
     "currentPER": 13.78,
-    "priceVsPublicPct": 39.06,
-    "priceVsInitialPct": -98.83,
+    "priceVsPublicPct": 38.71,
+    "priceVsInitialPct": -98.84,
     "price30d": 1584.0,
     "price30dDate": "2025-10-27",
     "price90d": 1295.0,
@@ -35990,7 +35990,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1182.0
+        "price": 1179.0
       }
     ],
     "financials": [
@@ -36053,7 +36053,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:36:28.412782+00:00"
+    "dataRetrievedAt": "2026-09-09T06:40:27.551446+00:00"
   },
   {
     "code": "402A0",
@@ -36067,12 +36067,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 552.0,
+    "currentPrice": 540.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 38657000000.0,
     "currentPER": null,
-    "priceVsPublicPct": 47.2,
-    "priceVsInitialPct": -98.53,
+    "priceVsPublicPct": 44.0,
+    "priceVsInitialPct": -98.56,
     "price30d": 914.0,
     "price30dDate": "2025-09-12",
     "price90d": 600.0,
@@ -37134,7 +37134,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 552.0
+        "price": 540.0
       }
     ],
     "financials": [
@@ -37197,7 +37197,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:36:56.192059+00:00"
+    "dataRetrievedAt": "2026-09-09T06:40:54.863881+00:00"
   },
   {
     "code": "387A0",
@@ -38408,7 +38408,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:37:23.823548+00:00"
+    "dataRetrievedAt": "2026-09-09T06:41:22.156779+00:00"
   },
   {
     "code": "386A0",
@@ -38422,11 +38422,11 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 1251.0,
+    "currentPrice": 1252.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 4730000000.0,
     "currentPER": 22.63,
-    "priceVsPublicPct": -18.77,
+    "priceVsPublicPct": -18.7,
     "priceVsInitialPct": -98.74,
     "price30d": 2125.0,
     "price30dDate": "2025-08-18",
@@ -39553,7 +39553,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1251.0
+        "price": 1252.0
       }
     ],
     "financials": [
@@ -39635,7 +39635,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:37:51.504819+00:00"
+    "dataRetrievedAt": "2026-09-09T06:41:49.441255+00:00"
   },
   {
     "code": "378A0",
@@ -39649,12 +39649,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 913.0,
+    "currentPrice": 906.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 14820000000.0,
     "currentPER": 18.64,
-    "priceVsPublicPct": -39.13,
-    "priceVsInitialPct": -98.63,
+    "priceVsPublicPct": -39.6,
+    "priceVsInitialPct": -98.64,
     "price30d": 2131.0,
     "price30dDate": "2025-08-04",
     "price90d": 2181.0,
@@ -40820,7 +40820,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 913.0
+        "price": 906.0
       }
     ],
     "financials": [
@@ -40902,7 +40902,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:38:19.231711+00:00"
+    "dataRetrievedAt": "2026-09-09T06:42:16.707815+00:00"
   },
   {
     "code": "373A0",
@@ -40916,12 +40916,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 1463.0,
+    "currentPrice": 1464.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 3956000000.0,
     "currentPER": 16.41,
-    "priceVsPublicPct": -53.26,
-    "priceVsInitialPct": -79.1,
+    "priceVsPublicPct": -53.23,
+    "priceVsInitialPct": -79.09,
     "price30d": 3670.0,
     "price30dDate": "2025-07-30",
     "price90d": 3555.0,
@@ -42099,7 +42099,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1463.0
+        "price": 1464.0
       }
     ],
     "financials": [
@@ -42181,7 +42181,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:38:46.902947+00:00"
+    "dataRetrievedAt": "2026-09-09T06:42:44.033918+00:00"
   },
   {
     "code": "372A0",
@@ -42195,12 +42195,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 5570.0,
+    "currentPrice": 5510.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 19469000000.0,
     "currentPER": 6.92,
-    "priceVsPublicPct": 28.64,
-    "priceVsInitialPct": -96.02,
+    "priceVsPublicPct": 27.25,
+    "priceVsInitialPct": -96.06,
     "price30d": 5790.0,
     "price30dDate": "2025-07-30",
     "price90d": 6500.0,
@@ -43382,7 +43382,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 5570.0
+        "price": 5510.0
       }
     ],
     "financials": [
@@ -43464,7 +43464,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:39:14.535779+00:00"
+    "dataRetrievedAt": "2026-09-09T06:43:11.306188+00:00"
   },
   {
     "code": "369A0",
@@ -43478,11 +43478,11 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 2637.0,
+    "currentPrice": 2639.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 8953000000.0,
     "currentPER": 39.27,
-    "priceVsPublicPct": 74.64,
+    "priceVsPublicPct": 74.77,
     "priceVsInitialPct": -97.46,
     "price30d": 2820.0,
     "price30dDate": "2025-07-28",
@@ -44673,7 +44673,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 2637.0
+        "price": 2639.0
       }
     ],
     "financials": [
@@ -44755,7 +44755,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:39:42.178420+00:00"
+    "dataRetrievedAt": "2026-09-09T06:43:38.633314+00:00"
   },
   {
     "code": "368A0",
@@ -44769,12 +44769,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 1452.0,
+    "currentPrice": 1450.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 48240000000.0,
     "currentPER": 12.39,
-    "priceVsPublicPct": 8.36,
-    "priceVsInitialPct": -97.8,
+    "priceVsPublicPct": 8.21,
+    "priceVsInitialPct": -97.81,
     "price30d": 1838.0,
     "price30dDate": "2025-07-25",
     "price90d": 1567.0,
@@ -45968,7 +45968,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1452.0
+        "price": 1450.0
       }
     ],
     "financials": [
@@ -46050,7 +46050,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:40:09.860329+00:00"
+    "dataRetrievedAt": "2026-09-09T06:44:06.086897+00:00"
   },
   {
     "code": "367A0",
@@ -46064,12 +46064,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 2856.0,
+    "currentPrice": 2865.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 24737000000.0,
     "currentPER": 16.87,
-    "priceVsPublicPct": 32.84,
-    "priceVsInitialPct": -79.15,
+    "priceVsPublicPct": 33.26,
+    "priceVsInitialPct": -79.09,
     "price30d": 1905.0,
     "price30dDate": "2025-07-24",
     "price90d": 2014.0,
@@ -47267,7 +47267,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 2856.0
+        "price": 2865.0
       }
     ],
     "financials": [
@@ -47349,7 +47349,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:40:37.519144+00:00"
+    "dataRetrievedAt": "2026-09-09T06:44:33.435700+00:00"
   },
   {
     "code": "366A0",
@@ -47363,11 +47363,11 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 1134.0,
+    "currentPrice": 1132.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 13174000000.0,
     "currentPER": 16.03,
-    "priceVsPublicPct": -54.27,
+    "priceVsPublicPct": -54.35,
     "priceVsInitialPct": -98.62,
     "price30d": 2901.0,
     "price30dDate": "2025-07-23",
@@ -48570,7 +48570,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1134.0
+        "price": 1132.0
       }
     ],
     "financials": [
@@ -48690,7 +48690,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:41:05.280105+00:00"
+    "dataRetrievedAt": "2026-09-09T06:45:00.674883+00:00"
   },
   {
     "code": "365A0",
@@ -48704,12 +48704,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 780.0,
+    "currentPrice": 779.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 7350000000.0,
     "currentPER": 10.12,
-    "priceVsPublicPct": 4.0,
-    "priceVsInitialPct": -48.0,
+    "priceVsPublicPct": 3.87,
+    "priceVsInitialPct": -48.07,
     "price30d": 614.0,
     "price30dDate": "2025-07-22",
     "price90d": 651.0,
@@ -49915,7 +49915,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 780.0
+        "price": 779.0
       }
     ],
     "financials": [
@@ -50035,7 +50035,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:41:33.195879+00:00"
+    "dataRetrievedAt": "2026-09-09T06:45:27.869455+00:00"
   },
   {
     "code": "352A0",
@@ -50049,12 +50049,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 542.0,
+    "currentPrice": 531.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 6371000000.0,
     "currentPER": 18.57,
-    "priceVsPublicPct": -56.64,
-    "priceVsInitialPct": -81.93,
+    "priceVsPublicPct": -57.52,
+    "priceVsInitialPct": -82.3,
     "price30d": 1376.0,
     "price30dDate": "2025-05-26",
     "price90d": 1385.0,
@@ -51412,7 +51412,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 542.0
+        "price": 531.0
       }
     ],
     "financials": [
@@ -51513,7 +51513,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:42:01.023021+00:00"
+    "dataRetrievedAt": "2026-09-09T06:45:55.263435+00:00"
   },
   {
     "code": "350A0",
@@ -51527,12 +51527,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 850.0,
+    "currentPrice": 840.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 31006000000.0,
     "currentPER": 16.57,
-    "priceVsPublicPct": -81.19,
-    "priceVsInitialPct": -98.92,
+    "priceVsPublicPct": -81.42,
+    "priceVsInitialPct": -98.94,
     "price30d": 7000.0,
     "price30dDate": "2025-05-22",
     "price90d": 10680.0,
@@ -52898,7 +52898,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 850.0
+        "price": 840.0
       }
     ],
     "financials": [
@@ -52999,7 +52999,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:42:28.872420+00:00"
+    "dataRetrievedAt": "2026-09-09T06:46:22.609556+00:00"
   },
   {
     "code": "343A0",
@@ -53013,12 +53013,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 1297.0,
+    "currentPrice": 1290.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 5807000000.0,
     "currentPER": 10.98,
-    "priceVsPublicPct": 29.7,
-    "priceVsInitialPct": -90.46,
+    "priceVsPublicPct": 29.0,
+    "priceVsInitialPct": -90.51,
     "price30d": 911.0,
     "price30dDate": "2025-05-07",
     "price90d": 1025.0,
@@ -54428,7 +54428,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1297.0
+        "price": 1290.0
       }
     ],
     "financials": [
@@ -54529,7 +54529,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:42:56.659168+00:00"
+    "dataRetrievedAt": "2026-09-09T06:46:49.913706+00:00"
   },
   {
     "code": "340A0",
@@ -54543,11 +54543,11 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 325.0,
+    "currentPrice": 323.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 2482000000.0,
     "currentPER": null,
-    "priceVsPublicPct": -78.33,
+    "priceVsPublicPct": -78.47,
     "priceVsInitialPct": -99.39,
     "price30d": 1810.0,
     "price30dDate": "2025-04-30",
@@ -55978,7 +55978,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 325.0
+        "price": 323.0
       }
     ],
     "financials": [
@@ -56098,7 +56098,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:43:24.529543+00:00"
+    "dataRetrievedAt": "2026-09-09T06:47:17.319371+00:00"
   },
   {
     "code": "341A0",
@@ -56112,12 +56112,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 2231.0,
+    "currentPrice": 2203.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 27386000000.0,
     "currentPER": 49.79,
-    "priceVsPublicPct": 205.62,
-    "priceVsInitialPct": -84.18,
+    "priceVsPublicPct": 201.78,
+    "priceVsInitialPct": -84.38,
     "price30d": 1316.0,
     "price30dDate": "2025-04-28",
     "price90d": 2101.0,
@@ -57551,7 +57551,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 2231.0
+        "price": 2203.0
       }
     ],
     "financials": [
@@ -57690,7 +57690,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:43:52.218133+00:00"
+    "dataRetrievedAt": "2026-09-09T06:47:44.808669+00:00"
   },
   {
     "code": "339A0",
@@ -57704,12 +57704,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 900.0,
+    "currentPrice": 897.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 7322000000.0,
     "currentPER": 6.2,
-    "priceVsPublicPct": -53.85,
-    "priceVsInitialPct": -70.0,
+    "priceVsPublicPct": -54.0,
+    "priceVsInitialPct": -70.1,
     "price30d": 1528.0,
     "price30dDate": "2025-04-28",
     "price90d": 1370.0,
@@ -59143,7 +59143,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 900.0
+        "price": 897.0
       }
     ],
     "financials": [
@@ -59263,7 +59263,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:44:20.118655+00:00"
+    "dataRetrievedAt": "2026-09-09T06:48:12.167290+00:00"
   },
   {
     "code": "338A0",
@@ -59277,11 +59277,11 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 2785.0,
+    "currentPrice": 2755.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 5489000000.0,
     "currentPER": null,
-    "priceVsPublicPct": 76.27,
+    "priceVsPublicPct": 74.37,
     "priceVsInitialPct": -99.19,
     "price30d": 10160.0,
     "price30dDate": "2025-04-28",
@@ -60716,7 +60716,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 2785.0
+        "price": 2755.0
       }
     ],
     "financials": [
@@ -60836,7 +60836,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:44:47.884462+00:00"
+    "dataRetrievedAt": "2026-09-09T06:48:39.688262+00:00"
   },
   {
     "code": "336A0",
@@ -60850,12 +60850,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 1434.0,
+    "currentPrice": 1398.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 19032000000.0,
     "currentPER": null,
-    "priceVsPublicPct": 19.5,
-    "priceVsInitialPct": -95.65,
+    "priceVsPublicPct": 16.5,
+    "priceVsInitialPct": -95.76,
     "price30d": 1185.0,
     "price30dDate": "2025-04-28",
     "price90d": 1231.0,
@@ -62293,7 +62293,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1434.0
+        "price": 1398.0
       }
     ],
     "financials": [
@@ -62394,7 +62394,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:45:15.768310+00:00"
+    "dataRetrievedAt": "2026-09-09T06:49:07.060277+00:00"
   },
   {
     "code": "334A0",
@@ -62408,12 +62408,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 1050.0,
+    "currentPrice": 1055.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 3134000000.0,
     "currentPER": 68.13,
-    "priceVsPublicPct": -26.57,
-    "priceVsInitialPct": -99.35,
+    "priceVsPublicPct": -26.22,
+    "priceVsInitialPct": -99.34,
     "price30d": 1559.0,
     "price30dDate": "2025-04-24",
     "price90d": 1501.0,
@@ -63855,7 +63855,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1050.0
+        "price": 1055.0
       }
     ],
     "financials": [
@@ -63975,7 +63975,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:45:43.543882+00:00"
+    "dataRetrievedAt": "2026-09-09T06:49:34.440568+00:00"
   },
   {
     "code": "335A0",
@@ -65541,7 +65541,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:46:11.283015+00:00"
+    "dataRetrievedAt": "2026-09-09T06:50:01.696305+00:00"
   },
   {
     "code": "332A0",
@@ -65555,12 +65555,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 1141.0,
+    "currentPrice": 1124.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 11710000000.0,
     "currentPER": 13.32,
-    "priceVsPublicPct": 42.62,
-    "priceVsInitialPct": -74.64,
+    "priceVsPublicPct": 40.5,
+    "priceVsInitialPct": -75.02,
     "price30d": 690.0,
     "price30dDate": "2025-04-21",
     "price90d": 850.0,
@@ -67014,7 +67014,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1141.0
+        "price": 1124.0
       }
     ],
     "financials": [
@@ -67115,7 +67115,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:46:39.038257+00:00"
+    "dataRetrievedAt": "2026-09-09T06:50:28.958375+00:00"
   },
   {
     "code": "50160",
@@ -67129,12 +67129,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 3854.0,
+    "currentPrice": 3909.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 4161635000000.0,
     "currentPER": 39.77,
-    "priceVsPublicPct": 370.0,
-    "priceVsInitialPct": 67.57,
+    "priceVsPublicPct": 376.71,
+    "priceVsInitialPct": 69.96,
     "price30d": 840.0,
     "price30dDate": "2025-04-18",
     "price90d": 789.0,
@@ -68592,7 +68592,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 3854.0
+        "price": 3909.0
       }
     ],
     "financials": [
@@ -68693,7 +68693,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:47:06.792103+00:00"
+    "dataRetrievedAt": "2026-09-09T06:50:56.389903+00:00"
   },
   {
     "code": "331A0",
@@ -70271,7 +70271,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:47:34.560242+00:00"
+    "dataRetrievedAt": "2026-09-09T06:51:23.699735+00:00"
   },
   {
     "code": "330A0",
@@ -70285,12 +70285,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 556.0,
+    "currentPrice": 551.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 2283000000.0,
     "currentPER": 8.99,
-    "priceVsPublicPct": -25.87,
-    "priceVsInitialPct": -97.99,
+    "priceVsPublicPct": -26.53,
+    "priceVsInitialPct": -98.0,
     "price30d": 1238.0,
     "price30dDate": "2025-04-17",
     "price90d": 1280.0,
@@ -71752,7 +71752,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 556.0
+        "price": 551.0
       }
     ],
     "financials": [
@@ -71872,7 +71872,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:48:02.318587+00:00"
+    "dataRetrievedAt": "2026-09-09T06:51:51.126486+00:00"
   },
   {
     "code": "325A0",
@@ -71886,12 +71886,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 1792.0,
+    "currentPrice": 1807.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 29019000000.0,
     "currentPER": 18.95,
-    "priceVsPublicPct": -10.4,
-    "priceVsInitialPct": -97.01,
+    "priceVsPublicPct": -9.65,
+    "priceVsInitialPct": -96.99,
     "price30d": 2722.0,
     "price30dDate": "2025-03-31",
     "price90d": 3375.0,
@@ -73401,7 +73401,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1792.0
+        "price": 1807.0
       }
     ],
     "financials": [
@@ -73540,7 +73540,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:48:30.118019+00:00"
+    "dataRetrievedAt": "2026-09-09T06:52:18.519555+00:00"
   },
   {
     "code": "324A0",
@@ -73554,12 +73554,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 712.0,
+    "currentPrice": 708.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 4034000000.0,
     "currentPER": 10.9,
-    "priceVsPublicPct": -42.58,
-    "priceVsInitialPct": -97.7,
+    "priceVsPublicPct": -42.9,
+    "priceVsInitialPct": -97.72,
     "price30d": 1614.0,
     "price30dDate": "2025-03-24",
     "price90d": 1536.0,
@@ -75085,7 +75085,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 712.0
+        "price": 708.0
       }
     ],
     "financials": [
@@ -75205,7 +75205,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:48:57.933734+00:00"
+    "dataRetrievedAt": "2026-09-09T06:52:45.931076+00:00"
   },
   {
     "code": "323A0",
@@ -76893,7 +76893,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:49:25.832223+00:00"
+    "dataRetrievedAt": "2026-09-09T06:53:13.350638+00:00"
   },
   {
     "code": "319A0",
@@ -76907,12 +76907,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2025",
-    "currentPrice": 21600.0,
+    "currentPrice": 21160.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 160731000000.0,
     "currentPER": 148.69,
-    "priceVsPublicPct": 980.0,
-    "priceVsInitialPct": -69.14,
+    "priceVsPublicPct": 958.0,
+    "priceVsInitialPct": -69.77,
     "price30d": 5170.0,
     "price30dDate": "2025-03-07",
     "price90d": 4365.0,
@@ -78482,7 +78482,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 21600.0
+        "price": 21160.0
       }
     ],
     "financials": [
@@ -78640,7 +78640,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:49:53.841408+00:00"
+    "dataRetrievedAt": "2026-09-09T06:53:40.896393+00:00"
   },
   {
     "code": "302A0",
@@ -78654,12 +78654,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 626.0,
-    "priceAsOfDate": "2026-09-08",
+    "currentPrice": 607.0,
+    "priceAsOfDate": "2026-09-09",
     "marketCap": 1539000000.0,
     "currentPER": 30.18,
-    "priceVsPublicPct": -69.76,
-    "priceVsInitialPct": -99.5,
+    "priceVsPublicPct": -70.68,
+    "priceVsInitialPct": -99.52,
     "price30d": 1792.0,
     "price30dDate": "2025-01-27",
     "price90d": 1455.0,
@@ -80314,6 +80314,10 @@
       {
         "date": "2026-09-08",
         "price": 626.0
+      },
+      {
+        "date": "2026-09-09",
+        "price": 607.0
       }
     ],
     "financials": [
@@ -80433,7 +80437,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:50:21.770294+00:00"
+    "dataRetrievedAt": "2026-09-09T06:54:08.265983+00:00"
   },
   {
     "code": "304A0",
@@ -82218,7 +82222,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:50:49.522124+00:00"
+    "dataRetrievedAt": "2026-09-09T06:54:35.588086+00:00"
   },
   {
     "code": "303A0",
@@ -82232,12 +82236,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 585.0,
-    "priceAsOfDate": "2026-09-08",
+    "currentPrice": 582.0,
+    "priceAsOfDate": "2026-09-09",
     "marketCap": 1237000000.0,
     "currentPER": 17.18,
-    "priceVsPublicPct": -24.03,
-    "priceVsInitialPct": -97.8,
+    "priceVsPublicPct": -24.42,
+    "priceVsInitialPct": -97.81,
     "price30d": 1713.0,
     "price30dDate": "2025-01-27",
     "price90d": 1280.0,
@@ -83900,6 +83904,10 @@
       {
         "date": "2026-09-08",
         "price": 585.0
+      },
+      {
+        "date": "2026-09-09",
+        "price": 582.0
       }
     ],
     "financials": [
@@ -84019,7 +84027,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:51:17.295520+00:00"
+    "dataRetrievedAt": "2026-09-09T06:55:02.944601+00:00"
   },
   {
     "code": "298A0",
@@ -85824,7 +85832,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:51:45.025483+00:00"
+    "dataRetrievedAt": "2026-09-09T06:55:30.310727+00:00"
   },
   {
     "code": "300A0",
@@ -85838,11 +85846,11 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 3150.0,
+    "currentPrice": 3145.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 20223000000.0,
     "currentPER": 16.44,
-    "priceVsPublicPct": 228.12,
+    "priceVsPublicPct": 227.6,
     "priceVsInitialPct": null,
     "price30d": 941.0,
     "price30dDate": "2025-01-24",
@@ -87513,7 +87521,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 3150.0
+        "price": 3145.0
       }
     ],
     "financials": [
@@ -87671,7 +87679,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:52:12.999888+00:00"
+    "dataRetrievedAt": "2026-09-09T06:55:57.783149+00:00"
   },
   {
     "code": "297A0",
@@ -87685,12 +87693,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 214.0,
+    "currentPrice": 213.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 14863000000.0,
     "currentPER": 7.44,
-    "priceVsPublicPct": 12.04,
-    "priceVsInitialPct": -78.6,
+    "priceVsPublicPct": 11.52,
+    "priceVsInitialPct": -78.7,
     "price30d": 239.0,
     "price30dDate": "2025-01-24",
     "price90d": 254.0,
@@ -89360,7 +89368,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 214.0
+        "price": 213.0
       }
     ],
     "financials": [
@@ -89518,7 +89526,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:52:40.899375+00:00"
+    "dataRetrievedAt": "2026-09-09T06:56:25.254761+00:00"
   },
   {
     "code": "296A0",
@@ -89532,12 +89540,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 1130.0,
+    "currentPrice": 1122.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 28950000000.0,
     "currentPER": 20.37,
-    "priceVsPublicPct": 213.89,
-    "priceVsInitialPct": -92.98,
+    "priceVsPublicPct": 211.67,
+    "priceVsInitialPct": -93.03,
     "price30d": 480.0,
     "price30dDate": "2025-01-22",
     "price90d": 605.0,
@@ -91215,7 +91223,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1130.0
+        "price": 1122.0
       }
     ],
     "financials": [
@@ -91430,7 +91438,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:53:08.844451+00:00"
+    "dataRetrievedAt": "2026-09-09T06:56:52.741854+00:00"
   },
   {
     "code": "299A0",
@@ -91444,12 +91452,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 1277.0,
+    "currentPrice": 1259.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 42415000000.0,
     "currentPER": 17.23,
-    "priceVsPublicPct": 6.42,
-    "priceVsInitialPct": -93.58,
+    "priceVsPublicPct": 4.92,
+    "priceVsInitialPct": -93.67,
     "price30d": 1080.0,
     "price30dDate": "2025-01-20",
     "price90d": 983.0,
@@ -93135,7 +93143,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1277.0
+        "price": 1259.0
       }
     ],
     "financials": [
@@ -93255,7 +93263,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:53:36.783810+00:00"
+    "dataRetrievedAt": "2026-09-09T06:57:20.185760+00:00"
   },
   {
     "code": "290A0",
@@ -93269,12 +93277,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 1500.0,
+    "currentPrice": 1496.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 168411000000.0,
     "currentPER": null,
-    "priceVsPublicPct": 212.5,
-    "priceVsInitialPct": -94.14,
+    "priceVsPublicPct": 211.67,
+    "priceVsInitialPct": -94.16,
     "price30d": 463.0,
     "price30dDate": "2025-01-20",
     "price90d": 676.0,
@@ -94960,7 +94968,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1500.0
+        "price": 1496.0
       }
     ],
     "financials": [
@@ -95080,7 +95088,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:54:05.015316+00:00"
+    "dataRetrievedAt": "2026-09-09T06:57:47.630364+00:00"
   },
   {
     "code": "285A0",
@@ -95094,12 +95102,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 57030.0,
+    "currentPrice": 57000.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 52448566000000.0,
     "currentPER": 94.59,
-    "priceVsPublicPct": 3819.59,
-    "priceVsInitialPct": 3702.0,
+    "priceVsPublicPct": 3817.53,
+    "priceVsInitialPct": 3700.0,
     "price30d": 1788.0,
     "price30dDate": "2025-01-17",
     "price90d": 3170.0,
@@ -96789,7 +96797,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 57030.0
+        "price": 57000.0
       }
     ],
     "financials": [
@@ -96947,7 +96955,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:54:33.121404+00:00"
+    "dataRetrievedAt": "2026-09-09T06:58:15.169439+00:00"
   },
   {
     "code": "291A0",
@@ -96961,11 +96969,11 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 1991.0,
+    "currentPrice": 1990.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 3570000000.0,
     "currentPER": 5.94,
-    "priceVsPublicPct": -46.62,
+    "priceVsPublicPct": -46.65,
     "priceVsInitialPct": -98.21,
     "price30d": 3510.0,
     "price30dDate": "2025-01-16",
@@ -98656,7 +98664,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1991.0
+        "price": 1990.0
       }
     ],
     "financials": [
@@ -98776,7 +98784,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:55:01.083654+00:00"
+    "dataRetrievedAt": "2026-09-09T06:58:42.655475+00:00"
   },
   {
     "code": "287A0",
@@ -100609,7 +100617,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:55:29.074889+00:00"
+    "dataRetrievedAt": "2026-09-09T06:59:10.113600+00:00"
   },
   {
     "code": "288A0",
@@ -102450,7 +102458,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:55:56.825585+00:00"
+    "dataRetrievedAt": "2026-09-09T06:59:37.464068+00:00"
   },
   {
     "code": "286A0",
@@ -102464,12 +102472,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 813.0,
+    "currentPrice": 814.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 25980000000.0,
     "currentPER": 70.41,
-    "priceVsPublicPct": -23.3,
-    "priceVsInitialPct": -90.44,
+    "priceVsPublicPct": -23.21,
+    "priceVsInitialPct": -90.42,
     "price30d": 909.0,
     "price30dDate": "2025-01-14",
     "price90d": 946.0,
@@ -104175,7 +104183,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 813.0
+        "price": 814.0
       }
     ],
     "financials": [
@@ -104295,7 +104303,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:56:26.976419+00:00"
+    "dataRetrievedAt": "2026-09-09T07:00:04.989649+00:00"
   },
   {
     "code": "70750",
@@ -104309,11 +104317,11 @@
     "ipoRating": null,
     "ipoRatingSource": null,
     "ipoSourceUrl": null,
-    "currentPrice": 1045.0,
+    "currentPrice": 998.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 5741000000.0,
     "currentPER": 11.26,
-    "priceVsPublicPct": 25.15,
+    "priceVsPublicPct": 19.52,
     "priceVsInitialPct": null,
     "price30d": 848.0,
     "price30dDate": "2025-01-10",
@@ -106024,7 +106032,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1045.0
+        "price": 998.0
       }
     ],
     "financials": [
@@ -106220,7 +106228,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:56:54.937692+00:00"
+    "dataRetrievedAt": "2026-09-09T07:00:32.498702+00:00"
   },
   {
     "code": "281A0",
@@ -106234,12 +106242,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 421.0,
+    "currentPrice": 419.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 3874000000.0,
     "currentPER": 1937.0,
-    "priceVsPublicPct": -61.02,
-    "priceVsInitialPct": -95.16,
+    "priceVsPublicPct": -61.2,
+    "priceVsInitialPct": -95.18,
     "price30d": 1091.0,
     "price30dDate": "2025-01-08",
     "price90d": 904.0,
@@ -107957,7 +107965,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 421.0
+        "price": 419.0
       }
     ],
     "financials": [
@@ -108115,7 +108123,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:57:23.037354+00:00"
+    "dataRetrievedAt": "2026-09-09T07:01:00.187416+00:00"
   },
   {
     "code": "280A0",
@@ -108129,12 +108137,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 1080.0,
+    "currentPrice": 1084.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 7915000000.0,
     "currentPER": null,
-    "priceVsPublicPct": -28.0,
-    "priceVsInitialPct": -98.28,
+    "priceVsPublicPct": -27.73,
+    "priceVsInitialPct": -98.27,
     "price30d": 1628.0,
     "price30dDate": "2025-01-06",
     "price90d": 1315.0,
@@ -109864,7 +109872,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1080.0
+        "price": 1084.0
       }
     ],
     "financials": [
@@ -109984,7 +109992,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:57:51.005307+00:00"
+    "dataRetrievedAt": "2026-09-09T07:01:27.753917+00:00"
   },
   {
     "code": "278A0",
@@ -109998,12 +110006,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 19080.0,
+    "currentPrice": 18800.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 78186000000.0,
     "currentPER": null,
-    "priceVsPublicPct": 711.91,
-    "priceVsInitialPct": 1.49,
+    "priceVsPublicPct": 700.0,
+    "priceVsInitialPct": 0.0,
     "price30d": 2913.0,
     "price30dDate": "2024-12-30",
     "price90d": 8940.0,
@@ -111745,7 +111753,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 19080.0
+        "price": 18800.0
       }
     ],
     "financials": [
@@ -111903,7 +111911,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:58:19.136719+00:00"
+    "dataRetrievedAt": "2026-09-09T07:01:55.355223+00:00"
   },
   {
     "code": "277A0",
@@ -111917,12 +111925,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 1862.0,
+    "currentPrice": 1853.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 60185000000.0,
     "currentPER": 24.03,
-    "priceVsPublicPct": -58.9,
-    "priceVsInitialPct": -98.26,
+    "priceVsPublicPct": -59.09,
+    "priceVsInitialPct": -98.27,
     "price30d": 8470.0,
     "price30dDate": "2024-12-30",
     "price90d": 1840.0,
@@ -113664,7 +113672,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1862.0
+        "price": 1853.0
       }
     ],
     "financials": [
@@ -113784,7 +113792,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:58:47.152091+00:00"
+    "dataRetrievedAt": "2026-09-09T07:02:22.865175+00:00"
   },
   {
     "code": "276A0",
@@ -113798,12 +113806,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 4110.0,
+    "currentPrice": 4070.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 15174000000.0,
     "currentPER": 210.75,
-    "priceVsPublicPct": 332.63,
-    "priceVsInitialPct": -86.3,
+    "priceVsPublicPct": 328.42,
+    "priceVsInitialPct": -86.43,
     "price30d": 1337.0,
     "price30dDate": "2024-12-30",
     "price90d": 3190.0,
@@ -115549,7 +115557,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 4110.0
+        "price": 4070.0
       }
     ],
     "financials": [
@@ -115669,7 +115677,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:59:15.080981+00:00"
+    "dataRetrievedAt": "2026-09-09T07:02:50.357936+00:00"
   },
   {
     "code": "274A0",
@@ -115683,12 +115691,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 2269.0,
+    "currentPrice": 2266.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 15801000000.0,
     "currentPER": 25.28,
-    "priceVsPublicPct": -29.09,
-    "priceVsInitialPct": -83.79,
+    "priceVsPublicPct": -29.19,
+    "priceVsInitialPct": -83.81,
     "price30d": 2914.0,
     "price30dDate": "2024-12-23",
     "price90d": 2780.0,
@@ -117450,7 +117458,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 2269.0
+        "price": 2266.0
       }
     ],
     "financials": [
@@ -117608,7 +117616,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T04:59:43.182922+00:00"
+    "dataRetrievedAt": "2026-09-09T07:03:18.046104+00:00"
   },
   {
     "code": "269A0",
@@ -117622,12 +117630,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 2957.0,
+    "currentPrice": 2900.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 3683000000.0,
     "currentPER": 32.03,
-    "priceVsPublicPct": 97.13,
-    "priceVsInitialPct": -96.23,
+    "priceVsPublicPct": 93.33,
+    "priceVsInitialPct": -96.31,
     "price30d": 3190.0,
     "price30dDate": "2024-11-28",
     "price90d": 3750.0,
@@ -119457,7 +119465,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 2957.0
+        "price": 2900.0
       }
     ],
     "financials": [
@@ -119596,7 +119604,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T05:00:11.141907+00:00"
+    "dataRetrievedAt": "2026-09-09T07:03:45.590747+00:00"
   },
   {
     "code": "265A0",
@@ -119610,12 +119618,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 719.0,
+    "currentPrice": 716.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 2516000000.0,
     "currentPER": null,
-    "priceVsPublicPct": -15.41,
-    "priceVsInitialPct": -97.41,
+    "priceVsPublicPct": -15.76,
+    "priceVsInitialPct": -97.42,
     "price30d": 1245.0,
     "price30dDate": "2024-11-27",
     "price90d": 1096.0,
@@ -121449,7 +121457,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 719.0
+        "price": 716.0
       }
     ],
     "financials": [
@@ -121607,7 +121615,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T05:00:39.201104+00:00"
+    "dataRetrievedAt": "2026-09-09T07:04:13.227557+00:00"
   },
   {
     "code": "268A0",
@@ -121621,12 +121629,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 1645.0,
+    "currentPrice": 1653.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 614791000000.0,
     "currentPER": 1868.67,
-    "priceVsPublicPct": 30.56,
-    "priceVsInitialPct": -70.09,
+    "priceVsPublicPct": 31.19,
+    "priceVsInitialPct": -69.95,
     "price30d": 1145.0,
     "price30dDate": "2024-11-25",
     "price90d": 930.0,
@@ -123464,7 +123472,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1645.0
+        "price": 1653.0
       }
     ],
     "financials": [
@@ -123622,7 +123630,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T05:01:07.355255+00:00"
+    "dataRetrievedAt": "2026-09-09T07:04:40.876686+00:00"
   },
   {
     "code": "90230",
@@ -123636,12 +123644,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 1523.5,
+    "currentPrice": 1526.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 566352000000.0,
     "currentPER": 9.6,
-    "priceVsPublicPct": 26.96,
-    "priceVsInitialPct": -96.46,
+    "priceVsPublicPct": 27.17,
+    "priceVsInitialPct": -96.45,
     "price30d": 1737.0,
     "price30dDate": "2024-11-22",
     "price90d": 1717.0,
@@ -125487,7 +125495,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1523.5
+        "price": 1526.0
       }
     ],
     "financials": [
@@ -125626,7 +125634,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T05:01:35.405959+00:00"
+    "dataRetrievedAt": "2026-09-09T07:05:08.391718+00:00"
   },
   {
     "code": "264A0",
@@ -125640,12 +125648,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 335.0,
+    "currentPrice": 336.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 3534000000.0,
     "currentPER": null,
-    "priceVsPublicPct": -51.45,
-    "priceVsInitialPct": -95.28,
+    "priceVsPublicPct": -51.3,
+    "priceVsInitialPct": -95.27,
     "price30d": 1042.0,
     "price30dDate": "2024-11-21",
     "price90d": 1326.0,
@@ -127495,7 +127503,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 335.0
+        "price": 336.0
       }
     ],
     "financials": [
@@ -127634,7 +127642,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T05:02:03.351008+00:00"
+    "dataRetrievedAt": "2026-09-09T07:05:36.020483+00:00"
   },
   {
     "code": "262A0",
@@ -127648,12 +127656,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 1729.0,
+    "currentPrice": 1727.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 69503000000.0,
     "currentPER": 49.68,
-    "priceVsPublicPct": 6.07,
-    "priceVsInitialPct": -95.76,
+    "priceVsPublicPct": 5.95,
+    "priceVsInitialPct": -95.77,
     "price30d": 2503.0,
     "price30dDate": "2024-11-18",
     "price90d": 2453.0,
@@ -129511,7 +129519,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1729.0
+        "price": 1727.0
       }
     ],
     "financials": [
@@ -129669,7 +129677,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T05:02:31.363743+00:00"
+    "dataRetrievedAt": "2026-09-09T07:06:03.614246+00:00"
   },
   {
     "code": "261A0",
@@ -129683,12 +129691,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 2005.0,
+    "currentPrice": 2018.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 24302000000.0,
     "currentPER": 28.83,
-    "priceVsPublicPct": 40.21,
-    "priceVsInitialPct": -77.47,
+    "priceVsPublicPct": 41.12,
+    "priceVsInitialPct": -77.33,
     "price30d": 1378.0,
     "price30dDate": "2024-11-15",
     "price90d": 1475.0,
@@ -131554,7 +131562,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 2005.0
+        "price": 2018.0
       }
     ],
     "financials": [
@@ -131693,7 +131701,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T05:02:59.454018+00:00"
+    "dataRetrievedAt": "2026-09-09T07:06:31.148267+00:00"
   },
   {
     "code": "260A0",
@@ -132630,7 +132638,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T05:03:27.514742+00:00"
+    "dataRetrievedAt": "2026-09-09T07:06:58.902865+00:00"
   },
   {
     "code": "250A0",
@@ -132644,12 +132652,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 1589.0,
+    "currentPrice": 1581.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 24390000000.0,
     "currentPER": 9.4,
-    "priceVsPublicPct": -15.48,
-    "priceVsInitialPct": -86.76,
+    "priceVsPublicPct": -15.9,
+    "priceVsInitialPct": -86.83,
     "price30d": 1474.0,
     "price30dDate": "2024-10-31",
     "price90d": 1391.0,
@@ -134555,7 +134563,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1589.0
+        "price": 1581.0
       }
     ],
     "financials": [
@@ -134694,7 +134702,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T05:03:55.727546+00:00"
+    "dataRetrievedAt": "2026-09-09T07:07:26.496626+00:00"
   },
   {
     "code": "247A0",
@@ -134708,11 +134716,11 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 1069.0,
+    "currentPrice": 1070.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 45919000000.0,
     "currentPER": 17.3,
-    "priceVsPublicPct": -39.26,
+    "priceVsPublicPct": -39.2,
     "priceVsInitialPct": -98.58,
     "price30d": 2631.0,
     "price30dDate": "2024-10-28",
@@ -136627,7 +136635,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1069.0
+        "price": 1070.0
       }
     ],
     "financials": [
@@ -136766,7 +136774,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T05:04:23.650743+00:00"
+    "dataRetrievedAt": "2026-09-09T07:07:54.204778+00:00"
   },
   {
     "code": "248A0",
@@ -138838,7 +138846,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T05:04:51.645325+00:00"
+    "dataRetrievedAt": "2026-09-09T07:08:21.808516+00:00"
   },
   {
     "code": "246A0",
@@ -138852,12 +138860,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 927.0,
+    "currentPrice": 934.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 2882000000.0,
     "currentPER": 41.17,
-    "priceVsPublicPct": 36.32,
-    "priceVsInitialPct": -97.14,
+    "priceVsPublicPct": 37.35,
+    "priceVsInitialPct": -97.12,
     "price30d": 749.0,
     "price30dDate": "2024-10-28",
     "price90d": 634.0,
@@ -140775,7 +140783,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 927.0
+        "price": 934.0
       }
     ],
     "financials": [
@@ -140933,7 +140941,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T05:05:19.725072+00:00"
+    "dataRetrievedAt": "2026-09-09T07:08:49.363175+00:00"
   },
   {
     "code": "245A0",
@@ -140947,12 +140955,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 2529.0,
+    "currentPrice": 2507.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 5781000000.0,
     "currentPER": 36.36,
-    "priceVsPublicPct": 30.36,
-    "priceVsInitialPct": -96.67,
+    "priceVsPublicPct": 29.23,
+    "priceVsInitialPct": -96.7,
     "price30d": 2287.0,
     "price30dDate": "2024-10-28",
     "price90d": 2600.0,
@@ -142854,7 +142862,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 2529.0
+        "price": 2507.0
       }
     ],
     "financials": [
@@ -142993,7 +143001,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T05:05:47.820393+00:00"
+    "dataRetrievedAt": "2026-09-09T07:09:17.138757+00:00"
   },
   {
     "code": "244A0",
@@ -143007,12 +143015,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 1177.0,
+    "currentPrice": 1179.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 3757000000.0,
     "currentPER": 24.24,
-    "priceVsPublicPct": -23.07,
-    "priceVsInitialPct": -96.22,
+    "priceVsPublicPct": -22.94,
+    "priceVsInitialPct": -96.21,
     "price30d": 3150.0,
     "price30dDate": "2024-10-28",
     "price90d": 2045.0,
@@ -144930,7 +144938,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 1177.0
+        "price": 1179.0
       }
     ],
     "financials": [
@@ -145069,7 +145077,7 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T05:06:15.900643+00:00"
+    "dataRetrievedAt": "2026-09-09T07:09:44.736056+00:00"
   },
   {
     "code": "241A0",
@@ -145083,12 +145091,12 @@
     "ipoRating": null,
     "ipoRatingSource": "庶民のIPO",
     "ipoSourceUrl": "https://ipokabu.net/ipo/list2024",
-    "currentPrice": 417.0,
+    "currentPrice": 416.0,
     "priceAsOfDate": "2026-09-09",
     "marketCap": 3168000000.0,
     "currentPER": null,
-    "priceVsPublicPct": -80.24,
-    "priceVsInitialPct": -97.53,
+    "priceVsPublicPct": -80.28,
+    "priceVsInitialPct": -97.54,
     "price30d": 1086.0,
     "price30dDate": "2024-10-25",
     "price90d": 1387.0,
@@ -147010,7 +147018,7 @@
       },
       {
         "date": "2026-09-09",
-        "price": 417.0
+        "price": 416.0
       }
     ],
     "financials": [
@@ -147149,6 +147157,6 @@
       }
     ],
     "dataSource": "JPX + 庶民のIPO + J-Quants + yfinance",
-    "dataRetrievedAt": "2026-09-09T05:06:43.950314+00:00"
+    "dataRetrievedAt": "2026-09-09T07:10:12.414564+00:00"
   }
 ]
