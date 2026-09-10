@@ -40,8 +40,15 @@ IPO_KABU_URLS = [
     "https://ipokabu.net/ipo/list2025",
     "https://ipokabu.net/ipo/list2024",
 ]
-LOOKBACK_DAYS = 730
+# IPO list: most recent 3 years
+IPO_LOOKBACK_DAYS = 1095
+
+# Keep 4 years of price history in latest.json
+HISTORY_RETENTION_DAYS = 1460
+
+# Incremental update window
 RECENT_DAYS = 100
+
 FINANCIAL_REFRESH_DAYS = 7
 JQUANTS_INTERVAL = 13.0
 
@@ -371,12 +378,33 @@ def main():
         except Exception as e:
             print(f"[WARN] existing latest.json unreadable: {e}")
 
-    old_items = {str(x.get("code4")): x for x in old.get("ipos", []) if x.get("code4")}
+    # latest.json may be either the new object format or the older
+    # plain-list format. Support both so the first fast run can reuse
+    # the existing data instead of failing with "'list' object has no attribute get".
+    if isinstance(old, dict):
+        old_list = old.get("ipos", [])
+    elif isinstance(old, list):
+        old_list = old
+    else:
+        old_list = []
+    if not isinstance(old_list, list):
+        old_list = []
+    old_items = {
+        str(x.get("code4") or x.get("code") or "").replace(".T", ""): x
+        for x in old_list
+        if isinstance(x, dict) and (x.get("code4") or x.get("code"))
+    }
     jpx = parse_jpx()
+
+    # Restrict IPO universe to the most recent 3 years.
+    ipo_cutoff = (date.today() - timedelta(days=IPO_LOOKBACK_DAYS)).isoformat()
+    jpx = [x for x in jpx if x.get("listedDate", "") >= ipo_cutoff]
+    print(f"[JPX] 3-year IPO window: {len(jpx)} target IPOs")
+
     ipokabu = parse_ipokabu()
 
     today = date.today()
-    full_start = (today - timedelta(days=LOOKBACK_DAYS + 10)).isoformat()
+    full_start = (today - timedelta(days=HISTORY_RETENTION_DAYS + 10)).isoformat()
     recent_start = (today - timedelta(days=RECENT_DAYS)).isoformat()
     end = (today + timedelta(days=1)).isoformat()
 
@@ -404,7 +432,7 @@ def main():
 
         hist = merge_history(previous.get("priceHistory", []), prices.get(symbol, []))
         # Trim to the last 2 years from today.
-        cutoff = (today - timedelta(days=LOOKBACK_DAYS)).isoformat()
+        cutoff = (today - timedelta(days=HISTORY_RETENTION_DAYS)).isoformat()
         hist = [h for h in hist if h.get("date", "") >= cutoff]
 
         ipo = ipokabu.get(code4, {})
@@ -475,12 +503,14 @@ def main():
         "updateMode": "incremental-fast",
         "priceHistorySource": "yfinance",
         "financialSource": "J-Quants (when API key configured)",
-        "historyWindowDays": LOOKBACK_DAYS,
+        "ipoSearchWindowDays": IPO_LOOKBACK_DAYS,
+        "historyRetentionDays": HISTORY_RETENTION_DAYS,
         "ipoCount": len(items),
         "ipos": items,
         "notes": [
-            "初回はyfinanceの一括取得で過去2年を取得。",
-            "2回目以降は既存の2年分を保持し、直近約100日だけ更新。",
+            "IPO検索対象は直近3年間。",
+            "初回はyfinanceの一括取得で過去4年分の株価履歴を取得。",
+            "2回目以降は既存の4年分を保持し、直近約100日だけ更新。",
             "J-Quantsは財務データの新規・7日以上古い銘柄だけ更新。",
         ],
         "runStartedAt": started,
