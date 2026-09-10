@@ -3,3 +3,4 @@ yfinance>=0.2.66,<1
 lxml>=5,<7
 beautifulsoup4>=4.12,<5
 requests>=2.32,<3
+html5lib>=1.1,<2
