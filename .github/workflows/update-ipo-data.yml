@@ -1,4 +1,4 @@
-name: Update IPO data (FAST v4)
+name: Update IPO data (FAST v5)
 
 on:
   schedule:
@@ -8,10 +8,14 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: ipo-data-update
+  cancel-in-progress: true
+
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 60
 
     steps:
       - name: Checkout
@@ -34,10 +38,23 @@ jobs:
         run: |
           python scripts/fetch_jquants.py
 
+      - name: Validate JSON
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path("docs/latest.json")
+          data = json.loads(p.read_text(encoding="utf-8"))
+          assert isinstance(data, list), "latest.json must be a JSON array"
+          assert len(data) >= 20, f"too few IPO records: {len(data)}"
+          assert all("インタビュー" not in str(x.get("name","")) for x in data)
+          print(f"validated {len(data)} IPO records")
+          PY
+
       - name: Commit updated data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/latest.json
-          git diff --cached --quiet || git commit -m "Update IPO data (FAST v4)"
+          git diff --cached --quiet || git commit -m "Update IPO data (FAST v5)"
           git push
