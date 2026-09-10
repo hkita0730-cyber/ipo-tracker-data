@@ -1,0 +1,69 @@
+name: Update IPO data (FAST v9)
+
+on:
+  schedule:
+    - cron: "30 12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ipo-data-update
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Fetch IPO data
+        env:
+          JQUANTS_API_KEY: ${{ secrets.JQUANTS_API_KEY }}
+          PYTHONUNBUFFERED: "1"
+        run: |
+          python scripts/fetch_jquants.py
+
+      - name: Validate JSON
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          data = json.loads(Path("docs/latest.json").read_text(encoding="utf-8"))
+          assert isinstance(data, list)
+          assert len(data) >= 100
+
+          codes = [str(x.get("code4", "")) for x in data]
+          assert len(codes) == len(set(codes)), "duplicate security codes"
+          assert all("インタビュー" not in str(x.get("name", "")) for x in data)
+
+          # App compatibility: public/initial price aliases must exist as fields.
+          assert all("ipoPrice" in x and "firstDayPrice" in x for x in data)
+
+          public_count = sum(x.get("ipoPrice") is not None for x in data)
+          initial_count = sum(x.get("firstDayPrice") is not None for x in data)
+          print(f"validated {len(data)} records; public={public_count}, initial={initial_count}")
+          PY
+
+      - name: Commit updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/latest.json
+          git diff --cached --quiet || git commit -m "Update IPO data (FAST v9)"
+          git push
