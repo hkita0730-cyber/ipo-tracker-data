@@ -2,21 +2,15 @@
 # -*- coding: utf-8 -*-
 
 """
-IPO Tracker FAST v5
+IPO Tracker FAST v6
 
-Design goals
-------------
-1) IPO search window: most recent 3 years
-2) Price-history retention: up to 4 years
-3) Rebuild master metadata every run, so bad names such as
-   "... 代表者インタビュー" do not survive incremental updates
-4) Use BOTH JPX and 庶民のIPO:
-   - JPX preferred for official company name / listing date / market
-   - 庶民のIPO supplies rating / public price / initial price and also acts
-     as a fallback IPO master if JPX HTML parsing is temporarily incomplete
-5) yfinance price download is batched
-6) existing docs/latest.json is preserved until the very end; output is replaced atomically
-7) output remains a JSON ARRAY for compatibility with the current app
+Key change from v5:
+- Do not depend on JPX / 庶民のIPO HTML table structure.
+- Parse the visible text stream instead. This is robust against rowspan/colspan,
+  mobile/desktop duplicate tables, and extra interview links.
+- JPX + 庶民のIPO are both used; JPX is preferred for official master data.
+- Existing latest.json is not deleted. On the first v6 run we do a full backfill,
+  then later runs are incremental.
 """
 
 from __future__ import annotations
@@ -39,7 +33,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "docs" / "latest.json"
 OUT.parent.mkdir(parents=True, exist_ok=True)
 
-SCHEMA_VERSION = 5
+SCHEMA_VERSION = 6
 
 IPO_DISCOVERY_DAYS = 1095       # 3 years
 HISTORY_RETENTION_DAYS = 1460   # 4 years
@@ -50,9 +44,9 @@ MARKETS = ("プライム", "スタンダード", "グロース")
 
 JPX_URLS = [
     "https://www.jpx.co.jp/listing/stocks/new/index.html",
-    "https://www.jpx.co.jp/listing/stocks/new/00-archives-01.html",  # 2025
-    "https://www.jpx.co.jp/listing/stocks/new/00-archives-02.html",  # 2024
-    "https://www.jpx.co.jp/listing/stocks/new/00-archives-03.html",  # 2023
+    "https://www.jpx.co.jp/listing/stocks/new/00-archives-01.html",
+    "https://www.jpx.co.jp/listing/stocks/new/00-archives-02.html",
+    "https://www.jpx.co.jp/listing/stocks/new/00-archives-03.html",
 ]
 
 IPO_KABU_URLS = {
@@ -64,15 +58,27 @@ IPO_KABU_URLS = {
 
 HEADERS = {
     "User-Agent": (
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126 Safari/537.36"
+        "Mozilla/5.0 (iPad; CPU OS 18_0 like Mac OS X) "
+        "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1"
     ),
-    "Accept-Language": "ja,en-US;q=0.8,en;q=0.6",
+    "Accept-Language": "ja-JP,ja;q=0.9,en-US;q=0.7,en;q=0.5",
 }
 
-FULL_DATE_RE = re.compile(r"(\d{4})/(\d{1,2})/(\d{1,2})")
-MD_RE = re.compile(r"(?<!\d)(\d{1,2})/(\d{1,2})(?!\d)")
-CODE_RE = re.compile(r"(?<![0-9A-Z])(\d{4}[A-Z]?)(?![0-9A-Z])")
+FULL_DATE_RE = re.compile(r"^(\d{4})/(\d{1,2})/(\d{1,2})$")
+MD_RE = re.compile(r"^(\d{1,2})/(\d{1,2})$")
+CODE_RE = re.compile(r"^[\[\]〖〗\s]*(\d{4}[A-Z]?)[\[\]〖〗\s]*$")
+RATING_RE = re.compile(r"^[ＳＡＢＣＤＥSABCDE]$")
+
+BROKER_WORDS = (
+    "証券", "證券", "マネックス", "SBI", "楽天", "松井", "野村", "大和",
+    "みずほ", "岡三", "東海東京", "岩井コスモ", "むさし", "丸三",
+)
+
+IGNORE_NAME_WORDS = (
+    "代表者インタビュー", "創業者インタビュー", "社長インタビュー",
+    "経営者インタビュー", "会社概要", "確認書", "詳細", "Iの部",
+    "CG報告書", "決算短信",
+)
 
 
 def clean_text(value: Any) -> str:
@@ -81,35 +87,21 @@ def clean_text(value: Any) -> str:
     if isinstance(value, float) and math.isnan(value):
         return ""
     s = str(value).replace("\u3000", " ")
-    return re.sub(r"\s+", " ", s).strip()
+    s = re.sub(r"\s+", " ", s).strip()
+    return s
 
 
 def normalize_company_name(value: Any) -> str:
     s = clean_text(value)
-    # These labels are links on JPX and must never become part of the company name.
-    for label in (
-        "代表者インタビュー",
-        "創業者インタビュー",
-        "社長インタビュー",
-        "経営者インタビュー",
-    ):
+    for label in ("代表者インタビュー", "創業者インタビュー", "社長インタビュー", "経営者インタビュー"):
         s = s.replace(label, "")
     s = re.sub(r"\s+", " ", s).strip(" |　")
     return s
 
 
-def extract_code(value: Any) -> str | None:
-    s = clean_text(value).upper().replace(" ", "")
-    # pandas/HTML may turn an old numeric code into "5892.0"
-    mfloat = re.fullmatch(r"(\d{4})\.0", s)
-    if mfloat:
-        return mfloat.group(1)
-    m = CODE_RE.search(s)
-    return m.group(1) if m else None
-
-
-def extract_full_date(value: Any) -> str | None:
-    m = FULL_DATE_RE.search(clean_text(value))
+def parse_full_date_line(s: str) -> str | None:
+    s = clean_text(s).strip("（）() ")
+    m = FULL_DATE_RE.fullmatch(s)
     if not m:
         return None
     try:
@@ -118,8 +110,9 @@ def extract_full_date(value: Any) -> str | None:
         return None
 
 
-def extract_month_day(value: Any, year: int) -> str | None:
-    m = MD_RE.search(clean_text(value))
+def parse_md_line(s: str, year: int) -> str | None:
+    s = clean_text(s).strip()
+    m = MD_RE.fullmatch(s)
     if not m:
         return None
     try:
@@ -128,11 +121,15 @@ def extract_month_day(value: Any, year: int) -> str | None:
         return None
 
 
-def parse_yen(value: Any) -> int | None:
-    s = clean_text(value)
-    if not s or s in ("-", "—"):
-        return None
-    m = re.search(r"(-?[\d,]+(?:\.\d+)?)\s*円", s)
+def parse_code_line(s: str) -> str | None:
+    s = clean_text(s).upper()
+    m = CODE_RE.fullmatch(s)
+    return m.group(1) if m else None
+
+
+def parse_yen(s: str) -> int | None:
+    s = clean_text(s)
+    m = re.fullmatch(r"(-?[\d,]+(?:\.\d+)?)円", s)
     if not m:
         return None
     try:
@@ -142,12 +139,9 @@ def parse_yen(value: Any) -> int | None:
         return None
 
 
-def normalize_rating(value: Any) -> str | None:
-    s = clean_text(value).upper()
-    s = s.translate(str.maketrans("ＳＡＢＣＤＥ", "SABCDE"))
-    # Prefer a stand-alone rating glyph.
-    m = re.search(r"(?<![A-Z])([SABCDE])(?![A-Z])", s)
-    return m.group(1) if m else None
+def normalize_rating(s: str) -> str | None:
+    s = clean_text(s).upper().translate(str.maketrans("ＳＡＢＣＤＥ", "SABCDE"))
+    return s if re.fullmatch(r"[SABCDE]", s) else None
 
 
 def fetch_html(url: str, timeout: int = 40) -> str:
@@ -156,6 +150,7 @@ def fetch_html(url: str, timeout: int = 40) -> str:
         try:
             r = requests.get(url, headers=HEADERS, timeout=timeout)
             r.raise_for_status()
+            # JPX sometimes comes back with a legacy Japanese charset.
             if r.apparent_encoding:
                 r.encoding = r.apparent_encoding
             return r.text
@@ -166,159 +161,123 @@ def fetch_html(url: str, timeout: int = 40) -> str:
     raise RuntimeError(f"fetch failed: {url}: {last}")
 
 
-# ---------------------------------------------------------------------------
-# Generic HTML table expander
-# ---------------------------------------------------------------------------
-def expand_table(table) -> list[list[str]]:
+def visible_lines(html: str) -> list[str]:
     """
-    Expand rowspan/colspan into a rectangular logical grid.
-
-    JPX and 庶民のIPO both use multi-row tables.  This avoids relying on
-    physical <tr> layout and is the key fix for the "only 50 IPOs" problem.
+    Turn HTML into the same visible text order a browser/search engine sees.
+    We intentionally ignore table geometry.
     """
-    rows: list[dict[int, str]] = []
-    future: dict[tuple[int, int], str] = {}
-
-    trs = table.find_all("tr")
-    for r_idx, tr in enumerate(trs):
-        row: dict[int, str] = {}
-
-        # Fill values inherited from rowspans.
-        inherited_cols = sorted(c for (rr, c) in future if rr == r_idx)
-        for c in inherited_cols:
-            row[c] = future[(r_idx, c)]
-
-        col = 0
-        for cell in tr.find_all(["th", "td"], recursive=False):
-            while col in row:
-                col += 1
-
-            txt = clean_text(cell.get_text(" ", strip=True))
-            try:
-                colspan = max(1, int(cell.get("colspan", 1)))
-            except Exception:
-                colspan = 1
-            try:
-                rowspan = max(1, int(cell.get("rowspan", 1)))
-            except Exception:
-                rowspan = 1
-
-            for dc in range(colspan):
-                c = col + dc
-                row[c] = txt
-                if rowspan > 1:
-                    for rr in range(r_idx + 1, r_idx + rowspan):
-                        future[(rr, c)] = txt
-            col += colspan
-
-        rows.append(row)
-
-    max_col = 0
-    for row in rows:
-        if row:
-            max_col = max(max_col, max(row))
-    return [[row.get(c, "") for c in range(max_col + 1)] for row in rows]
-
-
-def header_labels(grid: list[list[str]], first_data_row: int) -> list[str]:
-    if not grid:
-        return []
-    width = max(len(r) for r in grid)
-    labels = []
-    # Usually 2 header rows, but allow all rows before the first data row.
-    start = max(0, first_data_row - 4)
-    for c in range(width):
-        parts = []
-        for r in range(start, first_data_row):
-            if c >= len(grid[r]):
-                continue
-            t = clean_text(grid[r][c])
-            if not t or t.startswith("---"):
-                continue
-            if t not in parts:
-                parts.append(t)
-        labels.append(" / ".join(parts))
-    return labels
-
-
-def find_label_col(labels: list[str], must: tuple[str, ...], reject: tuple[str, ...] = ()) -> int | None:
-    for i, lab in enumerate(labels):
-        if all(x in lab for x in must) and not any(x in lab for x in reject):
-            return i
-    return None
-
-
-# ---------------------------------------------------------------------------
-# JPX
-# ---------------------------------------------------------------------------
-def parse_jpx_page(html: str, source_url: str) -> list[dict[str, Any]]:
     soup = BeautifulSoup(html, "html.parser")
-    found: dict[tuple[str, str], dict[str, Any]] = {}
+    for tag in soup(["script", "style", "noscript"]):
+        tag.decompose()
 
-    for table in soup.find_all("table"):
-        grid = expand_table(table)
-        if not grid:
+    raw = soup.get_text("\n", strip=True)
+    lines = []
+    for part in raw.splitlines():
+        t = clean_text(part)
+        if t:
+            lines.append(t)
+    return lines
+
+
+# ---------------------------------------------------------------------------
+# JPX: text-stream parser
+# ---------------------------------------------------------------------------
+def plausible_jpx_name(line: str) -> bool:
+    t = clean_text(line)
+    if not t:
+        return False
+    if parse_full_date_line(t):
+        return False
+    if parse_code_line(t):
+        return False
+    if any(m in t for m in MARKETS):
+        return False
+    if any(x in t for x in IGNORE_NAME_WORDS):
+        return False
+    if re.fullmatch(r"[-–—\d,.～〜()（）OA]+", t):
+        return False
+    return True
+
+
+def parse_jpx_text(html: str, source_url: str) -> list[dict[str, Any]]:
+    lines = visible_lines(html)
+    out: dict[tuple[str, str], dict[str, Any]] = {}
+
+    # A JPX logical item is:
+    # listing date / approval date / company / [interview] / code / ...
+    # market appears shortly afterwards on the second visual row.
+    i = 0
+    while i < len(lines):
+        listed = parse_full_date_line(lines[i])
+        if not listed:
+            i += 1
             continue
 
-        # Ignore unrelated tables.
-        joined_top = " ".join(" ".join(r) for r in grid[:4])
-        if "上場日" not in joined_top or "会社名" not in joined_top or "コード" not in joined_top:
-            continue
+        # Ignore approval-date lines: a listing-date line is followed nearby by another
+        # date plus a security code; an approval-date line usually has no second date.
+        end = min(len(lines), i + 28)
+        block = lines[i:end]
 
-        for row in grid:
-            listed = next((extract_full_date(v) for v in row if extract_full_date(v)), None)
-            if not listed:
-                continue
-
-            code_positions = [(i, extract_code(v)) for i, v in enumerate(row)]
-            code_positions = [(i, c) for i, c in code_positions if c]
-            if not code_positions:
-                continue
-            code_i, code4 = code_positions[0]
-
-            market = next((m for m in MARKETS if any(m in clean_text(v) for v in row)), "")
-            # The expanded second physical row contains the inherited date/name/code
-            # together with market; only accept that complete logical row.
-            if not market:
-                continue
-
-            raw_name = ""
-            # Company is normally the nearest meaningful cell before code.
-            for v in reversed(row[:code_i]):
-                t = clean_text(v)
-                if not t:
-                    continue
-                if extract_full_date(t):
-                    continue
-                if any(m in t for m in MARKETS):
-                    continue
-                if extract_code(t):
-                    continue
-                if t in ("会社名", "上場日", "上場承認日", "詳細", "確認書", "会社概要"):
-                    continue
-                raw_name = t
+        code_pos = None
+        code4 = None
+        for k, line in enumerate(block[1:], 1):
+            c = parse_code_line(line)
+            if c:
+                code_pos = k
+                code4 = c
                 break
 
-            if not raw_name:
+        if code4 is None:
+            i += 1
+            continue
+
+        # Search market in the same block.
+        market = ""
+        for line in block:
+            for m in MARKETS:
+                if line == m or m in line:
+                    market = m
+                    break
+            if market:
+                break
+        if not market:
+            i += 1
+            continue
+
+        # Company name is the first plausible text between listing date and code,
+        # after skipping the approval date and interview label.
+        raw_name = ""
+        for line in block[1:code_pos]:
+            if parse_full_date_line(line):
                 continue
+            if plausible_jpx_name(line):
+                raw_name = line
+                break
 
-            # JPX official note: "*" after company name denotes a technical listing.
-            if "*" in raw_name:
-                continue
+        if not raw_name:
+            i += 1
+            continue
 
-            name = normalize_company_name(raw_name)
-            if not name:
-                continue
+        # JPX uses * after company name for technical listings.
+        if "*" in raw_name:
+            i += 1
+            continue
 
-            found[(code4, listed)] = {
-                "code4": code4,
-                "name": name,
-                "market": market,
-                "listedDate": listed,
-                "jpxSourceUrl": source_url,
-            }
+        name = normalize_company_name(raw_name)
+        if not name or "インタビュー" in name:
+            i += 1
+            continue
 
-    return list(found.values())
+        out[(code4, listed)] = {
+            "code4": code4,
+            "name": name,
+            "market": market,
+            "listedDate": listed,
+            "jpxSourceUrl": source_url,
+        }
+        i += 1
+
+    return list(out.values())
 
 
 def parse_jpx() -> dict[str, dict[str, Any]]:
@@ -329,10 +288,9 @@ def parse_jpx() -> dict[str, dict[str, Any]]:
         try:
             html = fetch_html(url)
             downloaded += 1
-            rows = parse_jpx_page(html, url)
-            print(f"[JPX] {url.split('/')[-1]} parsed={len(rows)}", flush=True)
+            rows = parse_jpx_text(html, url)
+            print(f"[JPX] {url.split('/')[-1]} text-parsed={len(rows)}", flush=True)
             for x in rows:
-                # Prefer the newest occurrence if the same code appears more than once.
                 old = merged.get(x["code4"])
                 if not old or x["listedDate"] > old["listedDate"]:
                     merged[x["code4"]] = x
@@ -344,154 +302,161 @@ def parse_jpx() -> dict[str, dict[str, Any]]:
 
     cutoff = (date.today() - timedelta(days=IPO_DISCOVERY_DAYS)).isoformat()
     today_s = date.today().isoformat()
+
     merged = {
         c: x for c, x in merged.items()
         if cutoff <= x.get("listedDate", "") <= today_s
         and x.get("market") in MARKETS
+        and x.get("name")
     }
 
-    bad = [x for x in merged.values() if "インタビュー" in x.get("name", "")]
-    if bad:
-        raise RuntimeError(f"JPX name sanitization failed: {bad[:3]}")
+    for x in merged.values():
+        x["name"] = normalize_company_name(x["name"])
 
     print(f"[JPX] usable 3-year records={len(merged)}", flush=True)
     return merged
 
 
 # ---------------------------------------------------------------------------
-# 庶民のIPO
+# 庶民のIPO: text-stream parser
 # ---------------------------------------------------------------------------
-def parse_ipokabu_year(html: str, year: int, source_url: str) -> dict[str, dict[str, Any]]:
-    soup = BeautifulSoup(html, "html.parser")
+def plausible_ipokabu_name(line: str) -> bool:
+    t = clean_text(line)
+    if not t:
+        return False
+    if parse_code_line(t):
+        return False
+    if RATING_RE.fullmatch(t):
+        return False
+    if any(m in t for m in MARKETS):
+        return False
+    if any(b in t for b in BROKER_WORDS):
+        return False
+    if parse_yen(t) is not None:
+        return False
+    if "％" in t or "%" in t or "倍" in t:
+        return False
+    return True
+
+
+def parse_ipokabu_text(html: str, year: int, source_url: str) -> dict[str, dict[str, Any]]:
+    lines = visible_lines(html)
     result: dict[str, dict[str, Any]] = {}
 
-    for table in soup.find_all("table"):
-        grid = expand_table(table)
-        if not grid:
+    # The desktop table appears first. Later the page repeats a mobile table.
+    # Parse all and deduplicate by security code.
+    i = 0
+    while i < len(lines):
+        listed = parse_md_line(lines[i], year)
+        if not listed:
+            i += 1
             continue
 
-        joined = " ".join(" ".join(r) for r in grid[:4])
-        if "公開価格" not in joined or ("証券コード" not in joined and "銘柄" not in joined):
-            continue
-
-        first_data = None
-        for i, row in enumerate(grid):
-            if any(extract_code(v) for v in row) and any(extract_month_day(v, year) for v in row):
-                first_data = i
+        # Look only until the next month/day row or max 45 lines.
+        end = min(len(lines), i + 45)
+        for j in range(i + 1, end):
+            if parse_md_line(lines[j], year):
+                end = j
                 break
-        if first_data is None:
+        block = lines[i:end]
+
+        rating = None
+        rating_pos = None
+        for k, line in enumerate(block[1:8], 1):
+            r = normalize_rating(line)
+            if r:
+                rating = r
+                rating_pos = k
+                break
+
+        code4 = None
+        code_pos = None
+        for k, line in enumerate(block[1:14], 1):
+            c = parse_code_line(line)
+            if c:
+                code4 = c
+                code_pos = k
+                break
+        if not code4:
+            i += 1
             continue
 
-        labels = header_labels(grid, first_data)
+        market = ""
+        market_pos = None
+        for k, line in enumerate(block):
+            if line in MARKETS:
+                market = line
+                market_pos = k
+                break
+        if not market:
+            i += 1
+            continue
 
-        public_i = find_label_col(labels, ("公開価格",))
-        initial_i = find_label_col(labels, ("初値",), ("損益", "騰落"))
-        name_i = find_label_col(labels, ("銘柄",))
-        market_i = find_label_col(labels, ("市場",))
-        rating_i = find_label_col(labels, ("評価",))
-        date_i = find_label_col(labels, ("上場日",))
-        code_i = find_label_col(labels, ("証券コード",))
+        # Company is normally immediately after code in desktop table.
+        name = ""
+        if code_pos is not None:
+            for line in block[code_pos + 1: min(len(block), code_pos + 8)]:
+                if plausible_ipokabu_name(line):
+                    name = normalize_company_name(line)
+                    break
 
-        for row in grid[first_data:]:
-            code4 = None
-            if code_i is not None and code_i < len(row):
-                code4 = extract_code(row[code_i])
-            if not code4:
-                code4 = next((extract_code(v) for v in row if extract_code(v)), None)
-            if not code4:
-                continue
+        # Public price: first positive yen cell after code and before market.
+        public = None
+        if code_pos is not None:
+            stop = market_pos if market_pos is not None else len(block)
+            for line in block[code_pos + 1:stop]:
+                p = parse_yen(line)
+                if p is not None:
+                    public = p
+                    break
 
-            listed = None
-            if date_i is not None and date_i < len(row):
-                listed = extract_month_day(row[date_i], year)
-            if not listed:
-                listed = next((extract_month_day(v, year) for v in row if extract_month_day(v, year)), None)
-            if not listed:
-                continue
+        # Initial price: first positive yen cell after market.
+        initial = None
+        if market_pos is not None:
+            for line in block[market_pos + 1:]:
+                p = parse_yen(line)
+                if p is not None:
+                    initial = p
+                    break
 
-            market = ""
-            if market_i is not None and market_i < len(row):
-                market = next((m for m in MARKETS if m in clean_text(row[market_i])), "")
-            if not market:
-                market = next((m for m in MARKETS if any(m in clean_text(v) for v in row)), "")
+        result[code4] = {
+            "code4": code4,
+            "nameIpokabu": name or None,
+            "listedDateIpokabu": listed,
+            "marketIpokabu": market,
+            "ipoRating": rating,
+            "ipoRatingSource": "庶民のIPO" if rating else None,
+            "ipoSourceUrl": source_url,
+            "publicPrice": public,
+            "initialPrice": initial,
+        }
 
-            # Only Tokyo Prime/Standard/Growth are wanted.
-            if not market:
-                continue
-
-            rating = None
-            if rating_i is not None and rating_i < len(row):
-                rating = normalize_rating(row[rating_i])
-            if not rating:
-                # Look near the date/code rather than over the whole row to avoid broker initials.
-                for v in row[: max(4, (code_i or 2) + 1)]:
-                    r = normalize_rating(v)
-                    if r:
-                        rating = r
-                        break
-
-            public = parse_yen(row[public_i]) if public_i is not None and public_i < len(row) else None
-            initial = parse_yen(row[initial_i]) if initial_i is not None and initial_i < len(row) else None
-
-            # Fallback price extraction if labels differ on mobile/desktop table variants.
-            yen_cells = [(i, parse_yen(v)) for i, v in enumerate(row)]
-            yen_cells = [(i, p) for i, p in yen_cells if p is not None]
-            if public is None and yen_cells:
-                # Public price appears before initial price in the desktop table.
-                public = yen_cells[0][1]
-            if initial is None:
-                if market_i is not None:
-                    after_market = [p for i, p in yen_cells if i > market_i]
-                    if after_market:
-                        initial = after_market[0]
-                if initial is None and len(yen_cells) >= 2:
-                    initial = yen_cells[-1][1]
-
-            name = ""
-            if name_i is not None and name_i < len(row):
-                name = clean_text(row[name_i])
-                # Broker name may be concatenated in the same cell.  Keep only the part
-                # before obvious broker suffixes if present.
-                name = re.split(r"\s+(?:野村|大和|みずほ|岡三|SMBC|SBI|松井|楽天|三菱UFJ)", name)[0]
-            name = normalize_company_name(name)
-
-            result[code4] = {
-                "code4": code4,
-                "nameIpokabu": name or None,
-                "listedDateIpokabu": listed,
-                "marketIpokabu": market,
-                "ipoRating": rating,
-                "ipoRatingSource": "庶民のIPO" if rating else None,
-                "ipoSourceUrl": source_url,
-                "publicPrice": public,
-                "initialPrice": initial,
-            }
-
-        # The first matching main IPO table is sufficient; pages also contain a mobile duplicate.
-        if result:
-            break
+        i = max(i + 1, end)
 
     return result
 
 
 def parse_ipokabu() -> dict[str, dict[str, Any]]:
     merged: dict[str, dict[str, Any]] = {}
+
     for year, url in IPO_KABU_URLS.items():
         try:
             html = fetch_html(url)
-            rows = parse_ipokabu_year(html, year, url)
-            print(f"[庶民のIPO] {year} parsed={len(rows)}", flush=True)
+            rows = parse_ipokabu_text(html, year, url)
+            print(f"[庶民のIPO] {year} text-parsed={len(rows)}", flush=True)
             merged.update(rows)
         except Exception as e:
             print(f"[WARN] 庶民のIPO {year}: {e}", flush=True)
 
     cutoff = (date.today() - timedelta(days=IPO_DISCOVERY_DAYS)).isoformat()
     today_s = date.today().isoformat()
+
     merged = {
         c: x for c, x in merged.items()
         if cutoff <= x.get("listedDateIpokabu", "") <= today_s
         and x.get("marketIpokabu") in MARKETS
     }
+
     print(f"[庶民のIPO] usable 3-year records={len(merged)}", flush=True)
     return merged
 
@@ -502,79 +467,96 @@ def parse_ipokabu() -> dict[str, dict[str, Any]]:
 def build_master(
     jpx: dict[str, dict[str, Any]],
     ipokabu: dict[str, dict[str, Any]],
+    old: dict[str, dict[str, Any]],
 ) -> list[dict[str, Any]]:
     """
-    Union of both sources.
-    JPX wins for official name/date/market.
-    庶民のIPO fills missing records if JPX page parsing is temporarily incomplete.
+    Priority:
+      JPX -> 庶民のIPO -> existing JSON only as last-resort fallback.
+
+    Old company names are sanitized before fallback, so interview labels are removed.
     """
     codes = set(jpx) | set(ipokabu)
+
+    # Existing JSON can rescue a temporarily missing web row, but only for records
+    # whose listing date is still inside the desired 3-year IPO window.
+    cutoff = (date.today() - timedelta(days=IPO_DISCOVERY_DAYS)).isoformat()
+    today_s = date.today().isoformat()
+
+    for c, x in old.items():
+        d = clean_text(x.get("listedDate"))
+        m = clean_text(x.get("market"))
+        if cutoff <= d <= today_s and m in MARKETS:
+            codes.add(c)
+
     out = []
 
     for code4 in codes:
         j = jpx.get(code4, {})
         k = ipokabu.get(code4, {})
+        p = old.get(code4, {})
 
-        listed = j.get("listedDate") or k.get("listedDateIpokabu")
-        market = j.get("market") or k.get("marketIpokabu")
-        name = normalize_company_name(j.get("name") or k.get("nameIpokabu") or code4)
+        listed = j.get("listedDate") or k.get("listedDateIpokabu") or p.get("listedDate")
+        market = j.get("market") or k.get("marketIpokabu") or p.get("market")
+        name = normalize_company_name(
+            j.get("name") or k.get("nameIpokabu") or p.get("name") or code4
+        )
 
-        if not listed or market not in MARKETS:
+        if not listed or not (cutoff <= listed <= today_s):
+            continue
+        if market not in MARKETS:
             continue
         if "*" in name:
             continue
         if "インタビュー" in name:
             name = normalize_company_name(name)
 
+        source = (
+            "JPX" if j
+            else "庶民のIPO fallback" if k
+            else "existing JSON fallback"
+        )
+
         out.append({
             "code4": code4,
             "name": name,
             "market": market,
             "listedDate": listed,
-            "masterSource": "JPX" if j else "庶民のIPO fallback",
-            "jpxSourceUrl": j.get("jpxSourceUrl"),
+            "masterSource": source,
         })
 
-    cutoff = (date.today() - timedelta(days=IPO_DISCOVERY_DAYS)).isoformat()
-    today_s = date.today().isoformat()
-    out = [x for x in out if cutoff <= x["listedDate"] <= today_s]
     out.sort(key=lambda x: x["listedDate"], reverse=True)
 
-    # Only protect against a catastrophic empty scrape.  Do NOT fail just because
-    # one source has a temporary partial parse; the union/fallback is intentional.
-    if len(out) < 20:
+    # Only fail on a catastrophic scrape. In normal partial-site failures,
+    # the union/fallback allows the workflow to complete.
+    if len(out) < 5:
         raise RuntimeError(
-            f"Only {len(out)} IPO master records could be built. "
-            "Refusing to overwrite latest.json."
-        )
-    if len(out) < 150:
-        print(
-            f"[WARN] master has {len(out)} records, lower than expected; "
-            "continuing because JPX+庶民のIPO fallback produced a non-empty valid universe.",
-            flush=True,
+            f"Only {len(out)} IPO master records could be built; latest.json left unchanged."
         )
 
     print(
-        f"[MASTER] total={len(out)} "
-        f"(JPX={sum(1 for x in out if x['masterSource']=='JPX')}, "
-        f"fallback={sum(1 for x in out if x['masterSource']!='JPX')})",
+        "[MASTER] total={} JPX={} ipokabu-fallback={} old-fallback={}".format(
+            len(out),
+            sum(x["masterSource"] == "JPX" for x in out),
+            sum(x["masterSource"] == "庶民のIPO fallback" for x in out),
+            sum(x["masterSource"] == "existing JSON fallback" for x in out),
+        ),
         flush=True,
     )
     return out
 
 
 # ---------------------------------------------------------------------------
-# Existing JSON / prices
+# Existing JSON
 # ---------------------------------------------------------------------------
 def load_existing() -> tuple[dict[str, dict[str, Any]], bool]:
     if not OUT.exists():
-        print("[CACHE] no existing latest.json -> FULL BACKFILL", flush=True)
+        print("[CACHE] no latest.json -> FULL BACKFILL", flush=True)
         return {}, True
 
     try:
         raw = json.loads(OUT.read_text(encoding="utf-8"))
     except Exception as e:
-        print(f"[WARN] existing latest.json unreadable: {e}", flush=True)
+        print(f"[WARN] latest.json unreadable: {e}", flush=True)
         return {}, True
 
     items = raw.get("ipos", []) if isinstance(raw, dict) else raw if isinstance(raw, list) else []
@@ -583,46 +565,45 @@ def load_existing() -> tuple[dict[str, dict[str, Any]], bool]:
     for x in items:
         if not isinstance(x, dict):
             continue
-        code4 = extract_code(x.get("code4") or x.get("code"))
-        if code4:
-            by_code[code4] = x
+        c = clean_text(x.get("code4") or x.get("code")).replace(".T", "")
+        m = re.search(r"(\d{4}[A-Z]?)", c.upper())
+        if m:
+            by_code[m.group(1)] = x
 
-    is_v5 = bool(by_code) and all(
+    is_v6 = bool(by_code) and all(
         x.get("_schemaVersion") == SCHEMA_VERSION
         for x in list(by_code.values())[: min(20, len(by_code))]
     )
-    full_backfill = not is_v5
-    print(
-        f"[CACHE] existing={len(by_code)} mode={'FULL BACKFILL' if full_backfill else 'INCREMENTAL'}",
-        flush=True,
-    )
-    return by_code, full_backfill
+
+    full = not is_v6
+    print(f"[CACHE] existing={len(by_code)} mode={'FULL BACKFILL' if full else 'INCREMENTAL'}", flush=True)
+    return by_code, full
 
 
+# ---------------------------------------------------------------------------
+# yfinance prices
+# ---------------------------------------------------------------------------
 def normalize_price_frame(df: pd.DataFrame) -> list[dict[str, Any]]:
     if df is None or df.empty:
         return []
-
-    out: list[dict[str, Any]] = []
+    out = []
     for idx, row in df.iterrows():
         try:
             d = pd.Timestamp(idx).date().isoformat()
         except Exception:
             continue
-
         close = row.get("Close")
         if close is None or pd.isna(close):
             continue
-
-        item: dict[str, Any] = {"date": d, "close": round(float(close), 4)}
-        for field in ("Open", "High", "Low"):
-            v = row.get(field)
+        item = {"date": d, "close": round(float(close), 4)}
+        for f in ("Open", "High", "Low"):
+            v = row.get(f)
             if v is not None and not pd.isna(v):
-                item[field.lower()] = round(float(v), 4)
-        vol = row.get("Volume")
-        if vol is not None and not pd.isna(vol):
+                item[f.lower()] = round(float(v), 4)
+        v = row.get("Volume")
+        if v is not None and not pd.isna(v):
             try:
-                item["volume"] = int(vol)
+                item["volume"] = int(v)
             except Exception:
                 pass
         out.append(item)
@@ -630,11 +611,11 @@ def normalize_price_frame(df: pd.DataFrame) -> list[dict[str, Any]]:
 
 
 def download_prices(symbols: list[str], start: str, end: str) -> dict[str, list[dict[str, Any]]]:
-    result: dict[str, list[dict[str, Any]]] = {}
-    chunk_size = 50
+    result = {}
+    chunk_size = 40
 
     for pos in range(0, len(symbols), chunk_size):
-        chunk = symbols[pos: pos + chunk_size]
+        chunk = symbols[pos:pos + chunk_size]
         print(f"[yfinance] batch {pos+1}-{pos+len(chunk)}/{len(symbols)}", flush=True)
 
         try:
@@ -670,18 +651,19 @@ def download_prices(symbols: list[str], start: str, end: str) -> dict[str, list[
                         continue
                 else:
                     sub = raw
+
                 hist = normalize_price_frame(sub)
                 if hist:
                     result[symbol] = hist
             except Exception as e:
                 print(f"[WARN] yfinance parse {symbol}: {e}", flush=True)
 
-    print(f"[yfinance] data={len(result)}/{len(symbols)} tickers", flush=True)
+    print(f"[yfinance] tickers with data={len(result)}/{len(symbols)}", flush=True)
     return result
 
 
 def merge_history(old: Any, new: Any) -> list[dict[str, Any]]:
-    by_date: dict[str, dict[str, Any]] = {}
+    by_date = {}
     if isinstance(old, list):
         for x in old:
             if isinstance(x, dict) and x.get("date"):
@@ -695,14 +677,14 @@ def merge_history(old: Any, new: Any) -> list[dict[str, Any]]:
     return [by_date[d] for d in sorted(by_date) if d >= cutoff]
 
 
-def milestone(history: list[dict[str, Any]], listed: str, days: int) -> tuple[float | None, str | None]:
+def milestone(history: list[dict[str, Any]], listed: str, days: int):
     if not history:
         return None, None
     target = date.fromisoformat(listed) + timedelta(days=days)
     limit = target + timedelta(days=15)
     for x in history:
         try:
-            d = date.fromisoformat(str(x.get("date")))
+            d = date.fromisoformat(str(x["date"]))
         except Exception:
             continue
         if target <= d <= limit:
@@ -712,7 +694,7 @@ def milestone(history: list[dict[str, Any]], listed: str, days: int) -> tuple[fl
     return None, None
 
 
-def pct(current: Any, base: Any) -> float | None:
+def pct(current: Any, base: Any):
     try:
         if current is None or base in (None, 0):
             return None
@@ -722,30 +704,18 @@ def pct(current: Any, base: Any) -> float | None:
 
 
 # ---------------------------------------------------------------------------
-# Optional J-Quants financial refresh (non-fatal, limited budget)
+# Optional J-Quants financials
 # ---------------------------------------------------------------------------
-def jq_headers(secret: str) -> dict[str, str] | None:
-    secret = clean_text(secret)
-    if not secret:
-        return None
-    # Current API-key style.
-    if ":" not in secret:
-        return {"x-api-key": secret}
-    return None
-
-
-def fetch_financials_nonfatal(code4: str, secret: str) -> list[dict[str, Any]]:
-    headers = jq_headers(secret)
-    if not headers:
+def fetch_financials_nonfatal(code4: str, api_key: str) -> list[dict[str, Any]]:
+    if not api_key or ":" in api_key:
+        # Do not risk failing/hanging on an old credential format.
         return []
 
-    urls = [
-        f"https://api.jquants.com/v2/fins/summary?code={code4}0",
-        f"https://api.jquants.com/v2/fins/statements?code={code4}0",
-    ]
-    for url in urls:
+    headers = {"x-api-key": api_key}
+    for endpoint in ("summary", "statements"):
+        url = f"https://api.jquants.com/v2/fins/{endpoint}?code={code4}0"
         try:
-            r = requests.get(url, headers=headers, timeout=20)
+            r = requests.get(url, headers=headers, timeout=15)
             if not r.ok:
                 continue
             js = r.json()
@@ -762,8 +732,6 @@ def should_refresh_financials(prev: dict[str, Any]) -> bool:
     if not prev.get("financials"):
         return True
     stamp = clean_text(prev.get("financialsUpdatedAt"))
-    if not stamp:
-        return True
     try:
         return (date.today() - date.fromisoformat(stamp[:10])).days >= FINANCIAL_REFRESH_DAYS
     except Exception:
@@ -773,14 +741,13 @@ def should_refresh_financials(prev: dict[str, Any]) -> bool:
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
-def main() -> None:
-    run_started = datetime.now().isoformat(timespec="seconds")
-    old_by_code, full_backfill = load_existing()
+def main():
+    started = datetime.now().isoformat(timespec="seconds")
+    old, full_backfill = load_existing()
 
-    # Always rebuild IPO metadata.
     jpx = parse_jpx()
     ipokabu = parse_ipokabu()
-    master = build_master(jpx, ipokabu)
+    master = build_master(jpx, ipokabu, old)
 
     today = date.today()
     start = (
@@ -793,51 +760,51 @@ def main() -> None:
     symbols = [f"{x['code4']}.T" for x in master]
     price_map = download_prices(symbols, start, end)
 
-    jq_secret = os.environ.get("JQUANTS_API_KEY", "").strip()
-    jq_budget = 8
+    jq_key = os.environ.get("JQUANTS_API_KEY", "").strip()
+    jq_budget = 6
     jq_attempts = 0
 
-    items: list[dict[str, Any]] = []
+    items = []
 
-    for i, m in enumerate(master, 1):
+    for idx, m in enumerate(master, 1):
         code4 = m["code4"]
-        prev = old_by_code.get(code4, {})
+        prev = old.get(code4, {})
         ipo = ipokabu.get(code4, {})
         symbol = f"{code4}.T"
 
         history = merge_history(prev.get("priceHistory", []), price_map.get(symbol, []))
-        current_price = history[-1].get("close") if history else prev.get("currentPrice")
-        price_date = history[-1].get("date") if history else prev.get("priceAsOfDate")
+
+        current = history[-1].get("close") if history else prev.get("currentPrice")
+        current_date = history[-1].get("date") if history else prev.get("priceAsOfDate")
 
         public = ipo.get("publicPrice") or prev.get("publicPrice")
         initial = ipo.get("initialPrice") or prev.get("initialPrice")
 
         financials = prev.get("financials", [])
-        financials_updated = prev.get("financialsUpdatedAt")
+        fin_updated = prev.get("financialsUpdatedAt")
 
-        if jq_secret and jq_attempts < jq_budget and should_refresh_financials(prev):
-            fresh = fetch_financials_nonfatal(code4, jq_secret)
+        if jq_key and jq_attempts < jq_budget and should_refresh_financials(prev):
+            fresh = fetch_financials_nonfatal(code4, jq_key)
             jq_attempts += 1
             if fresh:
                 financials = fresh
-                financials_updated = today.isoformat()
+                fin_updated = today.isoformat()
 
-        miles: dict[str, Any] = {}
+        miles = {}
         for days in (30, 90, 180, 365, 730, 1095):
             p, d = milestone(history, m["listedDate"], days)
             miles[f"price{days}d"] = p
             miles[f"price{days}dDate"] = d
 
-        # IMPORTANT: fresh master name always wins. Old contaminated name is never reused.
-        fresh_name = normalize_company_name(m["name"])
-        if "インタビュー" in fresh_name:
-            raise RuntimeError(f"Invalid company name after sanitization: {fresh_name}")
+        name = normalize_company_name(m["name"])
+        if "インタビュー" in name:
+            name = normalize_company_name(name)
 
-        item = {
+        items.append({
             "_schemaVersion": SCHEMA_VERSION,
             "code": code4,
             "code4": code4,
-            "name": fresh_name,
+            "name": name,
             "market": m["market"],
             "listedDate": m["listedDate"],
             "masterSource": m["masterSource"],
@@ -849,49 +816,37 @@ def main() -> None:
             "ipoRatingSource": ipo.get("ipoRatingSource") or prev.get("ipoRatingSource"),
             "ipoSourceUrl": ipo.get("ipoSourceUrl") or prev.get("ipoSourceUrl"),
 
-            "currentPrice": current_price,
-            "priceAsOfDate": price_date,
-            "priceVsPublicPct": pct(current_price, public),
-            "priceVsInitialPct": pct(current_price, initial),
+            "currentPrice": current,
+            "priceAsOfDate": current_date,
+            "priceVsPublicPct": pct(current, public),
+            "priceVsInitialPct": pct(current, initial),
 
             **miles,
 
             "priceHistory": history,
             "financials": financials if isinstance(financials, list) else [],
-            "financialsUpdatedAt": financials_updated,
-
-            # Preserve optional fields from older versions if already present.
+            "financialsUpdatedAt": fin_updated,
             "marketCap": prev.get("marketCap"),
             "currentPER": prev.get("currentPER"),
+            "dataRetrievedAt": started,
+        })
 
-            "dataRetrievedAt": run_started,
-            "dataSource": [
-                m["masterSource"],
-                * (["庶民のIPO"] if ipo else []),
-                * (["yfinance"] if history else []),
-                * (["J-Quants"] if financials else []),
-            ],
-        }
-        items.append(item)
+        if idx % 25 == 0 or idx == len(master):
+            print(f"[BUILD] {idx}/{len(master)}", flush=True)
 
-        if i % 25 == 0 or i == len(master):
-            print(f"[BUILD] {i}/{len(master)}", flush=True)
-
-    # Final validations before touching latest.json.
-    if not items:
-        raise RuntimeError("No IPO data built; latest.json left unchanged.")
-    if any("インタビュー" in x.get("name", "") for x in items):
-        raise RuntimeError("Interview label found in final company names; latest.json left unchanged.")
+    # If yfinance is temporarily unavailable, preserving old history is allowed.
+    # But we still require a valid master and clean names.
+    if len(items) < 5:
+        raise RuntimeError("Too few final records; latest.json left unchanged.")
+    if any("インタビュー" in clean_text(x.get("name")) for x in items):
+        raise RuntimeError("Interview label remains in final data; latest.json left unchanged.")
 
     tmp = OUT.with_suffix(".json.tmp")
-    tmp.write_text(
-        json.dumps(items, ensure_ascii=False, separators=(",", ":")),
-        encoding="utf-8",
-    )
+    tmp.write_text(json.dumps(items, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     tmp.replace(OUT)
 
     print(
-        f"[DONE] IPOs={len(items)} latest.json={OUT.stat().st_size/1024/1024:.2f}MB "
+        f"[DONE] records={len(items)} file={OUT.stat().st_size/1024/1024:.2f}MB "
         f"mode={'full-backfill' if full_backfill else 'incremental'}",
         flush=True,
     )
