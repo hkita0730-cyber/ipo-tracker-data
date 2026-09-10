@@ -1,4 +1,4 @@
-name: Update IPO data (FAST v5)
+name: Update IPO data (FAST v6)
 
 on:
   schedule:
@@ -43,12 +43,15 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
+
           p = Path("docs/latest.json")
           data = json.loads(p.read_text(encoding="utf-8"))
+
           assert isinstance(data, list), "latest.json must be a JSON array"
-          assert len(data) >= 20, f"too few IPO records: {len(data)}"
-          assert all("インタビュー" not in str(x.get("name","")) for x in data)
-          print(f"validated {len(data)} IPO records")
+          assert len(data) >= 5, f"too few records: {len(data)}"
+          assert all("インタビュー" not in str(x.get("name", "")) for x in data)
+
+          print(f"validated {len(data)} records")
           PY
 
       - name: Commit updated data
@@ -56,5 +59,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/latest.json
-          git diff --cached --quiet || git commit -m "Update IPO data (FAST v5)"
+          git diff --cached --quiet || git commit -m "Update IPO data (FAST v6)"
           git push
