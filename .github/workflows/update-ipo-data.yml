@@ -1,4 +1,4 @@
-name: Update IPO data (FAST v6)
+name: Update IPO data (FAST v8)
 
 on:
   schedule:
@@ -44,14 +44,34 @@ jobs:
           import json
           from pathlib import Path
 
-          p = Path("docs/latest.json")
-          data = json.loads(p.read_text(encoding="utf-8"))
+          data = json.loads(Path("docs/latest.json").read_text(encoding="utf-8"))
+          assert isinstance(data, list)
+          assert len(data) >= 100
 
-          assert isinstance(data, list), "latest.json must be a JSON array"
-          assert len(data) >= 5, f"too few records: {len(data)}"
+          codes = [str(x.get("code4", "")) for x in data]
+          assert len(codes) == len(set(codes)), "duplicate security codes"
           assert all("インタビュー" not in str(x.get("name", "")) for x in data)
 
-          print(f"validated {len(data)} records")
+          by_code = {str(x.get("code4")): str(x.get("name")) for x in data}
+          exact_checks = {
+              "8729": "ソニーフィナンシャルグループ",
+              "332A": "ミーク",
+              "485A": "パワーエックス",
+          }
+          for code, expected in exact_checks.items():
+              if code in by_code:
+                  assert expected in by_code[code], f"{code}: {by_code[code]}"
+
+          if "265A" in by_code:
+              assert "hmcomm" in by_code["265A"].lower().translate(
+                  str.maketrans("ｈｍｃｏｍ", "hmcom")
+              ) or "Ｈｍｃｏｍｍ" in by_code["265A"]
+
+          if "471A" in by_code:
+              assert "NSグループ" in by_code["471A"] or "ＮＳグループ" in by_code["471A"]
+
+          verified = sum(bool(x.get("officialCodeNameVerified")) for x in data)
+          print(f"validated {len(data)} records; JPX-current verified={verified}")
           PY
 
       - name: Commit updated data
@@ -59,5 +79,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/latest.json
-          git diff --cached --quiet || git commit -m "Update IPO data (FAST v6)"
+          git diff --cached --quiet || git commit -m "Update IPO data (FAST v8)"
           git push
