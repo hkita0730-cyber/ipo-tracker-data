@@ -43,7 +43,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "docs" / "latest.json"
 OUT.parent.mkdir(parents=True, exist_ok=True)
 
-SCHEMA_VERSION = 8
+SCHEMA_VERSION = 9
 IPO_DISCOVERY_DAYS = 1095       # new IPO search: 3 years
 RETENTION_DAYS = 1460           # keep tracked IPO records/history: 4 years
 RECENT_REFRESH_DAYS = 120
@@ -459,11 +459,11 @@ def load_existing():
         if re.fullmatch(r"\d{4}[A-Z]?", code):
             by_code[code] = x
 
-    is_v8 = bool(by_code) and all(
+    is_v9 = bool(by_code) and all(
         x.get("_schemaVersion") == SCHEMA_VERSION
         for x in list(by_code.values())[:min(20, len(by_code))]
     )
-    return by_code, (not is_v8)
+    return by_code, (not is_v9)
 
 
 # ------------------------------------------------------------------
@@ -599,14 +599,27 @@ def download_prices(symbols, start, end):
 
 def merge_history(old, new):
     by_date = {}
+    def normalize_point(x):
+        if not isinstance(x, dict) or not x.get("date"):
+            return None
+        y = dict(x)
+        if y.get("close") is None and y.get("price") is not None:
+            y["close"] = y.get("price")
+        if y.get("price") is None and y.get("close") is not None:
+            y["price"] = y.get("close")
+        return y
+
     if isinstance(old, list):
         for x in old:
-            if isinstance(x, dict) and x.get("date"):
-                by_date[str(x["date"])] = x
+            y = normalize_point(x)
+            if y:
+                by_date[str(y["date"])] = y
     if isinstance(new, list):
         for x in new:
-            if isinstance(x, dict) and x.get("date"):
-                by_date[str(x["date"])] = x
+            y = normalize_point(x)
+            if y:
+                by_date[str(y["date"])] = y
+
     cutoff = (date.today() - timedelta(days=RETENTION_DAYS)).isoformat()
     return [by_date[d] for d in sorted(by_date) if d >= cutoff]
 
@@ -684,6 +697,34 @@ def should_refresh_financials(prev):
         return (date.today() - d).days >= FINANCIAL_REFRESH_DAYS
     except Exception:
         return True
+
+
+def derive_app_price_fields(hist):
+    """Legacy app fields derived from unified history."""
+    if not hist:
+        return {
+            "prevClose": None, "volume": None,
+            "week52High": None, "week52Low": None,
+            "allTimeHigh": None, "allTimeLow": None,
+        }
+
+    highs = [x.get("high") for x in hist if x.get("high") is not None]
+    lows = [x.get("low") for x in hist if x.get("low") is not None]
+    closes = [x.get("close") for x in hist if x.get("close") is not None]
+
+    cutoff52 = (date.today() - timedelta(days=365)).isoformat()
+    recent = [x for x in hist if x.get("date", "") >= cutoff52]
+    rh = [x.get("high") for x in recent if x.get("high") is not None]
+    rl = [x.get("low") for x in recent if x.get("low") is not None]
+
+    return {
+        "prevClose": closes[-2] if len(closes) >= 2 else None,
+        "volume": hist[-1].get("volume"),
+        "week52High": max(rh) if rh else (max(closes[-250:]) if closes else None),
+        "week52Low": min(rl) if rl else (min(closes[-250:]) if closes else None),
+        "allTimeHigh": max(highs) if highs else (max(closes) if closes else None),
+        "allTimeLow": min(lows) if lows else (min(closes) if closes else None),
+    }
 
 
 def main():
@@ -793,13 +834,19 @@ def main():
             "masterSource": m["masterSource"],
             "officialCodeNameVerified": m["officialCodeNameVerified"],
 
+            # New canonical names:
             "publicPrice": public,
+            "initialPrice": initial,
+
+            # Legacy app-compatible aliases. The current HTML expects these names:
+            "ipoPrice": public,
+            "firstDayPrice": initial,
+
             "publicPriceSource": (
                 "JPX" if m.get("publicPriceJPX") else
                 "庶民のIPO" if k.get("publicPriceIpokabu") else
                 "existing"
             ),
-            "initialPrice": initial,
             "initialPriceSource": (
                 "庶民のIPO" if k.get("initialPriceIpokabu") else
                 "yfinance listing-day Open" if yf_initial is not None else
@@ -812,6 +859,8 @@ def main():
 
             "currentPrice": current,
             "priceAsOfDate": current_date,
+            "currentPriceUpdatedAt": current_date,
+            **derive_app_price_fields(hist),
             "priceVsPublicPct": pct(current, public),
             "priceVsInitialPct": pct(current, initial),
             **miles,
@@ -821,12 +870,17 @@ def main():
             "financialsUpdatedAt": fin_updated,
             "marketCap": prev.get("marketCap"),
             "currentPER": prev.get("currentPER"),
+            "dataSource": "JPX + 庶民のIPO + yfinance" + (" + J-Quants" if financials else ""),
             "dataRetrievedAt": started,
         }
         items.append(item)
 
         if i % 25 == 0 or i == len(master):
             print(f"[BUILD] {i}/{len(master)}", flush=True)
+
+    public_count = sum(x.get("ipoPrice") is not None for x in items)
+    initial_count = sum(x.get("firstDayPrice") is not None for x in items)
+    print(f"[IPO prices] public={public_count}/{len(items)} initial={initial_count}/{len(items)}", flush=True)
 
     # Final integrity gates.
     codes = [x["code4"] for x in items]
