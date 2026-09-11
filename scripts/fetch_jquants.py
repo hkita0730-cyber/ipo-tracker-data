@@ -44,7 +44,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "docs" / "latest.json"
 OUT.parent.mkdir(parents=True, exist_ok=True)
 
-SCHEMA_VERSION = 13
+SCHEMA_VERSION = 14
 IPO_DISCOVERY_DAYS = 1095       # new IPO search: 3 years
 RETENTION_DAYS = 1460           # keep tracked IPO records/history: 4 years
 RECENT_REFRESH_DAYS = 120
@@ -191,10 +191,27 @@ def next_nonempty_row(tr):
 # JPX IPO archives: robust same-row date/code/name extraction
 # ------------------------------------------------------------------
 def parse_jpx_archive_page(html: str, url: str) -> dict[str, dict[str, Any]]:
+    """
+    Parse JPX new-listing pages using the FIRST physical row only.
+
+    Important change:
+    Previous versions required the market cell to be found in the following row.
+    On 2024/2025/current JPX pages that assumption fails in GitHub Actions and
+    discarded almost every IPO (e.g. 2025=4, 2024=6).
+
+    The first row already contains the three things needed to build a safe
+    candidate master:
+      listing date / company name / security code
+
+    Market is verified later with JPX's official current-listed-company search,
+    so this parser no longer rejects a candidate just because the second row
+    could not be associated.
+    """
     soup = BeautifulSoup(html, "html.parser")
     out: dict[str, dict[str, Any]] = {}
 
     for tr in soup.find_all("tr"):
+        # Use all direct th/td cells; links remain inside their cell text.
         c = cells(tr)
         if len(c) < 2:
             continue
@@ -203,6 +220,7 @@ def parse_jpx_archive_page(html: str, url: str) -> dict[str, dict[str, Any]]:
         if not listed:
             continue
 
+        # Find the security code in THIS SAME row only.
         code_idx = None
         code4 = None
         for i, value in enumerate(c):
@@ -213,37 +231,40 @@ def parse_jpx_archive_page(html: str, url: str) -> dict[str, dict[str, Any]]:
         if code4 is None or code_idx is None:
             continue
 
-        # Company name must be in the SAME physical row, before code.
+        # Company name is the nearest meaningful cell before the code.
         raw_name = ""
         for value in reversed(c[:code_idx]):
             t = clean_text(value)
-            if not t or parse_date(t):
+            if not t:
                 continue
-            if t in ("代表者インタビュー", "創業者インタビュー", "詳細"):
+            # Skip listing/approval date cells and link labels.
+            if parse_date(t):
+                continue
+            if t in ("代表者インタビュー", "創業者インタビュー", "社長インタビュー",
+                     "経営者インタビュー", "詳細", "会社概要", "確認書"):
                 continue
             raw_name = t
             break
 
         if not raw_name:
             continue
+
+        # JPX marks technical listings with *; exclude them.
         if "*" in raw_name:
-            # JPX technical listing marker
             continue
 
         name = normalize_company_name(raw_name)
         if not name:
             continue
 
+        # Try to recover market / public price, but do NOT require them.
         row2 = next_nonempty_row(tr)
         market = next((m for m in MARKETS if any(m in x for x in row2)), "")
         if not market:
             market = next((m for m in MARKETS if any(m in x for x in c)), "")
-        if not market:
-            continue
 
         offer = None
-        # On JPX archive pages the public/offer price is normally the
-        # 4th logical cell on the second physical row.
+        # Search likely second-row values first.
         for value in row2:
             p = parse_price(value)
             if p and p != 100:
@@ -255,7 +276,7 @@ def parse_jpx_archive_page(html: str, url: str) -> dict[str, dict[str, Any]]:
             "code4": code4,
             "archiveName": name,
             "listedDate": listed,
-            "archiveMarket": market,
+            "archiveMarket": market or None,
             "publicPriceJPX": offer,
             "archiveSourceUrl": url,
         }
@@ -263,7 +284,6 @@ def parse_jpx_archive_page(html: str, url: str) -> dict[str, dict[str, Any]]:
             out[code4] = item
 
     return out
-
 
 def fetch_jpx_archive_master() -> dict[str, dict[str, Any]]:
     merged = {}
@@ -557,28 +577,29 @@ def load_existing():
         if re.fullmatch(r"\d{4}[A-Z]?", code):
             by_code[code] = x
 
-    is_v13 = bool(by_code) and all(
+    is_v14 = bool(by_code) and all(
         x.get("_schemaVersion") == SCHEMA_VERSION
         for x in list(by_code.values())[:min(20, len(by_code))]
     )
-    return by_code, (not is_v13)
+    return by_code, (not is_v14)
 
 
 # ------------------------------------------------------------------
 # Master construction
 # ------------------------------------------------------------------
-def build_master(archive, ipokabu, official) -> list[dict[str, Any]]:
+def build_master(archive, ipokabu, official, old) -> list[dict[str, Any]]:
     """
-    Master priority:
-      1) JPX current-company search, when available.
-      2) JPX new-listing archive.
-      3) 庶民のIPO annual-result row.
+    Master is JPX-first. 庶民のIPO is supplemental only.
 
-    The third fallback is now safe because the annual table parser reads
-    code/name/date/market from the SAME logical row via pandas.read_html.
-    Existing latest.json is never used as a company/code master.
+    Candidate codes:
+      - JPX current/new-listing archive
+      - existing JSON codes (to preserve previously known IPOs during source glitches)
+      - any 庶民のIPO rows that happened to parse
+
+    For current-listed securities, JPX official lookup is authoritative for
+    company name and market. Existing JSON is NEVER authoritative for company name.
     """
-    codes = set(archive) | set(ipokabu)
+    codes = set(archive) | set(ipokabu) | set(old)
     out = []
 
     retention_cutoff = (date.today() - timedelta(days=RETENTION_DAYS)).isoformat()
@@ -589,27 +610,36 @@ def build_master(archive, ipokabu, official) -> list[dict[str, Any]]:
         a = archive.get(code, {})
         k = ipokabu.get(code, {})
         o = official.get(code, {})
+        prev = old.get(code, {})
 
-        listed = a.get("listedDate") or k.get("ipokabuListedDate")
+        listed = (
+            a.get("listedDate")
+            or k.get("ipokabuListedDate")
+            or prev.get("listedDate")
+        )
         if not listed or not (retention_cutoff <= listed <= today_s):
             continue
 
         if o:
+            # Current listed company: JPX official mapping wins.
             name = o["officialName"]
             market = o["officialMarket"]
             source = "JPX official listed-company search"
             verified = True
-        elif a:
+        elif a and a.get("archiveMarket") in MARKETS:
+            # Delisted / no longer found in current search: archive row is acceptable.
             name = normalize_company_name(a.get("archiveName"))
             market = a.get("archiveMarket")
             source = "JPX new-listing archive"
             verified = False
-        elif k:
+        elif k and k.get("ipokabuMarket") in MARKETS:
+            # Third-party fallback only when available.
             name = normalize_company_name(k.get("ipokabuName"))
             market = k.get("ipokabuMarket")
-            source = "庶民のIPO annual result"
+            source = "庶民のIPO fallback"
             verified = False
         else:
+            # Do not invent a name/market from stale JSON.
             continue
 
         if not name or market not in MARKETS or "*" in name:
@@ -617,7 +647,7 @@ def build_master(archive, ipokabu, official) -> list[dict[str, Any]]:
 
         out.append({
             "code4": code,
-            "name": name,
+            "name": normalize_company_name(name),
             "market": market,
             "listedDate": listed,
             "searchEligible3y": listed >= discovery_cutoff,
@@ -628,9 +658,10 @@ def build_master(archive, ipokabu, official) -> list[dict[str, Any]]:
 
     out.sort(key=lambda x: x["listedDate"], reverse=True)
 
-    if len(out) < 200:
+    # Catastrophic guard only. Do not block the run because 庶民のIPO is partial.
+    if len(out) < 120:
         raise RuntimeError(
-            f"Master only has {len(out)} records; source coverage is incomplete. "
+            f"Master only has {len(out)} records; JPX coverage is too small. "
             "latest.json left unchanged."
         )
 
@@ -844,11 +875,13 @@ def main():
     archive = fetch_jpx_archive_master()
     ipokabu = fetch_ipokabu()
 
-    candidate_codes = sorted(set(archive) | set(ipokabu))
+    # Verify JPX/archive candidates plus previously known codes.
+    # This makes the run resilient when 庶民のIPO is partially unavailable.
+    candidate_codes = sorted(set(archive) | set(ipokabu) | set(old))
     official = verify_codes_with_jpx(candidate_codes)
     print(f"[JPX verify] exact current mappings={len(official)}/{len(candidate_codes)}", flush=True)
 
-    master = build_master(archive, ipokabu, official)
+    master = build_master(archive, ipokabu, official, old)
     print(
         f"[MASTER] total={len(master)} verified={sum(x['officialCodeNameVerified'] for x in master)} "
         f"3y={sum(x['searchEligible3y'] for x in master)}",
