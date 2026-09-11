@@ -1,4 +1,4 @@
-name: Update IPO data (FAST v14)
+name: Update IPO data (FAST v15)
 
 on:
   schedule:
@@ -43,14 +43,25 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
+          from datetime import date, timedelta
 
           data = json.loads(Path("docs/latest.json").read_text(encoding="utf-8"))
           assert isinstance(data, list)
-          assert len(data) >= 120, f"too few records: {len(data)}"
 
           codes = [str(x.get("code4", "")) for x in data]
           assert len(codes) == len(set(codes)), "duplicate security codes"
           assert all("インタビュー" not in str(x.get("name", "")) for x in data)
+
+          cutoff = (date.today() - timedelta(days=1095)).isoformat()
+          recent3y = [
+              x for x in data
+              if str(x.get("listedDate", "")) >= cutoff
+          ]
+
+          assert len(data) >= 150, \
+              f"too few total records: {len(data)}"
+          assert len(recent3y) >= 120, \
+              f"too few recent-3y records: {len(recent3y)}"
 
           by_year = {}
           for x in data:
@@ -58,27 +69,36 @@ jobs:
               if len(d) >= 4:
                   by_year[d[:4]] = by_year.get(d[:4], 0) + 1
 
-          print("year coverage:", by_year)
+          verified = sum(
+              bool(x.get("officialCodeNameVerified"))
+              for x in data
+          )
 
-          verified = sum(bool(x.get("officialCodeNameVerified")) for x in data)
           evaluations = sum(
               str(x.get("ipoEvaluation", "")) in ("S","A","B","C","D")
               for x in data
           )
-          public_prices = sum(x.get("ipoPrice") is not None for x in data)
-          initial_prices = sum(x.get("firstDayPrice") is not None for x in data)
 
-          print(
-              f"validated {len(data)} records; "
-              f"JPX-verified={verified}; "
-              f"庶民評価={evaluations}; "
-              f"public={public_prices}; initial={initial_prices}"
+          links = sum(
+              str(x.get("ipoSourceUrl", "")).startswith(
+                  "https://ipokabu.net/ipo/"
+              )
+              for x in data
           )
 
-          # 庶民のIPOは補助データなので、
-          # 件数が少なくてもそれだけでは失敗させない。
+          print("year coverage:", by_year)
+          print(
+              f"validated total={len(data)} "
+              f"recent3y={len(recent3y)} "
+              f"JPX-verified={verified} "
+              f"庶民評価={evaluations} "
+              f"links={links}"
+          )
+
+          # 庶民のIPOは補助情報なので、
+          # 評価取得件数が少なくてもRun自体は止めない。
           assert verified >= 100, \
-              f"JPX official verification unexpectedly low: {verified}"
+              f"JPX verification unexpectedly low: {verified}"
           PY
 
       - name: Commit updated data
@@ -86,5 +106,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/latest.json
-          git diff --cached --quiet || git commit -m "Update IPO data (FAST v14)"
+          git diff --cached --quiet || git commit -m "Update IPO data (FAST v15)"
           git push
