@@ -1,4 +1,4 @@
-name: Update IPO data (FAST v10)
+name: Update IPO data (FAST v12)
 
 on:
   schedule:
@@ -46,7 +46,7 @@ jobs:
 
           data = json.loads(Path("docs/latest.json").read_text(encoding="utf-8"))
           assert isinstance(data, list)
-          assert len(data) >= 100
+          assert len(data) >= 180, f"too few records: {len(data)}"
 
           codes = [str(x.get("code4", "")) for x in data]
           assert len(codes) == len(set(codes)), "duplicate security codes"
@@ -60,26 +60,18 @@ jobs:
 
           print("year coverage:", by_year)
 
-          assert by_year.get("2025", 0) >= 40, \
+          assert by_year.get("2025", 0) >= 55, \
               f"2025 coverage too low: {by_year.get('2025',0)}"
-          assert by_year.get("2024", 0) >= 60, \
+          assert by_year.get("2024", 0) >= 75, \
               f"2024 coverage too low: {by_year.get('2024',0)}"
-          assert by_year.get("2026", 0) >= 10, \
+          assert by_year.get("2026", 0) >= 15, \
               f"2026 coverage too low: {by_year.get('2026',0)}"
 
-          attention = sum(
-              str(x.get("ipoAttention", "")) in ("S","A","B","C","D")
+          evaluations = sum(
+              str(x.get("ipoEvaluation", "")) in ("S","A","B","C","D")
               for x in data
           )
-          links = sum(
-              str(x.get("ipoSourceUrl", "")).startswith("https://ipokabu.net/ipo/")
-              for x in data
-          )
-
-          print(
-              f"validated {len(data)} records; "
-              f"attention={attention}; links={links}"
-          )
+          print(f"validated {len(data)} records; evaluations={evaluations}")
           PY
 
       - name: Commit updated data
@@ -87,5 +79,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/latest.json
-          git diff --cached --quiet || git commit -m "Update IPO data (FAST v10)"
+          git diff --cached --quiet || git commit -m "Update IPO data (FAST v12)"
           git push
