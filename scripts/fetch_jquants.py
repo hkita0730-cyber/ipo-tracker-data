@@ -44,7 +44,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "docs" / "latest.json"
 OUT.parent.mkdir(parents=True, exist_ok=True)
 
-SCHEMA_VERSION = 15
+SCHEMA_VERSION = 16
 IPO_DISCOVERY_DAYS = 1095       # new IPO search: 3 years
 RETENTION_DAYS = 1460           # keep tracked IPO records/history: 4 years
 RECENT_REFRESH_DAYS = 120
@@ -58,6 +58,14 @@ JPX_ARCHIVES = [
     "https://www.jpx.co.jp/listing/stocks/new/00-archives-02.html",
     "https://www.jpx.co.jp/listing/stocks/new/00-archives-03.html",
     "https://www.jpx.co.jp/listing/stocks/new/00-archives-04.html",
+]
+
+JPX_EN_ARCHIVES = [
+    "https://www.jpx.co.jp/english/listing/stocks/new/index.html",
+    "https://www.jpx.co.jp/english/listing/stocks/new/00-archives-01.html",
+    "https://www.jpx.co.jp/english/listing/stocks/new/00-archives-02.html",
+    "https://www.jpx.co.jp/english/listing/stocks/new/00-archives-03.html",
+    "https://www.jpx.co.jp/english/listing/stocks/new/00-archives-04.html",
 ]
 
 IPO_KABU_URLS = {
@@ -285,26 +293,168 @@ def parse_jpx_archive_page(html: str, url: str) -> dict[str, dict[str, Any]]:
 
     return out
 
+
+def flatten_jpx_columns(df: pd.DataFrame) -> list[str]:
+    labels = []
+    for col in df.columns:
+        if isinstance(col, tuple):
+            parts = []
+            for p in col:
+                s = clean_text(p)
+                if s and not s.startswith("Unnamed") and s not in parts:
+                    parts.append(s)
+            labels.append(" / ".join(parts))
+        else:
+            labels.append(clean_text(col))
+    return labels
+
+
+def parse_english_listing_date(value: Any) -> str | None:
+    s = clean_text(value)
+    # First date is the listing date; approval date may follow in parentheses.
+    if not s:
+        return None
+    # pandas handles "Dec. 25, 2025" and similar strings.
+    m = re.match(r"^([A-Za-z]{3,9}\.?\s+\d{1,2},\s+\d{4})", s)
+    if not m:
+        return None
+    try:
+        return pd.to_datetime(m.group(1), errors="raise").date().isoformat()
+    except Exception:
+        return None
+
+
+def parse_jpx_english_page(html: str, url: str) -> dict[str, dict[str, Any]]:
+    """
+    Candidate discovery from JPX English pages.
+
+    Why English pages:
+    The Japanese HTML returned to GitHub Actions has been parsed as only a
+    handful of physical rows for 2024/2025. The English archive exposes the
+    same official listings in a conventional logical table and does not contain
+    the interview-link text that complicated the Japanese parser.
+
+    We only use it for code/date/optional offer price discovery. Japanese company
+    name and market are still overwritten by JPX official current-company lookup.
+    """
+    result: dict[str, dict[str, Any]] = {}
+
+    try:
+        tables = pd.read_html(io.StringIO(html))
+    except Exception as e:
+        print(f"[WARN] JPX EN read_html {url}: {e}", flush=True)
+        return result
+
+    for df in tables:
+        if df.empty:
+            continue
+
+        labels = flatten_jpx_columns(df)
+        joined = " | ".join(labels).lower()
+        if "date of listing" not in joined or "code" not in joined:
+            continue
+
+        date_i = next((i for i,l in enumerate(labels) if "Date of Listing" in l), None)
+        code_i = next((i for i,l in enumerate(labels) if re.search(r"(^| / )Code($| / )", l)), None)
+        market_i = next((i for i,l in enumerate(labels) if "Market" in l), None)
+        offer_i = next((i for i,l in enumerate(labels) if "Offering Price" in l), None)
+
+        if date_i is None or code_i is None:
+            continue
+
+        for _, row in df.iterrows():
+            vals = list(row.values)
+            if date_i >= len(vals) or code_i >= len(vals):
+                continue
+
+            listed = parse_english_listing_date(vals[date_i])
+            code = parse_code(vals[code_i])
+            if not listed or not code:
+                continue
+
+            market = None
+            if market_i is not None and market_i < len(vals):
+                raw_market = clean_text(vals[market_i]).lower()
+                if "prime" in raw_market:
+                    market = "プライム"
+                elif "standard" in raw_market:
+                    market = "スタンダード"
+                elif "growth" in raw_market:
+                    market = "グロース"
+
+            offer = None
+            if offer_i is not None and offer_i < len(vals):
+                offer = parse_price(vals[offer_i], plain=True)
+
+            result[code] = {
+                "code4": code,
+                "listedDate": listed,
+                "archiveMarket": market,
+                "publicPriceJPX": offer,
+                "archiveSourceUrl": url,
+            }
+
+        if result:
+            break
+
+    return result
+
+
 def fetch_jpx_archive_master() -> dict[str, dict[str, Any]]:
-    merged = {}
+    merged: dict[str, dict[str, Any]] = {}
+
+    # 1) Japanese pages: keep anything the existing parser can recover.
     for url in JPX_ARCHIVES:
         try:
             rows = parse_jpx_archive_page(fetch_html(url), url)
-            print(f"[JPX archive] {url.split('/')[-1]} rows={len(rows)}", flush=True)
+            print(f"[JPX archive JP] {url.split('/')[-1]} rows={len(rows)}", flush=True)
             for code, item in rows.items():
-                old = merged.get(code)
-                if not old or item["listedDate"] > old["listedDate"]:
-                    merged[code] = item
+                old = merged.get(code, {})
+                merged[code] = {
+                    **old,
+                    **item,
+                    "archiveName": item.get("archiveName") or old.get("archiveName"),
+                }
         except Exception as e:
-            print(f"[WARN] JPX archive {url}: {e}", flush=True)
+            print(f"[WARN] JPX archive JP {url}: {e}", flush=True)
+
+    # 2) English pages: authoritative candidate discovery for years where the
+    # Japanese physical-row parser under-counts.
+    for url in JPX_EN_ARCHIVES:
+        try:
+            rows = parse_jpx_english_page(fetch_html(url), url)
+            print(f"[JPX archive EN] {url.split('/')[-1]} rows={len(rows)}", flush=True)
+            for code, item in rows.items():
+                old = merged.get(code, {})
+                # Preserve Japanese name when available; English is used only to
+                # guarantee code/date coverage.
+                merged[code] = {
+                    **old,
+                    "code4": code,
+                    "listedDate": item.get("listedDate") or old.get("listedDate"),
+                    "archiveMarket": item.get("archiveMarket") or old.get("archiveMarket"),
+                    "publicPriceJPX": item.get("publicPriceJPX") or old.get("publicPriceJPX"),
+                    "archiveSourceUrl": item.get("archiveSourceUrl") or old.get("archiveSourceUrl"),
+                    "archiveName": old.get("archiveName"),
+                }
+        except Exception as e:
+            print(f"[WARN] JPX archive EN {url}: {e}", flush=True)
 
     cutoff = (date.today() - timedelta(days=RETENTION_DAYS)).isoformat()
     today_s = date.today().isoformat()
+
     merged = {
         c: x for c, x in merged.items()
-        if cutoff <= x.get("listedDate", "") <= today_s
+        if x.get("listedDate")
+        and cutoff <= x["listedDate"] <= today_s
     }
-    print(f"[JPX archive] retained={len(merged)}", flush=True)
+
+    coverage: dict[str, int] = {}
+    for item in merged.values():
+        y = item["listedDate"][:4]
+        coverage[y] = coverage.get(y, 0) + 1
+
+    print(f"[JPX archive] retained={len(merged)} coverage={coverage}", flush=True)
     return merged
 
 
@@ -562,11 +712,11 @@ def load_existing():
         if re.fullmatch(r"\d{4}[A-Z]?", code):
             by_code[code] = x
 
-    is_v15 = bool(by_code) and all(
+    is_v16 = bool(by_code) and all(
         x.get("_schemaVersion") == SCHEMA_VERSION
         for x in list(by_code.values())[:min(20, len(by_code))]
     )
-    return by_code, (not is_v15)
+    return by_code, (not is_v16)
 
 
 # ------------------------------------------------------------------
@@ -645,7 +795,7 @@ def build_master(archive, ipokabu, official, old) -> list[dict[str, Any]]:
 
     # Catastrophic guard only. Do not block the run because 庶民のIPO is partial.
     recent3y = sum(1 for x in out if x.get("searchEligible3y"))
-    if len(out) < 150 or recent3y < 120:
+    if len(out) < 180 or recent3y < 140:
         raise RuntimeError(
             f"Master coverage incomplete: total={len(out)}, 3y={recent3y}. "
             "latest.json left unchanged."
