@@ -44,7 +44,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "docs" / "latest.json"
 OUT.parent.mkdir(parents=True, exist_ok=True)
 
-SCHEMA_VERSION = 14
+SCHEMA_VERSION = 15
 IPO_DISCOVERY_DAYS = 1095       # new IPO search: 3 years
 RETENTION_DAYS = 1460           # keep tracked IPO records/history: 4 years
 RECENT_REFRESH_DAYS = 120
@@ -368,159 +368,138 @@ def verify_codes_with_jpx(codes: list[str]) -> dict[str, dict[str, Any]]:
 
 
 # ------------------------------------------------------------------
-# 庶民のIPO: visible-text block parser
+# 庶民のIPO: company-link anchored parser
 # ------------------------------------------------------------------
-def ipokabu_visible_lines(html: str) -> list[str]:
-    """
-    Convert the annual results page to visible text lines.
-    We intentionally ignore HTML table geometry because the site uses
-    rowspan/colspan and its physical <tr> structure differs by year.
-    """
-    soup = BeautifulSoup(html, "html.parser")
-    for tag in soup(["script", "style", "noscript"]):
-        tag.decompose()
-    raw = soup.get_text("\n", strip=True)
-    return [clean_text(x) for x in raw.splitlines() if clean_text(x)]
-
-
-def is_md_line(s: str) -> bool:
-    return re.fullmatch(r"\d{1,2}/\d{1,2}", clean_text(s)) is not None
-
-
-def grade_from_line(s: str) -> str | None:
-    t = clean_text(s).upper().translate(str.maketrans("ＳＡＢＣＤＥ", "SABCDE"))
-    return t if t in ("S", "A", "B", "C", "D") else None
-
-
-def code_from_line(s: str) -> str | None:
-    t = clean_text(s).upper()
-    if re.fullmatch(r"\d{4}[A-Z]?", t):
-        return t
-    # Some site variants decorate codes with brackets.
-    m = re.fullmatch(r"[〖\[\(（]?\s*(\d{4}[A-Z]?)\s*[〗\]\)）]?", t)
+def normalize_grade_text(value: Any) -> str | None:
+    s = clean_text(value).upper().translate(str.maketrans("ＳＡＢＣＤＥ", "SABCDE"))
+    m = re.search(r"(?<![A-Z])([SABCDE])(?![A-Z])", s)
     return m.group(1) if m else None
 
 
-def market_from_block(block: list[str]) -> str:
-    for line in block:
-        for market in MARKETS:
-            if clean_text(line) == market:
-                return market
-    return ""
+def extract_md_any(value: Any, year: int) -> str | None:
+    m = re.search(r"(?<!\d)(\d{1,2})/(\d{1,2})(?!\d)", clean_text(value))
+    if not m:
+        return None
+    try:
+        return date(year, int(m.group(1)), int(m.group(2))).isoformat()
+    except ValueError:
+        return None
 
 
-def plausible_company_name(s: str) -> bool:
-    t = clean_text(s)
-    if not t:
-        return False
-    if grade_from_line(t) or code_from_line(t) or is_md_line(t):
-        return False
-    if parse_price(t, plain=False) is not None:
-        return False
-    if any(m == t for m in MARKETS):
-        return False
-    if "証券" in t or "證券" in t:
-        return False
-    if t in ("市場", "初値", "騰落率（倍率）", "公開価格", "初値売り損益"):
-        return False
-    return True
+def ipo_code_from_href(href: str) -> str | None:
+    href = clean_text(href)
+    m = re.search(r"/ipo/(\d{4}[A-Z]?)(?:[/?#].*)?$", href, re.I)
+    return m.group(1).upper() if m else None
 
 
-def parse_ipokabu_visible_text(html: str, year: int, url: str) -> dict[str, dict[str, Any]]:
+def yen_values(value: Any) -> list[int]:
+    vals = []
+    for m in re.finditer(r"(-?[\d,]+(?:\.\d+)?)\s*円", clean_text(value)):
+        try:
+            v = float(m.group(1).replace(",", ""))
+            if v > 0:
+                vals.append(int(round(v)))
+        except Exception:
+            pass
+    return vals
+
+
+def row_contains_other_ipo(tr, current_code: str) -> bool:
+    if tr is None:
+        return False
+    for a in tr.find_all("a", href=True):
+        c = ipo_code_from_href(a.get("href", ""))
+        if c and c != current_code:
+            return True
+    return False
+
+
+def parse_ipokabu_anchor_rows(html: str, year: int, url: str) -> dict[str, dict[str, Any]]:
     """
-    Annual results page order observed on the live site:
+    Parse annual result pages by anchoring each record on its company-detail link:
+      /ipo/<security-code>
 
-      12/25
-      Ｂ
-      480A
-      リブ・コンサルティング
-      SMBC日興証券
-      1,000円          <- 公開価格
-      40,000円         <- 初値売り損益
-      ... broker names ...
-      グロース
-      1,400円          <- 初値
-      40％（1.40倍）
+    This avoids all rowspan/colspan assumptions. The annual pages expose one
+    company link per IPO, which lets us recover 2024/2025/2026 even when their
+    physical <tr> structure changes.
 
-    We parse each date-to-next-date block, so rowspan/colspan no longer matters.
+    For each company anchor:
+      - code: from href
+      - name: anchor text
+      - date/evaluation/public price: enclosing row (or immediately previous row)
+      - market/initial price: same row or following rows until next IPO company row
     """
-    lines = ipokabu_visible_lines(html)
+    soup = BeautifulSoup(html, "html.parser")
     result: dict[str, dict[str, Any]] = {}
 
-    date_positions = [i for i, line in enumerate(lines) if is_md_line(line)]
-
-    for pos_index, start in enumerate(date_positions):
-        end = date_positions[pos_index + 1] if pos_index + 1 < len(date_positions) else min(len(lines), start + 100)
-        block = lines[start:end]
-        if len(block) < 4:
+    for a in soup.find_all("a", href=True):
+        code = ipo_code_from_href(a.get("href", ""))
+        if not code:
             continue
 
-        listed = parse_md(block[0], year)
+        name = normalize_company_name(a.get_text(" ", strip=True))
+        if not name:
+            continue
+
+        tr = a.find_parent("tr")
+        if tr is None:
+            continue
+
+        # Avoid navigation/index links: annual result row should have listing-date
+        # context in the row itself or immediately previous physical row.
+        row_text = clean_text(tr.get_text(" ", strip=True))
+        prev = tr.find_previous_sibling("tr")
+        prev_text = clean_text(prev.get_text(" ", strip=True)) if prev is not None else ""
+
+        listed = extract_md_any(row_text, year) or extract_md_any(prev_text, year)
         if not listed:
             continue
 
-        # Evaluation should be immediately after the listing date,
-        # but search the first few tokens to tolerate line-break variants.
-        evaluation = None
-        for line in block[1:6]:
-            evaluation = grade_from_line(line)
-            if evaluation:
-                break
+        evaluation = normalize_grade_text(row_text) or normalize_grade_text(prev_text)
 
-        code = None
-        code_pos = None
-        for idx, line in enumerate(block[1:12], 1):
-            c = code_from_line(line)
-            if c:
-                code, code_pos = c, idx
-                break
-        if not code or code_pos is None:
-            continue
+        # Public price is the first positive yen value in the company row.
+        # On the annual-result page the next yen value is usually initial-profit.
+        row_yen = yen_values(row_text)
+        public_price = row_yen[0] if row_yen else None
 
-        market = market_from_block(block)
-        # We only want TSE Prime / Standard / Growth.
-        if market not in MARKETS:
-            continue
-
-        # Company name: first plausible text after the code.
-        name = ""
-        for line in block[code_pos + 1: min(len(block), code_pos + 8)]:
-            if plausible_company_name(line):
-                name = normalize_company_name(line)
-                break
-
-        # Public price: first yen value after code, before the market.
-        market_pos = next(
-            (i for i, line in enumerate(block) if clean_text(line) == market),
-            None
-        )
-
-        public_price = None
-        search_public_end = market_pos if market_pos is not None else len(block)
-        for line in block[code_pos + 1:search_public_end]:
-            p = parse_price(line, plain=False)
-            if p is not None:
-                public_price = p
-                break
-
-        # Initial price: first yen value after the market.
+        market = ""
         initial_price = None
-        if market_pos is not None:
-            for line in block[market_pos + 1:]:
-                p = parse_price(line, plain=False)
-                if p is not None:
-                    initial_price = p
-                    break
 
+        # Search current row and following physical rows until another IPO row.
+        scan_rows = [tr]
+        nxt = tr.find_next_sibling("tr")
+        for _ in range(3):
+            if nxt is None or row_contains_other_ipo(nxt, code):
+                break
+            scan_rows.append(nxt)
+            nxt = nxt.find_next_sibling("tr")
+
+        for scan in scan_rows:
+            txt = clean_text(scan.get_text(" ", strip=True))
+            if not market:
+                market = next((m for m in MARKETS if m in txt), "")
+            if market and initial_price is None:
+                # The row containing the market has the initial price as the first
+                # yen-denominated value after the market label.
+                pos = txt.find(market)
+                if pos >= 0:
+                    after = txt[pos + len(market):]
+                    ys = yen_values(after)
+                    if ys:
+                        initial_price = ys[0]
+
+        # Annual pages also contain regional-market IPOs. We keep them in the
+        # supplemental dictionary only when TSE market is explicit; otherwise
+        # JPX official verification can still supply the market later.
         result[code] = {
             "code4": code,
-            "ipokabuName": name or None,
+            "ipokabuName": name,
             "ipokabuListedDate": listed,
-            "ipokabuMarket": market,
+            "ipokabuMarket": market or None,
             "publicPriceIpokabu": public_price,
             "initialPriceIpokabu": initial_price,
             "ipoEvaluation": evaluation,
-            "ipoSourceUrl": IPO_KABU_DETAIL_URL.format(code=code),
+            "ipoSourceUrl": f"https://ipokabu.net/ipo/{code}",
         }
 
     return result
@@ -532,8 +511,8 @@ def fetch_ipokabu() -> dict[str, dict[str, Any]]:
     for year, url in IPO_KABU_URLS.items():
         try:
             html = fetch_html(url)
-            rows = parse_ipokabu_visible_text(html, year, url)
-            print(f"[庶民のIPO] {year} visible-text rows={len(rows)}", flush=True)
+            rows = parse_ipokabu_anchor_rows(html, year, url)
+            print(f"[庶民のIPO] {year} anchor rows={len(rows)}", flush=True)
             merged.update(rows)
         except Exception as e:
             print(f"[WARN] 庶民のIPO {year}: {e}", flush=True)
@@ -545,15 +524,21 @@ def fetch_ipokabu() -> dict[str, dict[str, Any]]:
         code: item for code, item in merged.items()
         if item.get("ipokabuListedDate")
         and cutoff <= item["ipokabuListedDate"] <= today_s
-        and item.get("ipokabuMarket") in MARKETS
     }
 
-    by_year: dict[str, int] = {}
+    coverage: dict[str, int] = {}
+    eval_count = 0
     for item in merged.values():
         y = item["ipokabuListedDate"][:4]
-        by_year[y] = by_year.get(y, 0) + 1
+        coverage[y] = coverage.get(y, 0) + 1
+        if item.get("ipoEvaluation") in ("S", "A", "B", "C", "D"):
+            eval_count += 1
 
-    print(f"[庶民のIPO] retained={len(merged)} coverage={by_year}", flush=True)
+    print(
+        f"[庶民のIPO] retained={len(merged)} coverage={coverage} "
+        f"evaluations={eval_count}",
+        flush=True,
+    )
     return merged
 
 
@@ -577,11 +562,11 @@ def load_existing():
         if re.fullmatch(r"\d{4}[A-Z]?", code):
             by_code[code] = x
 
-    is_v14 = bool(by_code) and all(
+    is_v15 = bool(by_code) and all(
         x.get("_schemaVersion") == SCHEMA_VERSION
         for x in list(by_code.values())[:min(20, len(by_code))]
     )
-    return by_code, (not is_v14)
+    return by_code, (not is_v15)
 
 
 # ------------------------------------------------------------------
@@ -659,9 +644,10 @@ def build_master(archive, ipokabu, official, old) -> list[dict[str, Any]]:
     out.sort(key=lambda x: x["listedDate"], reverse=True)
 
     # Catastrophic guard only. Do not block the run because 庶民のIPO is partial.
-    if len(out) < 120:
+    recent3y = sum(1 for x in out if x.get("searchEligible3y"))
+    if len(out) < 150 or recent3y < 120:
         raise RuntimeError(
-            f"Master only has {len(out)} records; JPX coverage is too small. "
+            f"Master coverage incomplete: total={len(out)}, 3y={recent3y}. "
             "latest.json left unchanged."
         )
 
