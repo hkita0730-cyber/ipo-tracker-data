@@ -44,7 +44,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "docs" / "latest.json"
 OUT.parent.mkdir(parents=True, exist_ok=True)
 
-SCHEMA_VERSION = 18
+SCHEMA_VERSION = 21
 IPO_DISCOVERY_DAYS = 1095       # new IPO search: 3 years
 RETENTION_DAYS = 1460           # keep tracked IPO records/history: 4 years
 RECENT_REFRESH_DAYS = 120
@@ -69,7 +69,7 @@ JPX_EN_ARCHIVES = [
 ]
 
 IPO_KABU_URLS = {
-    2026: "https://ipokabu.net/ipo/list2026",
+    2026: "https://ipokabu.net/ipo/",
     2025: "https://ipokabu.net/ipo/list2025",
     2024: "https://ipokabu.net/ipo/list2024",
     2023: "https://ipokabu.net/ipo/list2023",
@@ -142,14 +142,15 @@ def parse_md(v: Any, year: int) -> str | None:
 def parse_code(v: Any) -> str | None:
     """Canonical TSE code: 4 digits OR 3 digits + letter.
 
-    Also accepts the 5-character J-Quants representation with a trailing 0:
-    83030 -> 8303, 607A0 -> 607A.
+    Accepts J-Quants 5-character representation with a trailing zero:
+      83030 -> 8303
+      607A0 -> 607A
     """
     s = clean_text(v).upper().replace(".T", "")
-    m = re.fullmatch(r"((?:\\d{4}|\\d{3}[A-Z]))0", s)
+    m = re.fullmatch(r"((?:\d{4}|\d{3}[A-Z]))0", s)
     if m:
         s = m.group(1)
-    m = re.fullmatch(r"(\\d{4})\\.0", s)
+    m = re.fullmatch(r"(\d{4})\.0", s)
     if m:
         s = m.group(1)
     m = CODE_RE.fullmatch(s)
@@ -546,7 +547,7 @@ def extract_md_any(value: Any, year: int) -> str | None:
 
 def ipo_code_from_href(href: str) -> str | None:
     href = clean_text(href)
-    m = re.search(r"/ipo/(\d{4}[A-Z]?)(?:[/?#].*)?$", href, re.I)
+    m = re.search(r"/ipo/((?:\d{4}|\d{3}[A-Z]))(?:[/?#].*)?$", href, re.I)
     return m.group(1).upper() if m else None
 
 
@@ -570,6 +571,101 @@ def row_contains_other_ipo(tr, current_code: str) -> bool:
         if c and c != current_code:
             return True
     return False
+
+
+
+def parse_ipokabu_annual_table_rows(
+    html: str, year: int, url: str
+) -> dict[str, dict[str, Any]]:
+    """Parse 庶民のIPO annual result table directly by security code.
+
+    Reads only stable annual-table fields:
+      listing date / security code / S-A-B-C-D evaluation /
+      company name / public price / market (best effort).
+
+    Initial price is intentionally NOT read from the annual table because
+    "初値売り損益" is nearby and caused the 31,600円 -> 初値 misread.
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    out: dict[str, dict[str, Any]] = {}
+
+    for tr in soup.find_all("tr"):
+        cs = [
+            clean_text(td.get_text(" ", strip=True))
+            for td in tr.find_all(["th", "td"], recursive=False)
+        ]
+        if not cs:
+            continue
+
+        code_idx = None
+        code = None
+        for i, cell in enumerate(cs):
+            c = parse_code(cell)
+            if c:
+                code_idx, code = i, c
+                break
+        if code is None or code_idx is None:
+            continue
+
+        listed = None
+        for cell in cs:
+            listed = extract_md_any(cell, year)
+            if listed:
+                break
+        if not listed:
+            prev = tr.find_previous_sibling("tr")
+            if prev is not None:
+                listed = extract_md_any(prev.get_text(" ", strip=True), year)
+        if not listed:
+            continue
+
+        evaluation = None
+        for cell in cs:
+            g = normalize_grade_text(cell)
+            if g in IPO_KABU_ATTENTION_GRADES:
+                evaluation = g
+                break
+
+        name = ""
+        for cell in cs[code_idx + 1:]:
+            t = normalize_company_name(cell)
+            if not t:
+                continue
+            if parse_price(t) is not None:
+                continue
+            if any(m in t for m in MARKETS):
+                continue
+            if "%" in t or "％" in t or "円" in t:
+                continue
+            name = t
+            break
+
+        public_price = None
+        for cell in cs[code_idx + 1:]:
+            p = parse_price(cell)
+            if p is not None:
+                public_price = p
+                break
+
+        market = next((m for m in MARKETS if any(m in x for x in cs)), "")
+        if not market:
+            nxt = tr.find_next_sibling("tr")
+            if nxt is not None:
+                nt = clean_text(nxt.get_text(" ", strip=True))
+                market = next((m for m in MARKETS if m in nt), "")
+
+        out[code] = {
+            "code4": code,
+            "ipokabuName": name or None,
+            "ipokabuListedDate": listed,
+            "ipokabuMarket": market or None,
+            "publicPriceIpokabu": public_price,
+            "initialPriceIpokabu": None,
+            "ipoEvaluation": evaluation,
+            "ipoSourceUrl": f"https://ipokabu.net/ipo/{code}",
+        }
+
+    return out
 
 
 def parse_ipokabu_anchor_rows(html: str, year: int, url: str) -> dict[str, dict[str, Any]]:
@@ -621,9 +717,13 @@ def parse_ipokabu_anchor_rows(html: str, year: int, url: str) -> dict[str, dict[
         public_price = row_yen[0] if row_yen else None
 
         market = ""
+        # IMPORTANT:
+        # Annual pages contain both 初値 and 初値売り損益. The old parser could
+        # accidentally read the profit amount (e.g. 31,600円) as 初値.
+        # Therefore the annual page is NOT used as a source of initial price.
         initial_price = None
 
-        # Search current row and following physical rows until another IPO row.
+        # Search current row and following physical rows only for market.
         scan_rows = [tr]
         nxt = tr.find_next_sibling("tr")
         for _ in range(3):
@@ -636,15 +736,6 @@ def parse_ipokabu_anchor_rows(html: str, year: int, url: str) -> dict[str, dict[
             txt = clean_text(scan.get_text(" ", strip=True))
             if not market:
                 market = next((m for m in MARKETS if m in txt), "")
-            if market and initial_price is None:
-                # The row containing the market has the initial price as the first
-                # yen-denominated value after the market label.
-                pos = txt.find(market)
-                if pos >= 0:
-                    after = txt[pos + len(market):]
-                    ys = yen_values(after)
-                    if ys:
-                        initial_price = ys[0]
 
         # Annual pages also contain regional-market IPOs. We keep them in the
         # supplemental dictionary only when TSE market is explicit; otherwise
@@ -663,15 +754,76 @@ def parse_ipokabu_anchor_rows(html: str, year: int, url: str) -> dict[str, dict[
     return result
 
 
+
+def fetch_ipokabu_detail_initial(code: str) -> int | None:
+    """Fetch actual 初値 from the individual 庶民のIPO page.
+
+    This is only used when yfinance cannot provide listing-day Open.
+    The parser looks for a table cell whose label is exactly 初値, avoiding
+    初値売り損益 / 予想利益 fields.
+    """
+    try:
+        html = fetch_html(IPO_KABU_DETAIL_URL.format(code=code), timeout=25)
+        soup = BeautifulSoup(html, "html.parser")
+
+        for tr in soup.find_all("tr"):
+            cs = [clean_text(x.get_text(" ", strip=True)) for x in tr.find_all(["th", "td"])]
+            for i, cell in enumerate(cs[:-1]):
+                if cell == "初値":
+                    vals = yen_values(cs[i + 1])
+                    if vals:
+                        return vals[0]
+
+        # Fallback for non-tabular detail markup. Explicitly exclude 売り損益/予想.
+        text = clean_text(soup.get_text(" ", strip=True))
+        m = re.search(r"(?:^|\\s)初値\\s*([\\d,]+)\\s*円(?![^。]{0,20}(?:売り損益|予想))", text)
+        if m:
+            return int(m.group(1).replace(",", ""))
+    except Exception as e:
+        print(f"[WARN] 庶民のIPO detail initial {code}: {e}", flush=True)
+    return None
+
+
 def fetch_ipokabu() -> dict[str, dict[str, Any]]:
+    """Fetch annual S/A/B/C/D evaluations and merge by security code.
+
+    Primary: annual table parser.
+    Fallback: old anchor parser fills only missing fields.
+    Existing latest.json evaluations are preserved by main() when fetching fails.
+    """
     merged: dict[str, dict[str, Any]] = {}
 
     for year, url in IPO_KABU_URLS.items():
         try:
             html = fetch_html(url)
-            rows = parse_ipokabu_anchor_rows(html, year, url)
-            print(f"[庶民のIPO] {year} anchor rows={len(rows)}", flush=True)
+
+            table_rows = parse_ipokabu_annual_table_rows(html, year, url)
+            anchor_rows = parse_ipokabu_anchor_rows(html, year, url)
+
+            rows = dict(table_rows)
+            for code, a in anchor_rows.items():
+                if code not in rows:
+                    rows[code] = a
+                    continue
+                r = rows[code]
+                for key in (
+                    "ipokabuName", "ipokabuListedDate", "ipokabuMarket",
+                    "publicPriceIpokabu", "ipoEvaluation", "ipoSourceUrl",
+                ):
+                    if not r.get(key) and a.get(key):
+                        r[key] = a[key]
+
+            evals = sum(
+                1 for x in rows.values()
+                if x.get("ipoEvaluation") in IPO_KABU_ATTENTION_GRADES
+            )
+            print(
+                f"[庶民のIPO] {year} annual rows={len(table_rows)} "
+                f"anchor fallback={len(anchor_rows)} evaluations={evals}",
+                flush=True,
+            )
             merged.update(rows)
+
         except Exception as e:
             print(f"[WARN] 庶民のIPO {year}: {e}", flush=True)
 
@@ -685,153 +837,19 @@ def fetch_ipokabu() -> dict[str, dict[str, Any]]:
     }
 
     coverage: dict[str, int] = {}
-    eval_count = 0
+    eval_coverage: dict[str, int] = {}
     for item in merged.values():
         y = item["ipokabuListedDate"][:4]
         coverage[y] = coverage.get(y, 0) + 1
-        if item.get("ipoEvaluation") in ("S", "A", "B", "C", "D"):
-            eval_count += 1
+        if item.get("ipoEvaluation") in IPO_KABU_ATTENTION_GRADES:
+            eval_coverage[y] = eval_coverage.get(y, 0) + 1
 
     print(
         f"[庶民のIPO] retained={len(merged)} coverage={coverage} "
-        f"evaluations={eval_count}",
+        f"evaluationCoverage={eval_coverage}",
         flush=True,
     )
     return merged
-
-
-# ------------------------------------------------------------------
-# Existing JSON: history only, never master-name source
-# ------------------------------------------------------------------
-def load_existing():
-    """Load, canonicalize and preserve the existing persistent master."""
-    if not OUT.exists():
-        return {}, True
-    try:
-        raw = json.loads(OUT.read_text(encoding="utf-8"))
-    except Exception:
-        return {}, True
-
-    items = raw.get("ipos", []) if isinstance(raw, dict) else raw if isinstance(raw, list) else []
-    by_code = {}
-    for x in items:
-        if not isinstance(x, dict):
-            continue
-        code = parse_code(x.get("code4") or x.get("code"))
-        if not code:
-            continue
-        y = dict(x)
-        y["code"] = code
-        y["code4"] = code
-        y["name"] = normalize_company_name(y.get("name"))
-        ev = clean_text(
-            y.get("ipoEvaluation") or y.get("ipoAttention") or y.get("ipoRating")
-        ).upper()
-        y["ipoEvaluation"] = ev if ev in IPO_KABU_ATTENTION_GRADES else None
-        y["ipoSourceUrl"] = f"https://ipokabu.net/ipo/{code}"
-        by_code[code] = y
-
-    is_v17 = bool(by_code) and all(
-        x.get("_schemaVersion") == SCHEMA_VERSION
-        for x in list(by_code.values())[:min(20, len(by_code))]
-    )
-    return by_code, (not is_v17)
-
-
-def needs_recovery_backfill(old: dict[str, dict[str, Any]]) -> bool:
-    if not old:
-        return True
-    cutoff = (date.today() - timedelta(days=IPO_DISCOVERY_DAYS)).isoformat()
-    dates = sorted(
-        str(x.get("listedDate"))
-        for x in old.values()
-        if str(x.get("listedDate", ""))[:4].isdigit()
-    )
-    return not dates or dates[0] > cutoff
-
-
-def build_master(archive, ipokabu, official_new, old) -> list[dict[str, Any]]:
-    """Preserve existing rows; only append missing IPOs."""
-    retention_cutoff = (date.today() - timedelta(days=RETENTION_DAYS)).isoformat()
-    discovery_cutoff = (date.today() - timedelta(days=IPO_DISCOVERY_DAYS)).isoformat()
-    today_s = date.today().isoformat()
-
-    out_by_code: dict[str, dict[str, Any]] = {}
-
-    # Existing latest.json is the persistent master.
-    for code, prev in old.items():
-        listed = str(prev.get("listedDate", ""))
-        if not listed or not (retention_cutoff <= listed <= today_s):
-            continue
-        name = normalize_company_name(prev.get("name"))
-        market = clean_text(prev.get("market"))
-        if not name or market not in MARKETS:
-            continue
-        out_by_code[code] = {
-            "code4": code,
-            "name": name,
-            "market": market,
-            "listedDate": listed,
-            "searchEligible3y": listed >= discovery_cutoff,
-            "masterSource": prev.get("masterSource") or "existing latest.json",
-            "officialCodeNameVerified": bool(prev.get("officialCodeNameVerified")),
-            "publicPriceJPX": None,
-        }
-
-    # Add only genuinely missing IPOs.
-    candidate_codes = (set(archive) | set(ipokabu)) - set(out_by_code)
-    for code in sorted(candidate_codes):
-        a = archive.get(code, {})
-        k = ipokabu.get(code, {})
-        o = official_new.get(code, {})
-
-        listed = a.get("listedDate") or k.get("ipokabuListedDate")
-        if not listed or not (discovery_cutoff <= listed <= today_s):
-            continue
-
-        if o:
-            name = o["officialName"]
-            market = o["officialMarket"]
-            source = "JPX official listed-company search (new IPO)"
-            verified = True
-        elif a.get("archiveName") and a.get("archiveMarket") in MARKETS:
-            name = normalize_company_name(a.get("archiveName"))
-            market = a.get("archiveMarket")
-            source = "JPX new-listing archive"
-            verified = False
-        elif k.get("ipokabuName") and k.get("ipokabuMarket") in MARKETS:
-            name = normalize_company_name(k.get("ipokabuName"))
-            market = k.get("ipokabuMarket")
-            source = "庶民のIPO fallback"
-            verified = False
-        else:
-            continue
-
-        if not name or market not in MARKETS or "*" in name:
-            continue
-
-        out_by_code[code] = {
-            "code4": code,
-            "name": normalize_company_name(name),
-            "market": market,
-            "listedDate": listed,
-            "searchEligible3y": True,
-            "masterSource": source,
-            "officialCodeNameVerified": verified,
-            "publicPriceJPX": a.get("publicPriceJPX"),
-        }
-
-    out = sorted(out_by_code.values(), key=lambda x: x["listedDate"], reverse=True)
-
-    retained_old = sum(
-        1 for x in old.values()
-        if retention_cutoff <= str(x.get("listedDate", "")) <= today_s
-    )
-    if len(out) < retained_old:
-        raise RuntimeError(
-            f"Safety stop: master would shrink from {retained_old} to {len(out)}."
-        )
-    return out
 
 
 # ------------------------------------------------------------------
@@ -1099,11 +1117,20 @@ def main():
         )
 
         yf_initial = listing_initial(hist, m["listedDate"])
+
+        # yfinance listing-day Open is the preferred actual 初値 source.
+        # If yfinance is unavailable for this symbol, query the individual
+        # 庶民のIPO page, whose "初値" cell is unambiguous.
+        detail_initial = None
+        if yf_initial is None:
+            detail_initial = fetch_ipokabu_detail_initial(code)
+
         initial = (
-            k.get("initialPriceIpokabu")
+            yf_initial
+            or detail_initial
+            or k.get("initialPriceIpokabu")
             or prev.get("initialPrice")
             or prev.get("firstDayPrice")
-            or yf_initial
         )
 
         financials = prev.get("financials", [])
@@ -1152,9 +1179,9 @@ def main():
                 prev.get("publicPriceSource") or "existing"
             ),
             "initialPriceSource": (
-                "庶民のIPO" if k.get("initialPriceIpokabu") else
-                prev.get("initialPriceSource")
-                or ("yfinance listing-day Open" if yf_initial is not None else "existing")
+                "yfinance listing-day Open" if yf_initial is not None else
+                "庶民のIPO individual page" if detail_initial is not None else
+                prev.get("initialPriceSource") or "existing"
             ),
             "initialReturnPct": pct(initial, public),
             "ipoEvaluation": ev,
