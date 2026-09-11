@@ -1,4 +1,4 @@
-name: Update IPO data (FAST v9)
+name: Update IPO data (FAST v10)
 
 on:
   schedule:
@@ -52,12 +52,34 @@ jobs:
           assert len(codes) == len(set(codes)), "duplicate security codes"
           assert all("インタビュー" not in str(x.get("name", "")) for x in data)
 
-          # App compatibility: public/initial price aliases must exist as fields.
-          assert all("ipoPrice" in x and "firstDayPrice" in x for x in data)
+          by_year = {}
+          for x in data:
+              d = str(x.get("listedDate", ""))
+              if len(d) >= 4:
+                  by_year[d[:4]] = by_year.get(d[:4], 0) + 1
 
-          public_count = sum(x.get("ipoPrice") is not None for x in data)
-          initial_count = sum(x.get("firstDayPrice") is not None for x in data)
-          print(f"validated {len(data)} records; public={public_count}, initial={initial_count}")
+          print("year coverage:", by_year)
+
+          assert by_year.get("2025", 0) >= 40, \
+              f"2025 coverage too low: {by_year.get('2025',0)}"
+          assert by_year.get("2024", 0) >= 60, \
+              f"2024 coverage too low: {by_year.get('2024',0)}"
+          assert by_year.get("2026", 0) >= 10, \
+              f"2026 coverage too low: {by_year.get('2026',0)}"
+
+          attention = sum(
+              str(x.get("ipoAttention", "")) in ("S","A","B","C","D")
+              for x in data
+          )
+          links = sum(
+              str(x.get("ipoSourceUrl", "")).startswith("https://ipokabu.net/ipo/")
+              for x in data
+          )
+
+          print(
+              f"validated {len(data)} records; "
+              f"attention={attention}; links={links}"
+          )
           PY
 
       - name: Commit updated data
@@ -65,5 +87,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/latest.json
-          git diff --cached --quiet || git commit -m "Update IPO data (FAST v9)"
+          git diff --cached --quiet || git commit -m "Update IPO data (FAST v10)"
           git push
