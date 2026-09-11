@@ -44,7 +44,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "docs" / "latest.json"
 OUT.parent.mkdir(parents=True, exist_ok=True)
 
-SCHEMA_VERSION = 17
+SCHEMA_VERSION = 18
 IPO_DISCOVERY_DAYS = 1095       # new IPO search: 3 years
 RETENTION_DAYS = 1460           # keep tracked IPO records/history: 4 years
 RECENT_REFRESH_DAYS = 120
@@ -1184,7 +1184,7 @@ def main():
 
     codes = [x["code4"] for x in items]
     assert len(codes) == len(set(codes)), "duplicate codes"
-    assert all(re.fullmatch(r"(?:\\d{4}|\\d{3}[A-Z])", c) for c in codes), "non-canonical code"
+    assert all(re.fullmatch(r"(?:\d{4}|\d{3}[A-Z])", c) for c in codes), "non-canonical code"
     assert all("インタビュー" not in x["name"] for x in items), "interview label remains"
 
     retention_cutoff = (date.today() - timedelta(days=RETENTION_DAYS)).isoformat()
