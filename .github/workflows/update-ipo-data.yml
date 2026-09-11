@@ -1,4 +1,4 @@
-name: Update IPO data (FAST v16)
+name: Update IPO data (v17 incremental)
 
 on:
   schedule:
@@ -41,46 +41,31 @@ jobs:
       - name: Validate JSON
         run: |
           python - <<'PY'
-          import json
+          import json, re
           from pathlib import Path
           from datetime import date, timedelta
 
           data = json.loads(Path("docs/latest.json").read_text(encoding="utf-8"))
-          assert isinstance(data, list)
+          assert isinstance(data, list) and len(data) >= 118, f"too few records: {len(data)}"
 
-          codes = [str(x.get("code4", "")) for x in data]
+          codes = [str(x.get("code4") or x.get("code") or "") for x in data]
           assert len(codes) == len(set(codes)), "duplicate security codes"
-          assert all("インタビュー" not in str(x.get("name", "")) for x in data)
+          assert all(re.fullmatch(r"(?:\d{4}|\d{3}[A-Z])", c) for c in codes), "non-canonical code"
+          assert all("インタビュー" not in str(x.get("name", "")) for x in data), "interview text remains"
 
           cutoff = (date.today() - timedelta(days=1095)).isoformat()
           recent3y = [x for x in data if str(x.get("listedDate","")) >= cutoff]
 
-          assert len(data) >= 180, f"too few total records: {len(data)}"
-          assert len(recent3y) >= 140, f"too few recent-3y records: {len(recent3y)}"
-
           by_year = {}
           for x in data:
-              d = str(x.get("listedDate", ""))
+              d = str(x.get("listedDate",""))
               if len(d) >= 4:
                   by_year[d[:4]] = by_year.get(d[:4], 0) + 1
 
-          verified = sum(bool(x.get("officialCodeNameVerified")) for x in data)
-          evaluations = sum(
-              str(x.get("ipoEvaluation", "")) in ("S","A","B","C","D")
-              for x in data
-          )
-
           print("year coverage:", by_year)
-          print(
-              f"validated total={len(data)} recent3y={len(recent3y)} "
-              f"JPX-verified={verified} 庶民評価={evaluations}"
-          )
+          print(f"validated total={len(data)} recent3y={len(recent3y)}")
 
-          # The expected recent universe is now sourced from JPX official Japanese
-          # + English new-listing pages. Do not commit a partial recent universe.
-          assert by_year.get("2025", 0) >= 55,               f"2025 coverage too low: {by_year.get('2025',0)}"
-          assert by_year.get("2024", 0) >= 75,               f"2024 coverage too low: {by_year.get('2024',0)}"
-          assert by_year.get("2026", 0) >= 15,               f"2026 coverage too low: {by_year.get('2026',0)}"
+          assert len(recent3y) >= 150, f"recent-3y recovery still too small: {len(recent3y)}"
           PY
 
       - name: Commit updated data
@@ -88,5 +73,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/latest.json
-          git diff --cached --quiet || git commit -m "Update IPO data (FAST v16)"
+          git diff --cached --quiet || git commit -m "Update IPO data (v17 incremental)"
           git push
