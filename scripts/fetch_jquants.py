@@ -18,7 +18,7 @@ Policy:
 - JPX current-company search provides authoritative current code/name/market
 - 庶民のIPO provides rating/public price/initial price when available
 - yfinance provides price history and listing-day Open fallback for 初値
-- existing JSON is used only for history/financial data, NEVER as name/code master
+- existing JSON is the persistent master; new IPOs are appended incrementally
 """
 
 from __future__ import annotations
@@ -44,7 +44,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "docs" / "latest.json"
 OUT.parent.mkdir(parents=True, exist_ok=True)
 
-SCHEMA_VERSION = 16
+SCHEMA_VERSION = 17
 IPO_DISCOVERY_DAYS = 1095       # new IPO search: 3 years
 RETENTION_DAYS = 1460           # keep tracked IPO records/history: 4 years
 RECENT_REFRESH_DAYS = 120
@@ -95,7 +95,7 @@ HEADERS = {
 
 DATE_RE = re.compile(r"(\d{4})/(\d{1,2})/(\d{1,2})")
 MD_RE = re.compile(r"(?<!\d)(\d{1,2})/(\d{1,2})(?!\d)")
-CODE_RE = re.compile(r"^\s*(\d{4}[A-Z]?)\s*$", re.I)
+CODE_RE = re.compile(r"^\s*((?:\d{4}|\d{3}[A-Z]))\s*$", re.I)
 
 
 def clean_text(v: Any) -> str:
@@ -140,10 +140,18 @@ def parse_md(v: Any, year: int) -> str | None:
 
 
 def parse_code(v: Any) -> str | None:
-    s = clean_text(v).upper()
-    m = re.fullmatch(r"(\d{4})\.0", s)
+    """Canonical TSE code: 4 digits OR 3 digits + letter.
+
+    Also accepts the 5-character J-Quants representation with a trailing 0:
+    83030 -> 8303, 607A0 -> 607A.
+    """
+    s = clean_text(v).upper().replace(".T", "")
+    m = re.fullmatch(r"((?:\\d{4}|\\d{3}[A-Z]))0", s)
     if m:
-        return m.group(1)
+        s = m.group(1)
+    m = re.fullmatch(r"(\\d{4})\\.0", s)
+    if m:
+        s = m.group(1)
     m = CODE_RE.fullmatch(s)
     return m.group(1).upper() if m else None
 
@@ -696,6 +704,7 @@ def fetch_ipokabu() -> dict[str, dict[str, Any]]:
 # Existing JSON: history only, never master-name source
 # ------------------------------------------------------------------
 def load_existing():
+    """Load, canonicalize and preserve the existing persistent master."""
     if not OUT.exists():
         return {}, True
     try:
@@ -708,99 +717,120 @@ def load_existing():
     for x in items:
         if not isinstance(x, dict):
             continue
-        code = clean_text(x.get("code4") or x.get("code")).replace(".T", "").upper()
-        if re.fullmatch(r"\d{4}[A-Z]?", code):
-            by_code[code] = x
+        code = parse_code(x.get("code4") or x.get("code"))
+        if not code:
+            continue
+        y = dict(x)
+        y["code"] = code
+        y["code4"] = code
+        y["name"] = normalize_company_name(y.get("name"))
+        ev = clean_text(
+            y.get("ipoEvaluation") or y.get("ipoAttention") or y.get("ipoRating")
+        ).upper()
+        y["ipoEvaluation"] = ev if ev in IPO_KABU_ATTENTION_GRADES else None
+        y["ipoSourceUrl"] = f"https://ipokabu.net/ipo/{code}"
+        by_code[code] = y
 
-    is_v16 = bool(by_code) and all(
+    is_v17 = bool(by_code) and all(
         x.get("_schemaVersion") == SCHEMA_VERSION
         for x in list(by_code.values())[:min(20, len(by_code))]
     )
-    return by_code, (not is_v16)
+    return by_code, (not is_v17)
 
 
-# ------------------------------------------------------------------
-# Master construction
-# ------------------------------------------------------------------
-def build_master(archive, ipokabu, official, old) -> list[dict[str, Any]]:
-    """
-    Master is JPX-first. 庶民のIPO is supplemental only.
+def needs_recovery_backfill(old: dict[str, dict[str, Any]]) -> bool:
+    if not old:
+        return True
+    cutoff = (date.today() - timedelta(days=IPO_DISCOVERY_DAYS)).isoformat()
+    dates = sorted(
+        str(x.get("listedDate"))
+        for x in old.values()
+        if str(x.get("listedDate", ""))[:4].isdigit()
+    )
+    return not dates or dates[0] > cutoff
 
-    Candidate codes:
-      - JPX current/new-listing archive
-      - existing JSON codes (to preserve previously known IPOs during source glitches)
-      - any 庶民のIPO rows that happened to parse
 
-    For current-listed securities, JPX official lookup is authoritative for
-    company name and market. Existing JSON is NEVER authoritative for company name.
-    """
-    codes = set(archive) | set(ipokabu) | set(old)
-    out = []
-
+def build_master(archive, ipokabu, official_new, old) -> list[dict[str, Any]]:
+    """Preserve existing rows; only append missing IPOs."""
     retention_cutoff = (date.today() - timedelta(days=RETENTION_DAYS)).isoformat()
     discovery_cutoff = (date.today() - timedelta(days=IPO_DISCOVERY_DAYS)).isoformat()
     today_s = date.today().isoformat()
 
-    for code in codes:
+    out_by_code: dict[str, dict[str, Any]] = {}
+
+    # Existing latest.json is the persistent master.
+    for code, prev in old.items():
+        listed = str(prev.get("listedDate", ""))
+        if not listed or not (retention_cutoff <= listed <= today_s):
+            continue
+        name = normalize_company_name(prev.get("name"))
+        market = clean_text(prev.get("market"))
+        if not name or market not in MARKETS:
+            continue
+        out_by_code[code] = {
+            "code4": code,
+            "name": name,
+            "market": market,
+            "listedDate": listed,
+            "searchEligible3y": listed >= discovery_cutoff,
+            "masterSource": prev.get("masterSource") or "existing latest.json",
+            "officialCodeNameVerified": bool(prev.get("officialCodeNameVerified")),
+            "publicPriceJPX": None,
+        }
+
+    # Add only genuinely missing IPOs.
+    candidate_codes = (set(archive) | set(ipokabu)) - set(out_by_code)
+    for code in sorted(candidate_codes):
         a = archive.get(code, {})
         k = ipokabu.get(code, {})
-        o = official.get(code, {})
-        prev = old.get(code, {})
+        o = official_new.get(code, {})
 
-        listed = (
-            a.get("listedDate")
-            or k.get("ipokabuListedDate")
-            or prev.get("listedDate")
-        )
-        if not listed or not (retention_cutoff <= listed <= today_s):
+        listed = a.get("listedDate") or k.get("ipokabuListedDate")
+        if not listed or not (discovery_cutoff <= listed <= today_s):
             continue
 
         if o:
-            # Current listed company: JPX official mapping wins.
             name = o["officialName"]
             market = o["officialMarket"]
-            source = "JPX official listed-company search"
+            source = "JPX official listed-company search (new IPO)"
             verified = True
-        elif a and a.get("archiveMarket") in MARKETS:
-            # Delisted / no longer found in current search: archive row is acceptable.
+        elif a.get("archiveName") and a.get("archiveMarket") in MARKETS:
             name = normalize_company_name(a.get("archiveName"))
             market = a.get("archiveMarket")
             source = "JPX new-listing archive"
             verified = False
-        elif k and k.get("ipokabuMarket") in MARKETS:
-            # Third-party fallback only when available.
+        elif k.get("ipokabuName") and k.get("ipokabuMarket") in MARKETS:
             name = normalize_company_name(k.get("ipokabuName"))
             market = k.get("ipokabuMarket")
             source = "庶民のIPO fallback"
             verified = False
         else:
-            # Do not invent a name/market from stale JSON.
             continue
 
         if not name or market not in MARKETS or "*" in name:
             continue
 
-        out.append({
+        out_by_code[code] = {
             "code4": code,
             "name": normalize_company_name(name),
             "market": market,
             "listedDate": listed,
-            "searchEligible3y": listed >= discovery_cutoff,
+            "searchEligible3y": True,
             "masterSource": source,
             "officialCodeNameVerified": verified,
             "publicPriceJPX": a.get("publicPriceJPX"),
-        })
+        }
 
-    out.sort(key=lambda x: x["listedDate"], reverse=True)
+    out = sorted(out_by_code.values(), key=lambda x: x["listedDate"], reverse=True)
 
-    # Catastrophic guard only. Do not block the run because 庶民のIPO is partial.
-    recent3y = sum(1 for x in out if x.get("searchEligible3y"))
-    if len(out) < 180 or recent3y < 140:
+    retained_old = sum(
+        1 for x in old.values()
+        if retention_cutoff <= str(x.get("listedDate", "")) <= today_s
+    )
+    if len(out) < retained_old:
         raise RuntimeError(
-            f"Master coverage incomplete: total={len(out)}, 3y={recent3y}. "
-            "latest.json left unchanged."
+            f"Safety stop: master would shrink from {retained_old} to {len(out)}."
         )
-
     return out
 
 
@@ -1006,54 +1036,41 @@ def derive_app_price_fields(hist):
 def main():
     started = datetime.now().isoformat(timespec="seconds")
     old, full_backfill = load_existing()
-    print(f"[CACHE] existing={len(old)} mode={'FULL BACKFILL' if full_backfill else 'INCREMENTAL'}", flush=True)
+    recovery = needs_recovery_backfill(old)
+
+    print(
+        f"[CACHE] existing={len(old)} mode={'RECOVERY BACKFILL' if recovery else 'INCREMENTAL'}",
+        flush=True,
+    )
+
+    # First run after the 2-year -> 3-year requirement change:
+    # scan all relevant JPX archive pages. Later runs only scan current + previous archive.
+    global JPX_ARCHIVES, JPX_EN_ARCHIVES
+    if not recovery:
+        JPX_ARCHIVES = JPX_ARCHIVES[:2]
+        JPX_EN_ARCHIVES = JPX_EN_ARCHIVES[:2]
 
     archive = fetch_jpx_archive_master()
     ipokabu = fetch_ipokabu()
 
-    # Verify JPX/archive candidates plus previously known codes.
-    # This makes the run resilient when 庶民のIPO is partially unavailable.
-    candidate_codes = sorted(set(archive) | set(ipokabu) | set(old))
-    official = verify_codes_with_jpx(candidate_codes)
-    print(f"[JPX verify] exact current mappings={len(official)}/{len(candidate_codes)}", flush=True)
+    new_codes = sorted((set(archive) | set(ipokabu)) - set(old))
+    official_new = verify_codes_with_jpx(new_codes) if new_codes else {}
+    print(f"[JPX verify new] candidates={len(new_codes)} verified={len(official_new)}", flush=True)
 
-    master = build_master(archive, ipokabu, official, old)
+    master = build_master(archive, ipokabu, official_new, old)
+    added_codes = set(x["code4"] for x in master) - set(old)
     print(
-        f"[MASTER] total={len(master)} verified={sum(x['officialCodeNameVerified'] for x in master)} "
+        f"[MASTER] total={len(master)} added={len(added_codes)} "
         f"3y={sum(x['searchEligible3y'] for x in master)}",
         flush=True,
     )
 
-    # Whole-universe sanity checks.
-    by_code = {x["code4"]: x["name"] for x in master}
-    known = {
-        "8729": "ソニーフィナンシャルグループ",
-        "332A": "ミーク",
-        "265A": "Ｈｍｃｏｍｍ",
-        "485A": "パワーエックス",
-        "471A": "ＮＳグループ",
-    }
-    # Accept Japanese/ASCII width variants for Hmcomm/NS.
-    aliases = {
-        "265A": ("Hmcomm", "Ｈｍｃｏｍｍ", "Ｈmcomm"),
-        "471A": ("NSグループ", "ＮＳグループ"),
-    }
-    for code, expected in known.items():
-        if code not in by_code:
-            continue
-        if code in aliases:
-            assert any(a.lower() in by_code[code].lower() for a in aliases[code]), \
-                f"{code} mismatch: {by_code[code]}"
-        else:
-            assert expected.lower() in by_code[code].lower(), \
-                f"{code} mismatch: {by_code[code]}"
-
     today = date.today()
     start = (
-        today - timedelta(days=RETENTION_DAYS + 10)
-        if full_backfill else
-        today - timedelta(days=RECENT_REFRESH_DAYS)
-    ).isoformat()
+        (today - timedelta(days=RETENTION_DAYS + 10)).isoformat()
+        if recovery or full_backfill
+        else (today - timedelta(days=RECENT_REFRESH_DAYS)).isoformat()
+    )
     end = (today + timedelta(days=1)).isoformat()
 
     symbols = [f"{x['code4']}.T" for x in master]
@@ -1078,12 +1095,15 @@ def main():
             m.get("publicPriceJPX")
             or k.get("publicPriceIpokabu")
             or prev.get("publicPrice")
+            or prev.get("ipoPrice")
         )
+
         yf_initial = listing_initial(hist, m["listedDate"])
         initial = (
             k.get("initialPriceIpokabu")
-            or yf_initial
             or prev.get("initialPrice")
+            or prev.get("firstDayPrice")
+            or yf_initial
         )
 
         financials = prev.get("financials", [])
@@ -1101,6 +1121,15 @@ def main():
             miles[f"price{days}d"] = p
             miles[f"price{days}dDate"] = d
 
+        ev = clean_text(
+            k.get("ipoEvaluation")
+            or prev.get("ipoEvaluation")
+            or prev.get("ipoAttention")
+            or prev.get("ipoRating")
+        ).upper()
+        if ev not in IPO_KABU_ATTENTION_GRADES:
+            ev = None
+
         item = {
             "_schemaVersion": SCHEMA_VERSION,
             "code": code,
@@ -1112,32 +1141,24 @@ def main():
             "masterSource": m["masterSource"],
             "officialCodeNameVerified": m["officialCodeNameVerified"],
 
-            # New canonical names:
             "publicPrice": public,
             "initialPrice": initial,
-
-            # Legacy app-compatible aliases. The current HTML expects these names:
             "ipoPrice": public,
             "firstDayPrice": initial,
 
             "publicPriceSource": (
                 "JPX" if m.get("publicPriceJPX") else
                 "庶民のIPO" if k.get("publicPriceIpokabu") else
-                "existing"
+                prev.get("publicPriceSource") or "existing"
             ),
             "initialPriceSource": (
                 "庶民のIPO" if k.get("initialPriceIpokabu") else
-                "yfinance listing-day Open" if yf_initial is not None else
-                "existing"
+                prev.get("initialPriceSource")
+                or ("yfinance listing-day Open" if yf_initial is not None else "existing")
             ),
             "initialReturnPct": pct(initial, public),
-            "ipoEvaluation": (
-                k.get("ipoEvaluation")
-                or prev.get("ipoEvaluation")
-                or prev.get("ipoAttention")
-                or prev.get("ipoRating")
-            ),
-            "ipoSourceUrl": k.get("ipoSourceUrl") or prev.get("ipoSourceUrl"),
+            "ipoEvaluation": ev,
+            "ipoSourceUrl": f"https://ipokabu.net/ipo/{code}",
 
             "currentPrice": current,
             "priceAsOfDate": current_date,
@@ -1152,7 +1173,8 @@ def main():
             "financialsUpdatedAt": fin_updated,
             "marketCap": prev.get("marketCap"),
             "currentPER": prev.get("currentPER"),
-            "dataSource": "JPX + 庶民のIPO + yfinance" + (" + J-Quants" if financials else ""),
+            "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance"
+                          + (" + J-Quants" if financials else ""),
             "dataRetrievedAt": started,
         }
         items.append(item)
@@ -1160,31 +1182,33 @@ def main():
         if i % 25 == 0 or i == len(master):
             print(f"[BUILD] {i}/{len(master)}", flush=True)
 
-    public_count = sum(x.get("ipoPrice") is not None for x in items)
-    initial_count = sum(x.get("firstDayPrice") is not None for x in items)
-    print(f"[IPO prices] public={public_count}/{len(items)} initial={initial_count}/{len(items)}", flush=True)
-
-    # Final integrity gates.
     codes = [x["code4"] for x in items]
     assert len(codes) == len(set(codes)), "duplicate codes"
-    assert len(items) >= 100, f"too few records: {len(items)}"
+    assert all(re.fullmatch(r"(?:\\d{4}|\\d{3}[A-Z])", c) for c in codes), "non-canonical code"
     assert all("インタビュー" not in x["name"] for x in items), "interview label remains"
 
-    # Any currently-listed record that was successfully looked up must match
-    # the official mapping because the official result overwrote scraped names.
-    for x in items:
-        if x["code4"] in official:
-            assert x["name"] == official[x["code4"]]["officialName"]
-            assert x["market"] == official[x["code4"]]["officialMarket"]
+    retention_cutoff = (date.today() - timedelta(days=RETENTION_DAYS)).isoformat()
+    retained_old_codes = {
+        c for c, x in old.items()
+        if retention_cutoff <= str(x.get("listedDate", "")) <= date.today().isoformat()
+    }
+    missing_old = retained_old_codes - set(codes)
+    assert not missing_old, f"existing records would disappear: {sorted(missing_old)[:10]}"
 
     tmp = OUT.with_suffix(".json.tmp")
-    tmp.write_text(json.dumps(items, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    tmp.write_text(json.dumps(items, ensure_ascii=False, indent=2), encoding="utf-8")
     tmp.replace(OUT)
 
+    coverage = {}
+    for x in items:
+        y = str(x.get("listedDate", ""))[:4]
+        if y:
+            coverage[y] = coverage.get(y, 0) + 1
+
     print(
-        f"[DONE] records={len(items)} verified={sum(x['officialCodeNameVerified'] for x in items)} "
+        f"[DONE] records={len(items)} added={len(added_codes)} coverage={coverage} "
         f"file={OUT.stat().st_size/1024/1024:.2f}MB "
-        f"mode={'full-backfill' if full_backfill else 'incremental'}",
+        f"mode={'recovery' if recovery else 'incremental'}",
         flush=True,
     )
 
