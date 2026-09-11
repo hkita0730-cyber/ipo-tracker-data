@@ -43,7 +43,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "docs" / "latest.json"
 OUT.parent.mkdir(parents=True, exist_ok=True)
 
-SCHEMA_VERSION = 9
+SCHEMA_VERSION = 11
 IPO_DISCOVERY_DAYS = 1095       # new IPO search: 3 years
 RETENTION_DAYS = 1460           # keep tracked IPO records/history: 4 years
 RECENT_REFRESH_DAYS = 120
@@ -66,6 +66,9 @@ IPO_KABU_URLS = {
     2023: "https://ipokabu.net/ipo/list2023",
     2022: "https://ipokabu.net/ipo/list2022",
 }
+
+IPO_KABU_ATTENTION_GRADES = ("S", "A", "B", "C", "D")
+IPO_KABU_DETAIL_URL = "https://ipokabu.net/ipo/{code}"
 
 JPX_SEARCH = (
     "https://www2.jpx.co.jp/tseHpFront/StockSearch.do?"
@@ -344,6 +347,59 @@ def verify_codes_with_jpx(codes: list[str]) -> dict[str, dict[str, Any]]:
 
 
 # ------------------------------------------------------------------
+# 庶民のIPO: robust discovery + S/A/B/C/D attention
+# ------------------------------------------------------------------
+def discover_ipokabu_year(html: str, year: int, url: str) -> dict[str, dict[str, Any]]:
+    """Discover IPO codes from exact /ipo/<code> links, independent of table layout."""
+    soup = BeautifulSoup(html, "html.parser")
+    result: dict[str, dict[str, Any]] = {}
+    for a in soup.find_all("a", href=True):
+        href = clean_text(a.get("href"))
+        m = re.search(r"/ipo/(\d{4}[A-Z]?)$", href, re.I)
+        if not m:
+            continue
+        code = m.group(1).upper()
+        tr = a.find_parent("tr")
+        row_text = clean_text(tr.get_text(" ", strip=True)) if tr else clean_text(a.parent.get_text(" ", strip=True))
+        listed = parse_md(row_text, year)
+        public = None
+        initial = None
+        pm = re.search(r"公開価格[：:\s]*([\d,]+)\s*円", row_text)
+        im = re.search(r"初値[：:\s]*([\d,]+)\s*円", row_text)
+        if pm: public = int(pm.group(1).replace(",", ""))
+        if im: initial = int(im.group(1).replace(",", ""))
+        old = result.get(code, {})
+        result[code] = {
+            **old,
+            "code4": code,
+            "ipokabuName": normalize_company_name(a.get_text(" ", strip=True)) or old.get("ipokabuName"),
+            "ipokabuListedDate": listed or old.get("ipokabuListedDate"),
+            "publicPriceIpokabu": public if public is not None else old.get("publicPriceIpokabu"),
+            "initialPriceIpokabu": initial if initial is not None else old.get("initialPriceIpokabu"),
+            "ipoSourceUrl": IPO_KABU_DETAIL_URL.format(code=code),
+        }
+    return result
+
+
+def fetch_ipokabu_attention(year: int) -> dict[str, str]:
+    """Read 庶民のIPO raw S/A/B/C/D evaluation from dedicated attention pages."""
+    result: dict[str, str] = {}
+    for grade in IPO_KABU_ATTENTION_GRADES:
+        url = f"https://ipokabu.net/data/{year}/attention-{grade.lower()}"
+        try:
+            soup = BeautifulSoup(fetch_html(url), "html.parser")
+        except Exception as e:
+            print(f"[WARN] 庶民のIPO attention {year}/{grade}: {e}", flush=True)
+            continue
+        for a in soup.find_all("a", href=True):
+            href = clean_text(a.get("href"))
+            m = re.search(r"/ipo/(\d{4}[A-Z]?)$", href, re.I)
+            if m:
+                result[m.group(1).upper()] = grade
+    return result
+
+
+# ------------------------------------------------------------------
 # 庶民のIPO: same-row code association; prices/rating are supplemental
 # ------------------------------------------------------------------
 def rating_from(v: Any) -> str | None:
@@ -412,8 +468,7 @@ def parse_ipokabu_year(html: str, year: int, url: str) -> dict[str, dict[str, An
             "ipokabuMarket": market,
             "publicPriceIpokabu": public,
             "initialPriceIpokabu": initial,
-            "ipoRating": rating_from(c[0]),
-            "ipoRatingSource": "庶民のIPO",
+            "ipoEvaluation": rating_from(c[0]),
             "ipoSourceUrl": url,
         }
 
@@ -421,21 +476,41 @@ def parse_ipokabu_year(html: str, year: int, url: str) -> dict[str, dict[str, An
 
 
 def fetch_ipokabu() -> dict[str, dict[str, Any]]:
-    merged = {}
+    merged: dict[str, dict[str, Any]] = {}
     for year, url in IPO_KABU_URLS.items():
         try:
-            rows = parse_ipokabu_year(fetch_html(url), year, url)
-            print(f"[庶民のIPO] {year} rows={len(rows)}", flush=True)
-            merged.update(rows)
+            html = fetch_html(url)
         except Exception as e:
             print(f"[WARN] 庶民のIPO {year}: {e}", flush=True)
-
-    cutoff = (date.today() - timedelta(days=RETENTION_DAYS)).isoformat()
-    today_s = date.today().isoformat()
-    merged = {
-        c: x for c, x in merged.items()
-        if cutoff <= x.get("ipokabuListedDate", "") <= today_s
-    }
+            continue
+        discovered = discover_ipokabu_year(html, year, url)
+        try:
+            parsed = parse_ipokabu_year(html, year, url)
+        except Exception:
+            parsed = {}
+        attention = fetch_ipokabu_attention(year)
+        codes = set(discovered) | set(parsed) | set(attention)
+        for code in codes:
+            d = discovered.get(code, {})
+            p = parsed.get(code, {})
+            grade = attention.get(code)
+            old = merged.get(code, {})
+            merged[code] = {
+                **old,
+                "code4": code,
+                "ipokabuName": d.get("ipokabuName") or p.get("ipokabuName") or old.get("ipokabuName"),
+                "ipokabuListedDate": d.get("ipokabuListedDate") or p.get("ipokabuListedDate") or old.get("ipokabuListedDate"),
+                "ipokabuMarket": p.get("ipokabuMarket") or old.get("ipokabuMarket"),
+                "publicPriceIpokabu": d.get("publicPriceIpokabu") if d.get("publicPriceIpokabu") is not None else p.get("publicPriceIpokabu", old.get("publicPriceIpokabu")),
+                "initialPriceIpokabu": d.get("initialPriceIpokabu") if d.get("initialPriceIpokabu") is not None else p.get("initialPriceIpokabu", old.get("initialPriceIpokabu")),
+                "ipoEvaluation": grade or old.get("ipoEvaluation") or p.get("ipoEvaluation"),
+                "ipoSourceUrl": IPO_KABU_DETAIL_URL.format(code=code),
+            }
+        print(f"[庶民のIPO] {year} discovered={len(discovered)} table={len(parsed)} attention={len(attention)}", flush=True)
+    retention_cutoff=(date.today()-timedelta(days=RETENTION_DAYS)).isoformat()
+    today_s=date.today().isoformat()
+    merged={c:x for c,x in merged.items() if (not x.get("ipokabuListedDate") or retention_cutoff <= x.get("ipokabuListedDate","") <= today_s)}
+    print(f"[庶民のIPO] retained={len(merged)}", flush=True)
     return merged
 
 
@@ -459,11 +534,11 @@ def load_existing():
         if re.fullmatch(r"\d{4}[A-Z]?", code):
             by_code[code] = x
 
-    is_v9 = bool(by_code) and all(
+    is_v11 = bool(by_code) and all(
         x.get("_schemaVersion") == SCHEMA_VERSION
         for x in list(by_code.values())[:min(20, len(by_code))]
     )
-    return by_code, (not is_v9)
+    return by_code, (not is_v11)
 
 
 # ------------------------------------------------------------------
@@ -853,8 +928,12 @@ def main():
                 "existing"
             ),
             "initialReturnPct": pct(initial, public),
-            "ipoRating": k.get("ipoRating") or prev.get("ipoRating"),
-            "ipoRatingSource": k.get("ipoRatingSource") or prev.get("ipoRatingSource"),
+            "ipoEvaluation": (
+                k.get("ipoEvaluation")
+                or prev.get("ipoEvaluation")
+                or prev.get("ipoAttention")
+                or prev.get("ipoRating")
+            ),
             "ipoSourceUrl": k.get("ipoSourceUrl") or prev.get("ipoSourceUrl"),
 
             "currentPrice": current,
