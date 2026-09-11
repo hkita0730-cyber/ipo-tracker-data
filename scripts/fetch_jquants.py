@@ -44,7 +44,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "docs" / "latest.json"
 OUT.parent.mkdir(parents=True, exist_ok=True)
 
-SCHEMA_VERSION = 21
+SCHEMA_VERSION = 22
 IPO_DISCOVERY_DAYS = 1095       # new IPO search: 3 years
 RETENTION_DAYS = 1460           # keep tracked IPO records/history: 4 years
 RECENT_REFRESH_DAYS = 120
@@ -850,6 +850,137 @@ def fetch_ipokabu() -> dict[str, dict[str, Any]]:
         flush=True,
     )
     return merged
+
+
+def load_existing():
+    """Load, canonicalize and preserve the existing persistent master."""
+    if not OUT.exists():
+        return {}, True
+    try:
+        raw = json.loads(OUT.read_text(encoding="utf-8"))
+    except Exception:
+        return {}, True
+
+    items = raw.get("ipos", []) if isinstance(raw, dict) else raw if isinstance(raw, list) else []
+    by_code = {}
+    for x in items:
+        if not isinstance(x, dict):
+            continue
+        code = parse_code(x.get("code4") or x.get("code"))
+        if not code:
+            continue
+        y = dict(x)
+        y["code"] = code
+        y["code4"] = code
+        y["name"] = normalize_company_name(y.get("name"))
+        ev = clean_text(
+            y.get("ipoEvaluation") or y.get("ipoAttention") or y.get("ipoRating")
+        ).upper()
+        y["ipoEvaluation"] = ev if ev in IPO_KABU_ATTENTION_GRADES else None
+        y["ipoSourceUrl"] = f"https://ipokabu.net/ipo/{code}"
+        by_code[code] = y
+
+    is_v17 = bool(by_code) and all(
+        x.get("_schemaVersion") == SCHEMA_VERSION
+        for x in list(by_code.values())[:min(20, len(by_code))]
+    )
+    return by_code, (not is_v17)
+
+
+def needs_recovery_backfill(old: dict[str, dict[str, Any]]) -> bool:
+    if not old:
+        return True
+    cutoff = (date.today() - timedelta(days=IPO_DISCOVERY_DAYS)).isoformat()
+    dates = sorted(
+        str(x.get("listedDate"))
+        for x in old.values()
+        if str(x.get("listedDate", ""))[:4].isdigit()
+    )
+    return not dates or dates[0] > cutoff
+
+
+def build_master(archive, ipokabu, official_new, old) -> list[dict[str, Any]]:
+    """Preserve existing rows; only append missing IPOs."""
+    retention_cutoff = (date.today() - timedelta(days=RETENTION_DAYS)).isoformat()
+    discovery_cutoff = (date.today() - timedelta(days=IPO_DISCOVERY_DAYS)).isoformat()
+    today_s = date.today().isoformat()
+
+    out_by_code: dict[str, dict[str, Any]] = {}
+
+    # Existing latest.json is the persistent master.
+    for code, prev in old.items():
+        listed = str(prev.get("listedDate", ""))
+        if not listed or not (retention_cutoff <= listed <= today_s):
+            continue
+        name = normalize_company_name(prev.get("name"))
+        market = clean_text(prev.get("market"))
+        if not name or market not in MARKETS:
+            continue
+        out_by_code[code] = {
+            "code4": code,
+            "name": name,
+            "market": market,
+            "listedDate": listed,
+            "searchEligible3y": listed >= discovery_cutoff,
+            "masterSource": prev.get("masterSource") or "existing latest.json",
+            "officialCodeNameVerified": bool(prev.get("officialCodeNameVerified")),
+            "publicPriceJPX": None,
+        }
+
+    # Add only genuinely missing IPOs.
+    candidate_codes = (set(archive) | set(ipokabu)) - set(out_by_code)
+    for code in sorted(candidate_codes):
+        a = archive.get(code, {})
+        k = ipokabu.get(code, {})
+        o = official_new.get(code, {})
+
+        listed = a.get("listedDate") or k.get("ipokabuListedDate")
+        if not listed or not (discovery_cutoff <= listed <= today_s):
+            continue
+
+        if o:
+            name = o["officialName"]
+            market = o["officialMarket"]
+            source = "JPX official listed-company search (new IPO)"
+            verified = True
+        elif a.get("archiveName") and a.get("archiveMarket") in MARKETS:
+            name = normalize_company_name(a.get("archiveName"))
+            market = a.get("archiveMarket")
+            source = "JPX new-listing archive"
+            verified = False
+        elif k.get("ipokabuName") and k.get("ipokabuMarket") in MARKETS:
+            name = normalize_company_name(k.get("ipokabuName"))
+            market = k.get("ipokabuMarket")
+            source = "庶民のIPO fallback"
+            verified = False
+        else:
+            continue
+
+        if not name or market not in MARKETS or "*" in name:
+            continue
+
+        out_by_code[code] = {
+            "code4": code,
+            "name": normalize_company_name(name),
+            "market": market,
+            "listedDate": listed,
+            "searchEligible3y": True,
+            "masterSource": source,
+            "officialCodeNameVerified": verified,
+            "publicPriceJPX": a.get("publicPriceJPX"),
+        }
+
+    out = sorted(out_by_code.values(), key=lambda x: x["listedDate"], reverse=True)
+
+    retained_old = sum(
+        1 for x in old.values()
+        if retention_cutoff <= str(x.get("listedDate", "")) <= today_s
+    )
+    if len(out) < retained_old:
+        raise RuntimeError(
+            f"Safety stop: master would shrink from {retained_old} to {len(out)}."
+        )
+    return out
 
 
 # ------------------------------------------------------------------
