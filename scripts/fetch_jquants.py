@@ -33,12 +33,13 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any
-from urllib.parse import quote
+from urllib.parse import quote, urljoin
 
 import pandas as pd
 import requests
 import yfinance as yf
 from bs4 import BeautifulSoup
+from pypdf import PdfReader
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "docs" / "latest.json"
@@ -49,6 +50,7 @@ IPO_DISCOVERY_DAYS = 1095       # new IPO search: 3 years
 RETENTION_DAYS = 1460           # keep tracked IPO records/history: 4 years
 RECENT_REFRESH_DAYS = 120
 FINANCIAL_REFRESH_DAYS = 7
+IPO_METADATA_BACKFILL_BUDGET = 8
 
 MARKETS = ("プライム", "スタンダード", "グロース")
 
@@ -189,19 +191,38 @@ def fetch_html(url: str, timeout=35) -> str:
     raise RuntimeError(f"fetch failed {url}: {last}")
 
 
+def fetch_binary(url: str, timeout=45) -> bytes:
+    last = None
+    for attempt in range(3):
+        try:
+            r = requests.get(url, headers=HEADERS, timeout=timeout)
+            r.raise_for_status()
+            return r.content
+        except Exception as e:
+            last = e
+            if attempt < 2:
+                time.sleep(1.5 + attempt)
+    raise RuntimeError(f"binary fetch failed {url}: {last}")
+
+
 def cells(tr) -> list[str]:
     return [clean_text(td.get_text(" ", strip=True))
             for td in tr.find_all(["th", "td"], recursive=False)]
 
 
-def next_nonempty_row(tr):
+def next_nonempty_tr(tr):
     n = tr.find_next_sibling("tr")
     while n is not None:
         c = cells(n)
         if c:
-            return c
+            return n
         n = n.find_next_sibling("tr")
-    return []
+    return None
+
+
+def next_nonempty_row(tr):
+    n = next_nonempty_tr(tr)
+    return cells(n) if n is not None else []
 
 
 # ------------------------------------------------------------------
@@ -275,7 +296,8 @@ def parse_jpx_archive_page(html: str, url: str) -> dict[str, dict[str, Any]]:
             continue
 
         # Try to recover market / public price, but do NOT require them.
-        row2 = next_nonempty_row(tr)
+        row2_tr = next_nonempty_tr(tr)
+        row2 = cells(row2_tr) if row2_tr is not None else []
         market = next((m for m in MARKETS if any(m in x for x in row2)), "")
         if not market:
             market = next((m for m in MARKETS if any(m in x for x in c)), "")
@@ -289,6 +311,9 @@ def parse_jpx_archive_page(html: str, url: str) -> dict[str, dict[str, Any]]:
                 break
 
         prev = out.get(code4)
+        outline_link = tr.find("a", href=re.compile(r"outline", re.I))
+        filing_link = row2_tr.find("a", href=re.compile(r"-1s\.pdf", re.I)) if row2_tr else None
+
         item = {
             "code4": code4,
             "archiveName": name,
@@ -296,6 +321,8 @@ def parse_jpx_archive_page(html: str, url: str) -> dict[str, dict[str, Any]]:
             "archiveMarket": market or None,
             "publicPriceJPX": offer,
             "archiveSourceUrl": url,
+            "outlineUrl": urljoin(url, outline_link.get("href")) if outline_link else None,
+            "filingUrl": urljoin(url, filing_link.get("href")) if filing_link else None,
         }
         if not prev or listed > prev["listedDate"]:
             out[code4] = item
@@ -784,6 +811,186 @@ def fetch_ipokabu_detail_initial(code: str) -> int | None:
     return None
 
 
+# ------------------------------------------------------------------
+# 上場時資料メタデータ: 業種 / 事業内容 / VCロックアップ
+# ------------------------------------------------------------------
+def compact_pdf_text(value: Any) -> str:
+    """PDF抽出時の改行・全角空白を、項目抽出しやすい形に揃える。"""
+    return re.sub(r"\s+", " ", str(value or "").replace("\u3000", " ")).strip()
+
+
+def parse_jpx_outline_pdf(pdf_bytes: bytes) -> dict[str, Any]:
+    """JPX「新規上場会社概要」から公式の業種と事業内容を読む。"""
+    reader = PdfReader(io.BytesIO(pdf_bytes))
+    text = compact_pdf_text("\n".join(page.extract_text() or "" for page in reader.pages[:3]))
+
+    business = None
+    m = re.search(
+        r"事\s*業\s*の\s*内\s*容\s*(.+?)\s*業\s*種\s*別\s*分\s*類",
+        text,
+    )
+    if m:
+        business = clean_text(m.group(1))
+        business = re.sub(r"(?<=[ぁ-んァ-ヶ一-龥])\s+(?=[ぁ-んァ-ヶ一-龥])", "", business)
+
+    industry = None
+    m = re.search(
+        r"業\s*種\s*別\s*分\s*類\s*[・･]\s*コ\s*ー\s*ド\s*(.+?)\s*銘\s*柄\s*略",
+        text,
+    )
+    if m:
+        raw = clean_text(m.group(1))
+        industry = re.split(r"[・･]?(?:\d{4}|\d{3}[A-Z])(?:\s|（|\()", raw, maxsplit=1)[0].strip(" ・･")
+
+    return {
+        "industry": industry or None,
+        "themeRelated": business or None,
+    }
+
+
+def japanese_date_to_iso(text: str) -> str | None:
+    m = re.search(r"(\d{4})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日", text)
+    if not m:
+        return None
+    try:
+        return date(int(m.group(1)), int(m.group(2)), int(m.group(3))).isoformat()
+    except ValueError:
+        return None
+
+
+def parse_ipokabu_listing_document_summary(
+    html: str, code: str, listed_date: str | None
+) -> dict[str, Any]:
+    """目論見書のロックアップ欄を整理している個別ページから条件を読む。
+
+    業種・事業内容はJPX会社概要を優先し、PDF取得に失敗した場合だけ
+    このページの表を補助情報として使う。ロックアップは日付を先頭にし、
+    株価条件（例: 公開価格1.5倍）も同じ文に残す。
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    result: dict[str, Any] = {}
+
+    for tr in soup.find_all("tr"):
+        cs = [clean_text(x.get_text(" ", strip=True)) for x in tr.find_all(["th", "td"], recursive=False)]
+        for i, label in enumerate(cs[:-1]):
+            if label == "業種" and not result.get("industry"):
+                result["industry"] = cs[i + 1]
+            if label == "事業内容" and not result.get("themeRelated"):
+                result["themeRelated"] = cs[i + 1]
+
+    heading = soup.find(id="lockup_stock")
+    section = heading.find_parent("section") if heading else None
+    lock_texts: list[str] = []
+    if section:
+        summary_box = section.select_one(".board3") or section
+        for li in summary_box.find_all("li"):
+            t = clean_text(li.get_text(" ", strip=True))
+            if "ロックアップ" in t or "解除" in t:
+                lock_texts.append(t)
+
+    dates: list[str] = []
+    periods: list[int] = []
+    multiplier = None
+    for t in lock_texts:
+        d = japanese_date_to_iso(t)
+        if d and d not in dates:
+            dates.append(d)
+        for p in re.findall(r"(\d{2,3})\s*日(?:の|間)", t):
+            n = int(p)
+            if 30 <= n <= 730 and n not in periods:
+                periods.append(n)
+        mm = re.search(r"(?:公開価格|発行価格|解除となる株価).*?([\d.]+)\s*倍", t)
+        if mm:
+            multiplier = float(mm.group(1))
+
+    if listed_date and periods:
+        try:
+            base = date.fromisoformat(listed_date)
+            for days in periods:
+                computed = (base + timedelta(days=days - 1)).isoformat()
+                if computed not in dates:
+                    dates.append(computed)
+        except ValueError:
+            pass
+
+    dates.sort()
+    if lock_texts or dates:
+        date_label = "／".join(d.replace("-", "/") for d in dates)
+        period_label = "・".join(f"{n}日" for n in periods)
+        price_label = f"公開価格の{multiplier:g}倍で解除" if multiplier else ""
+        parts = [x for x in (date_label, period_label, price_label) if x]
+        result["vcLockup"] = {
+            "condition": "：".join(parts) if parts else "／".join(lock_texts),
+            "dates": dates,
+            "periodDays": periods,
+            "priceMultiplier": multiplier,
+            "sourceUrl": IPO_KABU_DETAIL_URL.format(code=code),
+            "sourceLabel": "目論見書のロックアップ情報（庶民のIPOによる整理）",
+        }
+
+    return result
+
+
+def fetch_one_ipo_metadata(
+    code: str, listed_date: str | None, archive_item: dict[str, Any]
+) -> tuple[str, dict[str, Any]]:
+    result: dict[str, Any] = {}
+    outline_url = archive_item.get("outlineUrl")
+    filing_url = archive_item.get("filingUrl")
+
+    if outline_url:
+        try:
+            result.update(parse_jpx_outline_pdf(fetch_binary(outline_url)))
+            result["outlineUrl"] = outline_url
+            result["filingUrl"] = filing_url
+        except Exception as e:
+            print(f"[WARN] JPX outline metadata {code}: {e}", flush=True)
+
+    try:
+        supplement = parse_ipokabu_listing_document_summary(
+            fetch_html(IPO_KABU_DETAIL_URL.format(code=code), timeout=25),
+            code,
+            listed_date,
+        )
+        for key in ("industry", "themeRelated"):
+            if not result.get(key) and supplement.get(key):
+                result[key] = supplement[key]
+        if supplement.get("vcLockup"):
+            result["vcLockup"] = supplement["vcLockup"]
+    except Exception as e:
+        print(f"[WARN] IPO metadata supplement {code}: {e}", flush=True)
+
+    result["ipoMetadataCheckedAt"] = date.today().isoformat()
+    return code, result
+
+
+def fetch_ipo_metadata(master, archive, old, added_codes) -> dict[str, dict[str, Any]]:
+    missing = [x for x in master if not old.get(x["code4"], {}).get("ipoMetadataCheckedAt")]
+    missing.sort(key=lambda x: x.get("listedDate", ""), reverse=True)
+
+    selected_codes = sorted(added_codes)
+    for x in missing:
+        if x["code4"] not in selected_codes and len(selected_codes) < len(added_codes) + IPO_METADATA_BACKFILL_BUDGET:
+            selected_codes.append(x["code4"])
+
+    targets = [x for x in master if x["code4"] in set(selected_codes)]
+    if not targets:
+        return {}
+
+    print(f"[IPO metadata] targets={len(targets)}", flush=True)
+    results: dict[str, dict[str, Any]] = {}
+    with ThreadPoolExecutor(max_workers=3) as ex:
+        futs = [
+            ex.submit(fetch_one_ipo_metadata, x["code4"], x.get("listedDate"), archive.get(x["code4"], {}))
+            for x in targets
+        ]
+        for fut in as_completed(futs):
+            code, data = fut.result()
+            if data:
+                results[code] = data
+    return results
+
+
 def fetch_ipokabu() -> dict[str, dict[str, Any]]:
     """Fetch annual S/A/B/C/D evaluations and merge by security code.
 
@@ -1196,7 +1403,8 @@ def main():
     # scan all relevant JPX archive pages. Later runs only scan current + previous archive.
     global JPX_ARCHIVES, JPX_EN_ARCHIVES
     if not recovery:
-        JPX_ARCHIVES = JPX_ARCHIVES[:2]
+        # Japanese archive pages are lightweight and also provide the official
+        # Outline PDF URLs needed for gradual metadata backfill.
         JPX_EN_ARCHIVES = JPX_EN_ARCHIVES[:2]
 
     archive = fetch_jpx_archive_master()
@@ -1213,6 +1421,8 @@ def main():
         f"3y={sum(x['searchEligible3y'] for x in master)}",
         flush=True,
     )
+
+    ipo_metadata = fetch_ipo_metadata(master, archive, old, added_codes)
 
     today = date.today()
     start = (
@@ -1235,6 +1445,7 @@ def main():
         code = m["code4"]
         prev = old.get(code, {})
         k = ipokabu.get(code, {})
+        meta = ipo_metadata.get(code, {})
         hist = merge_history(prev.get("priceHistory", []), price_map.get(f"{code}.T", []))
 
         current = hist[-1].get("close") if hist else prev.get("currentPrice")
@@ -1317,6 +1528,13 @@ def main():
             "initialReturnPct": pct(initial, public),
             "ipoEvaluation": ev,
             "ipoSourceUrl": f"https://ipokabu.net/ipo/{code}",
+
+            "industry": meta.get("industry") or prev.get("industry"),
+            "themeRelated": meta.get("themeRelated") or prev.get("themeRelated"),
+            "vcLockup": meta.get("vcLockup") or prev.get("vcLockup"),
+            "outlineUrl": meta.get("outlineUrl") or prev.get("outlineUrl"),
+            "filingUrl": meta.get("filingUrl") or prev.get("filingUrl"),
+            "ipoMetadataCheckedAt": meta.get("ipoMetadataCheckedAt") or prev.get("ipoMetadataCheckedAt"),
 
             "currentPrice": current,
             "priceAsOfDate": current_date,
