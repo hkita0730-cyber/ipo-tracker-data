@@ -50,7 +50,9 @@ IPO_DISCOVERY_DAYS = 1095       # new IPO search: 3 years
 RETENTION_DAYS = 1460           # keep tracked IPO records/history: 4 years
 RECENT_REFRESH_DAYS = 120
 FINANCIAL_REFRESH_DAYS = 7
-IPO_METADATA_BACKFILL_BUDGET = 8
+# 初回実行で既存230銘柄をまとめて補完する。個別IPOページを主に使い、
+# JPX PDFはテーマ説明が取れない銘柄だけ補助取得するため、実行時間を抑えられる。
+IPO_METADATA_BACKFILL_BUDGET = 300
 
 MARKETS = ("プライム", "スタンダード", "グロース")
 
@@ -878,15 +880,44 @@ def parse_ipokabu_listing_document_summary(
             if label == "事業内容" and not result.get("themeRelated"):
                 result["themeRelated"] = cs[i + 1]
 
+    # 新しい個別ページでは比較表に「事業内容」がない場合がある。
+    # その場合は、目論見書をもとに書かれたページ冒頭の会社説明を使う。
+    if not result.get("themeRelated"):
+        intro = soup.select_one(".ipo_t_r")
+        if intro:
+            paragraphs = []
+            for p in intro.find_all("p", recursive=False)[:2]:
+                t = clean_text(p.get_text(" ", strip=True))
+                if t and "公式サイト" not in t:
+                    paragraphs.append(t)
+            if paragraphs:
+                result["themeRelated"] = " ".join(paragraphs)
+
     heading = soup.find(id="lockup_stock")
     section = heading.find_parent("section") if heading else None
     lock_texts: list[str] = []
+    vc_conditions: list[str] = []
+    lock_section_found = section is not None
     if section:
         summary_box = section.select_one(".board3") or section
         for li in summary_box.find_all("li"):
             t = clean_text(li.get_text(" ", strip=True))
             if "ロックアップ" in t or "解除" in t:
                 lock_texts.append(t)
+
+        # 「ファンドの売却制限」と同じ考え方で、上位株主表のうち
+        # VCタグが付いた株主だけを対象にする。創業者等の180日は混ぜない。
+        for tr in section.find_all("tr"):
+            tag = tr.select_one(".tx_lock")
+            if not tag or clean_text(tag.get_text(" ", strip=True)).upper() != "VC":
+                continue
+            cs = [clean_text(x.get_text(" ", strip=True)) for x in tr.find_all(["th", "td"], recursive=False)]
+            if not cs:
+                continue
+            condition = cs[-1].replace("／", "/")
+            condition = re.sub(r"\s+", "", condition)
+            if condition and condition not in ("-", "—", "なし") and condition not in vc_conditions:
+                vc_conditions.append(condition)
 
     dates: list[str] = []
     periods: list[int] = []
@@ -903,7 +934,17 @@ def parse_ipokabu_listing_document_summary(
         if mm:
             multiplier = float(mm.group(1))
 
-    if listed_date and periods:
+    # サマリー欄がない旧ページでも、VC行の「90日/1.5倍」等から復元する。
+    for condition in vc_conditions:
+        for p in re.findall(r"(\d{2,3})日", condition):
+            n = int(p)
+            if 30 <= n <= 730 and n not in periods:
+                periods.append(n)
+        mm = re.search(r"([\d.]+)倍", condition)
+        if mm and multiplier is None:
+            multiplier = float(mm.group(1))
+
+    if listed_date and periods and not dates:
         try:
             base = date.fromisoformat(listed_date)
             for days in periods:
@@ -914,19 +955,51 @@ def parse_ipokabu_listing_document_summary(
             pass
 
     dates.sort()
-    if lock_texts or dates:
-        date_label = "／".join(d.replace("-", "/") for d in dates)
-        period_label = "・".join(f"{n}日" for n in periods)
-        price_label = f"公開価格の{multiplier:g}倍で解除" if multiplier else ""
-        parts = [x for x in (date_label, period_label, price_label) if x]
+    if vc_conditions:
+        dated_conditions = []
+        for n in periods:
+            explicit_date = None
+            for d in dates:
+                if listed_date:
+                    try:
+                        elapsed = (date.fromisoformat(d) - date.fromisoformat(listed_date)).days + 1
+                        if abs(elapsed - n) <= 1:
+                            explicit_date = d
+                            break
+                    except ValueError:
+                        pass
+            label = f"{n}日"
+            if explicit_date:
+                label = f"{explicit_date.replace('-', '/')}：{label}"
+            if multiplier and any(str(n) in x and "倍" in x for x in vc_conditions):
+                label += f"／公開価格の{multiplier:g}倍で解除"
+            dated_conditions.append(label)
+
+        condition_text = "；".join(dated_conditions or vc_conditions)
         result["vcLockup"] = {
-            "condition": "：".join(parts) if parts else "／".join(lock_texts),
+            "condition": condition_text,
             "dates": dates,
             "periodDays": periods,
             "priceMultiplier": multiplier,
+            "rawConditions": vc_conditions,
+            "hasVc": True,
             "sourceUrl": IPO_KABU_DETAIL_URL.format(code=code),
             "sourceLabel": "目論見書のロックアップ情報（庶民のIPOによる整理）",
         }
+    elif lock_section_found:
+        # 上位株主表を確認した結果、VCタグ付き株主がいなかった場合。
+        result["vcLockup"] = {
+            "condition": "VC保有なし",
+            "dates": [],
+            "periodDays": [],
+            "priceMultiplier": None,
+            "rawConditions": [],
+            "hasVc": False,
+            "sourceUrl": IPO_KABU_DETAIL_URL.format(code=code),
+            "sourceLabel": "目論見書の上位株主情報（庶民のIPOによる整理）",
+        }
+
+    result["ipoDetailPageFound"] = True
 
     return result
 
@@ -938,14 +1011,7 @@ def fetch_one_ipo_metadata(
     outline_url = archive_item.get("outlineUrl")
     filing_url = archive_item.get("filingUrl")
 
-    if outline_url:
-        try:
-            result.update(parse_jpx_outline_pdf(fetch_binary(outline_url)))
-            result["outlineUrl"] = outline_url
-            result["filingUrl"] = filing_url
-        except Exception as e:
-            print(f"[WARN] JPX outline metadata {code}: {e}", flush=True)
-
+    detail_ok = False
     try:
         supplement = parse_ipokabu_listing_document_summary(
             fetch_html(IPO_KABU_DETAIL_URL.format(code=code), timeout=25),
@@ -957,15 +1023,41 @@ def fetch_one_ipo_metadata(
                 result[key] = supplement[key]
         if supplement.get("vcLockup"):
             result["vcLockup"] = supplement["vcLockup"]
+        detail_ok = bool(supplement.get("ipoDetailPageFound"))
     except Exception as e:
         print(f"[WARN] IPO metadata supplement {code}: {e}", flush=True)
 
-    result["ipoMetadataCheckedAt"] = date.today().isoformat()
+    # 個別ページで事業説明が取れない場合は、JPX公式概要PDFで補完する。
+    if outline_url and (not result.get("industry") or not result.get("themeRelated")):
+        try:
+            official = parse_jpx_outline_pdf(fetch_binary(outline_url))
+            for key in ("industry", "themeRelated"):
+                if official.get(key):
+                    result[key] = official[key]
+        except Exception as e:
+            print(f"[WARN] JPX outline metadata {code}: {e}", flush=True)
+
+    if outline_url:
+        result["outlineUrl"] = outline_url
+    if filing_url:
+        result["filingUrl"] = filing_url
+
+    complete = bool(result.get("industry") and result.get("themeRelated") and result.get("vcLockup"))
+    result["ipoMetadataStatus"] = "complete" if complete else ("partial" if detail_ok or result else "error")
+    # 失敗・一部取得は次回も再試行する。完全取得時だけ完了日を保存する。
+    if complete:
+        result["ipoMetadataCheckedAt"] = date.today().isoformat()
     return code, result
 
 
 def fetch_ipo_metadata(master, archive, old, added_codes) -> dict[str, dict[str, Any]]:
-    missing = [x for x in master if not old.get(x["code4"], {}).get("ipoMetadataCheckedAt")]
+    missing = [
+        x for x in master
+        if not old.get(x["code4"], {}).get("industry")
+        or not old.get(x["code4"], {}).get("themeRelated")
+        or not old.get(x["code4"], {}).get("vcLockup")
+        or old.get(x["code4"], {}).get("ipoMetadataStatus") != "complete"
+    ]
     missing.sort(key=lambda x: x.get("listedDate", ""), reverse=True)
 
     selected_codes = sorted(added_codes)
@@ -979,7 +1071,7 @@ def fetch_ipo_metadata(master, archive, old, added_codes) -> dict[str, dict[str,
 
     print(f"[IPO metadata] targets={len(targets)}", flush=True)
     results: dict[str, dict[str, Any]] = {}
-    with ThreadPoolExecutor(max_workers=3) as ex:
+    with ThreadPoolExecutor(max_workers=5) as ex:
         futs = [
             ex.submit(fetch_one_ipo_metadata, x["code4"], x.get("listedDate"), archive.get(x["code4"], {}))
             for x in targets
@@ -1535,6 +1627,7 @@ def main():
             "outlineUrl": meta.get("outlineUrl") or prev.get("outlineUrl"),
             "filingUrl": meta.get("filingUrl") or prev.get("filingUrl"),
             "ipoMetadataCheckedAt": meta.get("ipoMetadataCheckedAt") or prev.get("ipoMetadataCheckedAt"),
+            "ipoMetadataStatus": meta.get("ipoMetadataStatus") or prev.get("ipoMetadataStatus"),
 
             "currentPrice": current,
             "priceAsOfDate": current_date,
