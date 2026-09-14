@@ -1,4 +1,4 @@
-name: Update IPO data (v17 incremental)
+name: Update IPO data (v22 incremental)
 
 on:
   schedule:
@@ -54,18 +54,16 @@ jobs:
           assert all("インタビュー" not in str(x.get("name", "")) for x in data), "interview text remains"
 
           cutoff = (date.today() - timedelta(days=1095)).isoformat()
-          recent3y = [x for x in data if str(x.get("listedDate","")) >= cutoff]
+          recent3y = [x for x in data if str(x.get("listedDate", "")) >= cutoff]
 
           by_year = {}
           for x in data:
-              d = str(x.get("listedDate",""))
+              d = str(x.get("listedDate", ""))
               if len(d) >= 4:
                   by_year[d[:4]] = by_year.get(d[:4], 0) + 1
 
           print("year coverage:", by_year)
           print(f"validated total={len(data)} recent3y={len(recent3y)}")
-
-          # Safety threshold only. No per-year hard-coding.
           assert len(recent3y) >= 150, f"recent-3y recovery still too small: {len(recent3y)}"
           PY
 
@@ -74,5 +72,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/latest.json
-          git diff --cached --quiet || git commit -m "Update IPO data (v17 incremental)"
+          git diff --cached --quiet || git commit -m "Update IPO data (v22 incremental)"
           git push
