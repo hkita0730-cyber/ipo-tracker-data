@@ -2,24 +2,24 @@
   "schemaVersion": 1,
   "fundCode": "955248",
   "fundName": "ミュータント",
-  "reportMonth": "202609",
-  "asOfDate": "2026-08-31",
-  "sourcePdfUrl": "https://www.amova-am.com/files/fund/reports/955248/monthly/202609.pdf",
-  "updatedAt": "2026-09-11T10:49:05+00:00",
+  "reportMonth": "202610",
+  "asOfDate": "2026-09-30",
+  "sourcePdfUrl": "https://www.amova-am.com/files/fund/reports/955248/monthly/202610.pdf",
+  "updatedAt": "2026-10-10T01:25:39+00:00",
   "holdings": [
     {
       "rank": 1,
-      "code": "8316",
-      "name": "三井住友フィナンシャルグループ",
-      "ratio": 5.94,
+      "code": "8306",
+      "name": "三菱ＵＦＪフィナンシャル・グループ",
+      "ratio": 6.37,
       "isIpo": false,
       "ipoListedDate": null
     },
     {
       "rank": 2,
-      "code": "8306",
-      "name": "三菱ＵＦＪフィナンシャル・グループ",
-      "ratio": 5.7,
+      "code": "8316",
+      "name": "三井住友フィナンシャルグループ",
+      "ratio": 6.02,
       "isIpo": false,
       "ipoListedDate": null
     },
@@ -27,7 +27,7 @@
       "rank": 3,
       "code": "6098",
       "name": "リクルートホールディングス",
-      "ratio": 5.42,
+      "ratio": 5.09,
       "isIpo": false,
       "ipoListedDate": null
     },
@@ -35,7 +35,7 @@
       "rank": 4,
       "code": "8725",
       "name": "ＭＳ＆ＡＤインシュアランスグループホール",
-      "ratio": 4.28,
+      "ratio": 4.18,
       "isIpo": false,
       "ipoListedDate": null
     },
@@ -43,7 +43,7 @@
       "rank": 5,
       "code": "6861",
       "name": "キーエンス",
-      "ratio": 4.17,
+      "ratio": 4.08,
       "isIpo": false,
       "ipoListedDate": null
     },
@@ -51,45 +51,58 @@
       "rank": 6,
       "code": "6857",
       "name": "アドバンテスト",
-      "ratio": 4.02,
+      "ratio": 3.97,
       "isIpo": false,
       "ipoListedDate": null
     },
     {
       "rank": 7,
-      "code": "9766",
-      "name": "コナミグループ",
-      "ratio": 3.5,
+      "code": "9434",
+      "name": "ソフトバンク",
+      "ratio": 3.55,
       "isIpo": false,
       "ipoListedDate": null
     },
     {
       "rank": 8,
-      "code": "7747",
-      "name": "朝日インテック",
-      "ratio": 3.4,
+      "code": "9766",
+      "name": "コナミグループ",
+      "ratio": 3.45,
       "isIpo": false,
       "ipoListedDate": null
     },
     {
       "rank": 9,
-      "code": "8015",
-      "name": "豊田通商",
-      "ratio": 3.26,
+      "code": "8001",
+      "name": "伊藤忠商事",
+      "ratio": 3.3,
       "isIpo": false,
       "ipoListedDate": null
     },
     {
       "rank": 10,
-      "code": "6981",
-      "name": "村田製作所",
-      "ratio": 3.21,
+      "code": "7747",
+      "name": "朝日インテック",
+      "ratio": 3.05,
       "isIpo": false,
       "ipoListedDate": null
     }
   ],
   "events": {
     "ipoAlerts": [],
-    "dropped": []
+    "dropped": [
+      {
+        "previousRank": 9,
+        "code": "8015",
+        "name": "豊田通商",
+        "wasIpo": false
+      },
+      {
+        "previousRank": 10,
+        "code": "6981",
+        "name": "村田製作所",
+        "wasIpo": false
+      }
+    ]
   }
 }
