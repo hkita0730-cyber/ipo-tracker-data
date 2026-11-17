@@ -42,17 +42,17 @@
     "filingUrl": "https://www.jpx.co.jp/listing/stocks/new/t13vrt00000272wd-att/11RECEPTIONIST-1s.pdf",
     "ipoMetadataCheckedAt": "2026-11-10",
     "ipoMetadataStatus": "complete",
-    "currentPrice": 885.0,
-    "priceAsOfDate": "2026-11-16",
-    "currentPriceUpdatedAt": "2026-11-16",
-    "prevClose": 871.0,
-    "volume": 2796900,
+    "currentPrice": 759.0,
+    "priceAsOfDate": "2026-11-17",
+    "currentPriceUpdatedAt": "2026-11-17",
+    "prevClose": 885.0,
+    "volume": 1272400,
     "week52High": 1088.0,
-    "week52Low": 853.0,
+    "week52Low": 754.0,
     "allTimeHigh": 1088.0,
-    "allTimeLow": 853.0,
-    "priceVsPublicPct": 4.12,
-    "priceVsInitialPct": -12.55,
+    "allTimeLow": 754.0,
+    "priceVsPublicPct": -10.71,
+    "priceVsInitialPct": -25.0,
     "price30d": null,
     "price30dDate": null,
     "price90d": null,
@@ -110,6 +110,15 @@
         "low": 853.0,
         "volume": 2796900,
         "price": 885.0
+      },
+      {
+        "date": "2026-11-17",
+        "close": 759.0,
+        "open": 871.0,
+        "high": 876.0,
+        "low": 754.0,
+        "volume": 1272400,
+        "price": 759.0
       }
     ],
     "financials": [],
@@ -117,7 +126,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -163,17 +172,17 @@
     "filingUrl": "https://www.jpx.co.jp/listing/stocks/new/t13vrt0000026egf-att/11estie-1s.pdf",
     "ipoMetadataCheckedAt": "2026-11-06",
     "ipoMetadataStatus": "complete",
-    "currentPrice": 866.0,
-    "priceAsOfDate": "2026-11-16",
-    "currentPriceUpdatedAt": "2026-11-16",
-    "prevClose": 716.0,
-    "volume": 60000,
+    "currentPrice": 757.0,
+    "priceAsOfDate": "2026-11-17",
+    "currentPriceUpdatedAt": "2026-11-17",
+    "prevClose": 866.0,
+    "volume": 1722300,
     "week52High": 1075.0,
     "week52Low": 704.0,
     "allTimeHigh": 1075.0,
     "allTimeLow": 704.0,
-    "priceVsPublicPct": -21.27,
-    "priceVsInitialPct": -14.68,
+    "priceVsPublicPct": -31.18,
+    "priceVsInitialPct": -25.42,
     "price30d": null,
     "price30dDate": null,
     "price90d": null,
@@ -249,6 +258,15 @@
         "low": 866.0,
         "volume": 60000,
         "price": 866.0
+      },
+      {
+        "date": "2026-11-17",
+        "close": 757.0,
+        "open": 911.0,
+        "high": 911.0,
+        "low": 730.0,
+        "volume": 1722300,
+        "price": 757.0
       }
     ],
     "financials": [],
@@ -256,7 +274,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -299,17 +317,17 @@
     "filingUrl": "https://www.jpx.co.jp/listing/stocks/new/t13vrt00000269d4-att/11AllganizeHoldings-1s.pdf",
     "ipoMetadataCheckedAt": "2026-11-04",
     "ipoMetadataStatus": "complete",
-    "currentPrice": 1175.0,
-    "priceAsOfDate": "2026-11-16",
-    "currentPriceUpdatedAt": "2026-11-16",
-    "prevClose": 1159.0,
-    "volume": 920900,
+    "currentPrice": 1156.0,
+    "priceAsOfDate": "2026-11-17",
+    "currentPriceUpdatedAt": "2026-11-17",
+    "prevClose": 1175.0,
+    "volume": 531400,
     "week52High": 1392.0,
     "week52Low": 1034.0,
     "allTimeHigh": 1392.0,
     "allTimeLow": 1034.0,
-    "priceVsPublicPct": -6.75,
-    "priceVsInitialPct": -13.03,
+    "priceVsPublicPct": -8.25,
+    "priceVsInitialPct": -14.43,
     "price30d": null,
     "price30dDate": null,
     "price90d": null,
@@ -403,6 +421,15 @@
         "low": 1175.0,
         "volume": 920900,
         "price": 1175.0
+      },
+      {
+        "date": "2026-11-17",
+        "close": 1156.0,
+        "open": 1170.0,
+        "high": 1230.0,
+        "low": 1131.0,
+        "volume": 531400,
+        "price": 1156.0
       }
     ],
     "financials": [],
@@ -410,7 +437,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -455,17 +482,17 @@
     "filingUrl": "https://www.jpx.co.jp/listing/stocks/new/t13vrt00000261n8-att/11MabGenesis-1s.pdf",
     "ipoMetadataCheckedAt": "2026-11-02",
     "ipoMetadataStatus": "complete",
-    "currentPrice": 629.0,
-    "priceAsOfDate": "2026-11-16",
-    "currentPriceUpdatedAt": "2026-11-16",
-    "prevClose": 609.0,
-    "volume": 828700,
+    "currentPrice": 666.0,
+    "priceAsOfDate": "2026-11-17",
+    "currentPriceUpdatedAt": "2026-11-17",
+    "prevClose": 629.0,
+    "volume": 724900,
     "week52High": 841.0,
     "week52Low": 543.0,
     "allTimeHigh": 841.0,
     "allTimeLow": 543.0,
-    "priceVsPublicPct": -24.22,
-    "priceVsInitialPct": -17.56,
+    "priceVsPublicPct": -19.76,
+    "priceVsInitialPct": -12.71,
     "price30d": null,
     "price30dDate": null,
     "price90d": null,
@@ -568,6 +595,15 @@
         "low": 622.0,
         "volume": 828700,
         "price": 629.0
+      },
+      {
+        "date": "2026-11-17",
+        "close": 666.0,
+        "open": 619.0,
+        "high": 696.0,
+        "low": 570.0,
+        "volume": 724900,
+        "price": 666.0
       }
     ],
     "financials": [],
@@ -575,7 +611,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -619,17 +655,17 @@
     "filingUrl": "https://www.jpx.co.jp/listing/stocks/new/t13vrt000002621i-att/10toggleholdings-1s.pdf",
     "ipoMetadataCheckedAt": "2026-10-30",
     "ipoMetadataStatus": "complete",
-    "currentPrice": 3775.0,
-    "priceAsOfDate": "2026-11-16",
-    "currentPriceUpdatedAt": "2026-11-16",
-    "prevClose": 3965.0,
-    "volume": 392000,
+    "currentPrice": 3815.0,
+    "priceAsOfDate": "2026-11-17",
+    "currentPriceUpdatedAt": "2026-11-17",
+    "prevClose": 3775.0,
+    "volume": 198300,
     "week52High": 4085.0,
     "week52Low": 3310.0,
     "allTimeHigh": 4085.0,
     "allTimeLow": 3310.0,
-    "priceVsPublicPct": -6.56,
-    "priceVsInitialPct": 0.4,
+    "priceVsPublicPct": -5.57,
+    "priceVsInitialPct": 1.46,
     "price30d": null,
     "price30dDate": null,
     "price90d": null,
@@ -741,6 +777,15 @@
         "low": 3575.0,
         "volume": 392000,
         "price": 3775.0
+      },
+      {
+        "date": "2026-11-17",
+        "close": 3815.0,
+        "open": 3735.0,
+        "high": 4025.0,
+        "low": 3700.0,
+        "volume": 198300,
+        "price": 3815.0
       }
     ],
     "financials": [],
@@ -748,7 +793,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -1013,7 +1058,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -2061,7 +2106,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -2398,7 +2443,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -3446,7 +3491,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -3801,7 +3846,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -3844,17 +3889,17 @@
     "filingUrl": "https://www.jpx.co.jp/listing/stocks/new/t13vrt000001uq4s-att/09LAYERED-1s.pdf",
     "ipoMetadataCheckedAt": "2026-09-25",
     "ipoMetadataStatus": "complete",
-    "currentPrice": 1572.0,
-    "priceAsOfDate": "2026-11-16",
-    "currentPriceUpdatedAt": "2026-11-16",
-    "prevClose": 2072.0,
-    "volume": 1143900,
+    "currentPrice": 1241.0,
+    "priceAsOfDate": "2026-11-17",
+    "currentPriceUpdatedAt": "2026-11-17",
+    "prevClose": 1572.0,
+    "volume": 516200,
     "week52High": 3835.0,
-    "week52Low": 1546.0,
+    "week52Low": 1225.0,
     "allTimeHigh": 3835.0,
-    "allTimeLow": 1546.0,
-    "priceVsPublicPct": 12.29,
-    "priceVsInitialPct": -29.51,
+    "allTimeLow": 1225.0,
+    "priceVsPublicPct": -11.36,
+    "priceVsInitialPct": -44.35,
     "price30d": 2073.0,
     "price30dDate": "2026-10-26",
     "price90d": null,
@@ -4182,6 +4227,15 @@
         "low": 1572.0,
         "volume": 1143900,
         "price": 1572.0
+      },
+      {
+        "date": "2026-11-17",
+        "close": 1241.0,
+        "open": 1372.0,
+        "high": 1400.0,
+        "low": 1225.0,
+        "volume": 516200,
+        "price": 1241.0
       }
     ],
     "financials": [],
@@ -4189,7 +4243,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -4595,7 +4649,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -4995,7 +5049,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -5401,7 +5455,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -5810,7 +5864,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -6228,7 +6282,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -6654,7 +6708,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -7108,7 +7162,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -7804,7 +7858,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -8528,7 +8582,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -9258,7 +9312,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -10033,7 +10087,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -10829,7 +10883,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -10881,15 +10935,6 @@
     "price1095d": null,
     "price1095dDate": null,
     "priceHistory": [
-      {
-        "date": "2022-11-17",
-        "close": 2257.0,
-        "open": 2169.0,
-        "high": 2323.0,
-        "low": 2151.0,
-        "volume": 1131000,
-        "price": 2257.0
-      },
       {
         "date": "2022-11-18",
         "close": 2206.0,
@@ -19671,7 +19716,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -20575,7 +20620,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -21524,7 +21569,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -22518,7 +22563,7 @@
     "marketCap": 208880000000.0,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -23602,7 +23647,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -24913,7 +24958,7 @@
     "marketCap": 7006000000.0,
     "currentPER": 23.28,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -26233,7 +26278,7 @@
     "marketCap": 6549000000.0,
     "currentPER": 13.2,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -27568,7 +27613,7 @@
     "marketCap": 13650000000.0,
     "currentPER": 69.64,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -28903,7 +28948,7 @@
     "marketCap": 7555000000.0,
     "currentPER": 28.84,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -30332,7 +30377,7 @@
     "marketCap": 1815000000.0,
     "currentPER": 8.52,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -31768,7 +31813,7 @@
     "marketCap": 6874000000.0,
     "currentPER": 10.76,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -33205,7 +33250,7 @@
     "marketCap": 4975000000.0,
     "currentPER": 8.22,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -34660,7 +34705,7 @@
     "marketCap": 5415000000.0,
     "currentPER": 7.86,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -34712,15 +34757,6 @@
     "price1095d": null,
     "price1095dDate": null,
     "priceHistory": [
-      {
-        "date": "2022-11-17",
-        "close": 625.0,
-        "open": 622.0,
-        "high": 627.0,
-        "low": 618.0,
-        "volume": 1732500,
-        "price": 625.0
-      },
       {
         "date": "2022-11-18",
         "close": 628.0,
@@ -43502,7 +43538,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -44928,7 +44964,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -46354,7 +46390,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -47780,7 +47816,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -47832,15 +47868,6 @@
     "price1095d": null,
     "price1095dDate": null,
     "priceHistory": [
-      {
-        "date": "2022-11-17",
-        "close": 400.0,
-        "open": 395.0,
-        "high": 402.0,
-        "low": 394.0,
-        "volume": 1455400,
-        "price": 400.0
-      },
       {
         "date": "2022-11-18",
         "close": 402.0,
@@ -56622,7 +56649,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -58119,7 +58146,7 @@
     "marketCap": 31335000000.0,
     "currentPER": 35.77,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -59636,7 +59663,7 @@
     "marketCap": 6726000000.0,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -61151,7 +61178,7 @@
     "marketCap": 2981000000.0,
     "currentPER": 212.93,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -62813,7 +62840,7 @@
     "marketCap": 14226000000.0,
     "currentPER": 13.37,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -64508,7 +64535,7 @@
     "marketCap": 21267000000.0,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -66270,7 +66297,7 @@
     "marketCap": 10071000000.0,
     "currentPER": 7.69,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -68311,7 +68338,7 @@
     "marketCap": 6195000000.0,
     "currentPER": 30.82,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -70369,7 +70396,7 @@
     "marketCap": 5719000000.0,
     "currentPER": 32.31,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -72427,7 +72454,7 @@
     "marketCap": 7555000000.0,
     "currentPER": 184.27,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -74486,7 +74513,7 @@
     "marketCap": 3782000000.0,
     "currentPER": 9.18,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -76573,7 +76600,7 @@
     "marketCap": 2652000000.0,
     "currentPER": 6.12,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -78656,7 +78683,7 @@
     "marketCap": 262138000000.0,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -80733,7 +80760,7 @@
     "marketCap": 2942000000.0,
     "currentPER": 37.72,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -82810,7 +82837,7 @@
     "marketCap": 3434000000.0,
     "currentPER": 11.19,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -84921,7 +84948,7 @@
     "marketCap": 6975000000.0,
     "currentPER": 31.28,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -84982,15 +85009,6 @@
     "price1095d": null,
     "price1095dDate": null,
     "priceHistory": [
-      {
-        "date": "2022-11-17",
-        "close": 2147.0,
-        "open": 2144.0,
-        "high": 2155.0,
-        "low": 2136.0,
-        "volume": 377800,
-        "price": 2147.0
-      },
       {
         "date": "2022-11-18",
         "close": 2153.0,
@@ -89061,7 +89079,7 @@
     "marketCap": 1293998000000.0,
     "currentPER": 11.41,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -91165,7 +91183,7 @@
     "marketCap": 71818000000.0,
     "currentPER": 36.55,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -97769,7 +97787,7 @@
     "marketCap": 18495000000.0,
     "currentPER": 402.07,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -99897,7 +99915,7 @@
     "marketCap": 1544000000.0,
     "currentPER": 1544.0,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -102089,7 +102107,7 @@
     "marketCap": 6209000000.0,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -104311,7 +104329,7 @@
     "marketCap": 3663000000.0,
     "currentPER": 36.63,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -104363,15 +104381,6 @@
     "price1095d": null,
     "price1095dDate": null,
     "priceHistory": [
-      {
-        "date": "2022-11-17",
-        "close": 548.0,
-        "open": 547.0,
-        "high": 548.0,
-        "low": 543.0,
-        "volume": 5300,
-        "price": 548.0
-      },
       {
         "date": "2022-11-18",
         "close": 551.0,
@@ -113153,7 +113162,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -119664,7 +119673,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -121904,7 +121913,7 @@
     "marketCap": 149566000000.0,
     "currentPER": 171.91,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -124190,7 +124199,7 @@
     "marketCap": 84801000000.0,
     "currentPER": 63.43,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -126565,7 +126574,7 @@
     "marketCap": 2269000000.0,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -128949,7 +128958,7 @@
     "marketCap": 7208000000.0,
     "currentPER": 7.15,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -131434,7 +131443,7 @@
     "marketCap": 15059000000.0,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -133906,7 +133915,7 @@
     "marketCap": 15403000000.0,
     "currentPER": 14.22,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -136397,7 +136406,7 @@
     "marketCap": 16184000000.0,
     "currentPER": 47.74,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -138908,7 +138917,7 @@
     "marketCap": 418684000000.0,
     "currentPER": 16.78,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -141409,7 +141418,7 @@
     "marketCap": 10062000000.0,
     "currentPER": 10.28,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -143946,7 +143955,7 @@
     "marketCap": 14937000000.0,
     "currentPER": 72.86,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -146501,7 +146510,7 @@
     "marketCap": 26677000000.0,
     "currentPER": 61.19,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -149065,7 +149074,7 @@
     "marketCap": 18301000000.0,
     "currentPER": 23.11,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -149117,15 +149126,6 @@
     "price1095d": null,
     "price1095dDate": null,
     "priceHistory": [
-      {
-        "date": "2022-11-17",
-        "close": 1710.0,
-        "open": 1710.0,
-        "high": 1710.0,
-        "low": 1710.0,
-        "volume": 300,
-        "price": 1710.0
-      },
       {
         "date": "2022-11-18",
         "close": 1670.0,
@@ -157907,7 +157907,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -157959,15 +157959,6 @@
     "price1095d": null,
     "price1095dDate": null,
     "priceHistory": [
-      {
-        "date": "2022-11-17",
-        "close": 1168.0,
-        "open": 1173.0,
-        "high": 1176.0,
-        "low": 1161.0,
-        "volume": 12500,
-        "price": 1168.0
-      },
       {
         "date": "2022-11-18",
         "close": 1176.0,
@@ -166749,7 +166740,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -166801,15 +166792,6 @@
     "price1095d": null,
     "price1095dDate": null,
     "priceHistory": [
-      {
-        "date": "2022-11-17",
-        "close": 1366.0,
-        "open": 1338.0,
-        "high": 1366.0,
-        "low": 1338.0,
-        "volume": 384500,
-        "price": 1366.0
-      },
       {
         "date": "2022-11-18",
         "close": 1362.0,
@@ -175591,7 +175573,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -178182,7 +178164,7 @@
     "marketCap": 951912000000.0,
     "currentPER": 17.15,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -180797,7 +180779,7 @@
     "marketCap": 8816000000.0,
     "currentPER": 12.24,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -183453,7 +183435,7 @@
     "marketCap": 6010000000.0,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -186077,7 +186059,7 @@
     "marketCap": 50164000000.0,
     "currentPER": 13.78,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -188964,7 +188946,7 @@
     "marketCap": 38657000000.0,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -191978,7 +191960,7 @@
     "marketCap": 1394000000.0,
     "currentPER": 14.83,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -195026,7 +195008,7 @@
     "marketCap": 4730000000.0,
     "currentPER": 22.63,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -198158,7 +198140,7 @@
     "marketCap": 14820000000.0,
     "currentPER": 18.64,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -201332,7 +201314,7 @@
     "marketCap": 3956000000.0,
     "currentPER": 16.41,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -204506,7 +204488,7 @@
     "marketCap": 19469000000.0,
     "currentPER": 6.92,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -207692,7 +207674,7 @@
     "marketCap": 8953000000.0,
     "currentPER": 39.27,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -210887,7 +210869,7 @@
     "marketCap": 48240000000.0,
     "currentPER": 12.39,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -214097,7 +214079,7 @@
     "marketCap": 24737000000.0,
     "currentPER": 16.87,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -217348,7 +217330,7 @@
     "marketCap": 13174000000.0,
     "currentPER": 16.03,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -220614,7 +220596,7 @@
     "marketCap": 7350000000.0,
     "currentPER": 10.12,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -224203,7 +224185,7 @@
     "marketCap": 6371000000.0,
     "currentPER": 18.57,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -227810,7 +227792,7 @@
     "marketCap": 31006000000.0,
     "currentPER": 16.57,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -231510,7 +231492,7 @@
     "marketCap": 5807000000.0,
     "currentPER": 10.98,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -235282,7 +235264,7 @@
     "marketCap": 2482000000.0,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -239074,7 +239056,7 @@
     "marketCap": 27386000000.0,
     "currentPER": 49.79,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -242853,7 +242835,7 @@
     "marketCap": 7322000000.0,
     "currentPER": 6.2,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -246634,7 +246616,7 @@
     "marketCap": 5489000000.0,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -250405,7 +250387,7 @@
     "marketCap": 19032000000.0,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -254205,7 +254187,7 @@
     "marketCap": 3134000000.0,
     "currentPER": 68.13,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -257986,7 +257968,7 @@
     "marketCap": 3913000000.0,
     "currentPER": 177.86,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -261793,7 +261775,7 @@
     "marketCap": 11710000000.0,
     "currentPER": 13.32,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -265601,7 +265583,7 @@
     "marketCap": 4161635000000.0,
     "currentPER": 39.77,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -269409,7 +269391,7 @@
     "marketCap": 3870000000.0,
     "currentPER": 8.88,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -273254,7 +273236,7 @@
     "marketCap": 2283000000.0,
     "currentPER": 8.99,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -277224,7 +277206,7 @@
     "marketCap": 29019000000.0,
     "currentPER": 18.95,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -281204,7 +281186,7 @@
     "marketCap": 4034000000.0,
     "currentPER": 10.9,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -285218,7 +285200,7 @@
     "marketCap": 1344000000.0,
     "currentPER": 103.38,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -289335,7 +289317,7 @@
     "marketCap": 160731000000.0,
     "currentPER": 148.69,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -293621,7 +293603,7 @@
     "marketCap": 1539000000.0,
     "currentPER": 30.18,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -297916,7 +297898,7 @@
     "marketCap": 2125000000.0,
     "currentPER": 44.27,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -302211,7 +302193,7 @@
     "marketCap": 1237000000.0,
     "currentPER": 17.18,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -306512,7 +306494,7 @@
     "marketCap": 1410000000.0,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -310854,7 +310836,7 @@
     "marketCap": 20223000000.0,
     "currentPER": 16.44,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -315196,7 +315178,7 @@
     "marketCap": 14863000000.0,
     "currentPER": 7.44,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -319613,7 +319595,7 @@
     "marketCap": 28950000000.0,
     "currentPER": 20.37,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -323962,7 +323944,7 @@
     "marketCap": 42415000000.0,
     "currentPER": 17.23,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -328308,7 +328290,7 @@
     "marketCap": 168411000000.0,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -332695,7 +332677,7 @@
     "marketCap": 52448566000000.0,
     "currentPER": 94.59,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -337053,7 +337035,7 @@
     "marketCap": 3570000000.0,
     "currentPER": 5.94,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -341411,7 +341393,7 @@
     "marketCap": 46695000000.0,
     "currentPER": 13.26,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -345787,7 +345769,7 @@
     "marketCap": 2587000000.0,
     "currentPER": 26.4,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -350178,7 +350160,7 @@
     "marketCap": 25980000000.0,
     "currentPER": 70.41,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -350239,15 +350221,6 @@
     "price1095d": null,
     "price1095dDate": null,
     "priceHistory": [
-      {
-        "date": "2022-11-17",
-        "close": 1400.0,
-        "open": 1400.0,
-        "high": 1400.0,
-        "low": 1400.0,
-        "volume": 0,
-        "price": 1400.0
-      },
       {
         "date": "2022-11-18",
         "close": 1400.0,
@@ -356052,7 +356025,7 @@
     "marketCap": 5741000000.0,
     "currentPER": 11.26,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -360511,7 +360484,7 @@
     "marketCap": 3874000000.0,
     "currentPER": 1937.0,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -364958,7 +364931,7 @@
     "marketCap": 7915000000.0,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -369468,7 +369441,7 @@
     "marketCap": 78186000000.0,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -373934,7 +373907,7 @@
     "marketCap": 60185000000.0,
     "currentPER": 24.03,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -378409,7 +378382,7 @@
     "marketCap": 15174000000.0,
     "currentPER": 210.75,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -382958,7 +382931,7 @@
     "marketCap": 15801000000.0,
     "currentPER": 25.28,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -387641,7 +387614,7 @@
     "marketCap": 3683000000.0,
     "currentPER": 32.03,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -392360,7 +392333,7 @@
     "marketCap": 2516000000.0,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -397080,7 +397053,7 @@
     "marketCap": 614791000000.0,
     "currentPER": 1868.67,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -401799,7 +401772,7 @@
     "marketCap": 566352000000.0,
     "currentPER": 9.6,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -406534,7 +406507,7 @@
     "marketCap": 3534000000.0,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -411299,7 +411272,7 @@
     "marketCap": 69503000000.0,
     "currentPER": 49.68,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -416069,7 +416042,7 @@
     "marketCap": 24302000000.0,
     "currentPER": 28.83,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -417264,7 +417237,7 @@
     "marketCap": 181000000.0,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -422118,7 +422091,7 @@
     "marketCap": 24390000000.0,
     "currentPER": 9.4,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -422170,15 +422143,6 @@
     "price1095d": null,
     "price1095dDate": null,
     "priceHistory": [
-      {
-        "date": "2022-11-17",
-        "close": 647.0,
-        "open": 626.0,
-        "high": 647.0,
-        "low": 623.0,
-        "volume": 49200,
-        "price": 647.0
-      },
       {
         "date": "2022-11-18",
         "close": 628.0,
@@ -430960,7 +430924,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -431012,15 +430976,6 @@
     "price1095d": null,
     "price1095dDate": null,
     "priceHistory": [
-      {
-        "date": "2022-11-17",
-        "close": 625.0,
-        "open": 623.0,
-        "high": 628.0,
-        "low": 620.0,
-        "volume": 13700,
-        "price": 625.0
-      },
       {
         "date": "2022-11-18",
         "close": 622.0,
@@ -439802,7 +439757,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -439854,15 +439809,6 @@
     "price1095d": null,
     "price1095dDate": null,
     "priceHistory": [
-      {
-        "date": "2022-11-17",
-        "close": 2504.0,
-        "open": 2507.0,
-        "high": 2507.0,
-        "low": 2475.0,
-        "volume": 4400,
-        "price": 2504.0
-      },
       {
         "date": "2022-11-18",
         "close": 2459.0,
@@ -448644,7 +448590,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -448696,15 +448642,6 @@
     "price1095d": null,
     "price1095dDate": null,
     "priceHistory": [
-      {
-        "date": "2022-11-17",
-        "close": 1013.0,
-        "open": 1005.0,
-        "high": 1016.0,
-        "low": 1005.0,
-        "volume": 64800,
-        "price": 1013.0
-      },
       {
         "date": "2022-11-18",
         "close": 1007.0,
@@ -457486,7 +457423,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -462366,7 +462303,7 @@
     "marketCap": 45919000000.0,
     "currentPER": 17.3,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -467247,7 +467184,7 @@
     "marketCap": 2325000000.0,
     "currentPER": 110.71,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -472147,7 +472084,7 @@
     "marketCap": 2882000000.0,
     "currentPER": 41.17,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -477028,7 +476965,7 @@
     "marketCap": 5781000000.0,
     "currentPER": 36.36,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -481909,7 +481846,7 @@
     "marketCap": 3757000000.0,
     "currentPER": 24.24,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -486808,7 +486745,7 @@
     "marketCap": 3168000000.0,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance + J-Quants",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -491779,7 +491716,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -496868,7 +496805,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -501973,7 +501910,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -507088,7 +507025,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -512206,7 +512143,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -517349,7 +517286,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -522519,7 +522456,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -527796,7 +527733,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -527848,15 +527785,6 @@
     "price1095d": null,
     "price1095dDate": null,
     "priceHistory": [
-      {
-        "date": "2022-11-17",
-        "close": 1387.5,
-        "open": 1387.5,
-        "high": 1395.0,
-        "low": 1387.5,
-        "volume": 3800,
-        "price": 1387.5
-      },
       {
         "date": "2022-11-18",
         "close": 1387.0,
@@ -536638,7 +536566,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -541931,7 +541859,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -541997,7 +541925,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -547336,7 +547264,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -552683,7 +552611,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -558030,7 +557958,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -563371,7 +563299,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -568729,7 +568657,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -574088,7 +574016,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -579471,7 +579399,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -584881,7 +584809,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -590327,7 +590255,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -595830,7 +595758,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -601510,7 +601438,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -601584,7 +601512,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -607321,7 +607249,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -613085,7 +613013,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -618884,7 +618812,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -624693,7 +624621,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -630520,7 +630448,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -630572,15 +630500,6 @@
     "price1095d": null,
     "price1095dDate": null,
     "priceHistory": [
-      {
-        "date": "2022-11-17",
-        "close": 2346.0,
-        "open": 2374.0,
-        "high": 2376.0,
-        "low": 2342.0,
-        "volume": 144800,
-        "price": 2346.0
-      },
       {
         "date": "2022-11-18",
         "close": 2336.0,
@@ -639362,7 +639281,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -645213,7 +645132,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -651066,7 +650985,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -656920,7 +656839,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -662774,7 +662693,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -668637,7 +668556,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -674508,7 +674427,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -680377,7 +680296,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -686255,7 +686174,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -692133,7 +692052,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -698013,7 +697932,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -703894,7 +703813,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -709766,7 +709685,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -715655,7 +715574,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -721554,7 +721473,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -721623,15 +721542,6 @@
     "price1095d": null,
     "price1095dDate": null,
     "priceHistory": [
-      {
-        "date": "2022-11-17",
-        "close": 1625.0,
-        "open": 1625.0,
-        "high": 1625.0,
-        "low": 1625.0,
-        "volume": 0,
-        "price": 1625.0
-      },
       {
         "date": "2022-11-18",
         "close": 1625.0,
@@ -730413,7 +730323,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -736321,7 +736231,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -741761,7 +741671,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -747803,7 +747713,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -753828,7 +753738,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -759897,7 +759807,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -766047,7 +765957,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -772198,7 +772108,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -778583,7 +778493,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -784994,7 +784904,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -791397,7 +791307,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -797809,7 +797719,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -804221,7 +804131,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -810651,7 +810561,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -817089,7 +816999,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -823519,7 +823429,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -829949,7 +829859,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -836405,7 +836315,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -842862,7 +842772,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -849319,7 +849229,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -849391,7 +849301,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -855883,7 +855793,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -855957,7 +855867,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -856018,15 +855928,6 @@
     "price1095d": null,
     "price1095dDate": null,
     "priceHistory": [
-      {
-        "date": "2022-11-17",
-        "close": 1100.0,
-        "open": 1100.0,
-        "high": 1100.0,
-        "low": 1100.0,
-        "volume": 0,
-        "price": 1100.0
-      },
       {
         "date": "2022-11-18",
         "close": 1100.0,
@@ -864808,7 +864709,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -871409,7 +871310,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -878046,7 +877947,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -884737,7 +884638,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -891491,7 +891392,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -898262,7 +898163,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -905040,7 +904941,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -911818,7 +911719,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -918599,7 +918500,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -925389,7 +925290,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -932224,7 +932125,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -939129,7 +939030,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -946025,7 +945926,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -952932,7 +952833,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -959839,7 +959740,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -966746,7 +966647,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -966798,15 +966699,6 @@
     "price1095d": 4788.0,
     "price1095dDate": "2026-10-01",
     "priceHistory": [
-      {
-        "date": "2022-11-17",
-        "close": 1380.0,
-        "open": 1355.0,
-        "high": 1380.0,
-        "low": 1355.0,
-        "volume": 583600,
-        "price": 1380.0
-      },
       {
         "date": "2022-11-18",
         "close": 1395.0,
@@ -975588,7 +975480,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -982495,7 +982387,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -982547,15 +982439,6 @@
     "price1095d": 668.0,
     "price1095dDate": "2026-10-01",
     "priceHistory": [
-      {
-        "date": "2022-11-17",
-        "close": 587.0,
-        "open": 575.0,
-        "high": 592.0,
-        "low": 575.0,
-        "volume": 75600,
-        "price": 587.0
-      },
       {
         "date": "2022-11-18",
         "close": 581.0,
@@ -991337,7 +991220,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -998280,7 +998163,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -1005229,7 +1005112,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -1012181,7 +1012064,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -1019141,7 +1019024,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -1019210,15 +1019093,6 @@
     "price1095d": 540.0,
     "price1095dDate": "2026-09-24",
     "priceHistory": [
-      {
-        "date": "2022-11-17",
-        "close": 950.0,
-        "open": 950.0,
-        "high": 950.0,
-        "low": 950.0,
-        "volume": 0,
-        "price": 950.0
-      },
       {
         "date": "2022-11-18",
         "close": 950.0,
@@ -1028000,7 +1027874,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -1034970,7 +1034844,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -1041946,7 +1041820,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -1048925,7 +1048799,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -1055913,7 +1055787,7 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   },
   {
     "_schemaVersion": 22,
@@ -1062946,6 +1062820,6 @@
     "marketCap": null,
     "currentPER": null,
     "dataSource": "persistent latest.json + JPX + 庶民のIPO + yfinance",
-    "dataRetrievedAt": "2026-11-16T22:26:45"
+    "dataRetrievedAt": "2026-11-17T21:15:21"
   }
 ]
